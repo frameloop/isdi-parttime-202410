@@ -1,6 +1,6 @@
 console.log('TEST Array.prototype.at')
 
-console.log('CASE getelement at index 3')
+console.log('CASE get element at index 3')
 
 //var cars = ['lambo', 'f350', '911', 'm5','hummer']
 var cars = new Array
