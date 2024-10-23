@@ -14,10 +14,18 @@ Dorraymon.prototype.concat = function () {
 
     for (var a = 0; a < arguments.length; a++) {
         var value = arguments[a]
-        for (var i = 0; i < value.length; i++) {
-            result[result.length] = value[i]
+
+        if (value instanceof Dorraymon) {
+            for (var i = 0; i < value.length; i++) {
+                result[result.length] = value[i]
+                result.length++
+            }
+
+        } else {
+            result[result.length] = value
             result.length++
         }
+
     }
 
     return result
@@ -67,6 +75,18 @@ console.log(animals.length)
 console.log('CASE 2 merge three animals class')
 
 var wildLife = sea.concat(land, sky)
+console.log(wildLife)
+//Dorraymon { 0:'shark', 1: 'octopus', 2: 'Sponge', 3: 'Whale', 4: 'elephant', 6: 'bear', 6: 'fox', 7: 'lion', 8: 'crow', 9:'eagle', 10: 'sparow', 11: 'duck', length: 12}
+console.log(wildLife.length)
+//12
+
+var party = ' are going to party!'
+
+var lock = { name: 'animals' }
+
+console.log('CASE 3 merge three animals class and string')
+
+var wildLife = sea.concat(land, sky, party, lock)
 console.log(wildLife)
 //Dorraymon { 0:'shark', 1: 'octopus', 2: 'Sponge', 3: 'Whale', 4: 'elephant', 6: 'bear', 6: 'fox', 7: 'lion', 8: 'crow', 9:'eagle', 10: 'sparow', 11: 'duck', length: 12}
 console.log(wildLife.length)
