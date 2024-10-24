@@ -1,35 +1,13 @@
-/*
-html
-    head
-        meta
-        meta
-        title
-    body
-        h1
-        p
-        h2
-        ul
-            li
-            li
-            li
-        h2
-        table
-            tbody
-                tr
-                    th
-                    th
-                    th
-                tr
-                    td
-                    td
-                    td
-                tr
-                    td
-                    td
-                    td
-                tr
-                    td
-                    td
-                    td
-        script
-*/
+console.log('Hello, DOM!')
+
+function printDOMTree() {
+
+    for (var i = 0; i < document.childNodes.length; i++) {
+        var child = document.childNodes[i]
+    }
+
+}
+
+printDOMTree()
+
+
