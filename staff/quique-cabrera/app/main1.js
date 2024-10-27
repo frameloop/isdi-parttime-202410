@@ -212,9 +212,9 @@ loginForm.onsubmit = function (event) {
         console.log(access)
         console.log('Fail!')
 
-        alert('User not Found!')
+        var loginError = new Text('User not Found!')
+        loginForm.appendChild(loginError)
     }
-
 }
 
 var loginRegisterLink = document.createElement('a')
