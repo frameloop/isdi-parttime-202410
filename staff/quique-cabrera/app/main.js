@@ -237,8 +237,8 @@ loginRegisterLink.onclick = function (event) {
 var welcomeView = document.createElement('main')
 
 var welcomeTitle = document.createElement('h2')
-welcomeTitle.innerText = 'Welcome Again!'
-welcomeView.appendChild(welcomeTitle)
+welcomeTitle.innerText = 'Welcome Again!' +
+    welcomeView.appendChild(welcomeTitle)
 
 var welcomeLogOutLink = document.createElement('a')
 welcomeLogOutLink.href = ''
@@ -248,7 +248,7 @@ welcomeLogOutLink.onclick = function (event) {
     event.preventDefault()
 
     body.removeChild(welcomeView)
-    body.appendChild(landingView)
+    body.appendChild(loginView)
 }
 
 welcomeView.appendChild(welcomeLogOutLink)
