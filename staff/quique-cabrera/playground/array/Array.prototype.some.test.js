@@ -29,7 +29,7 @@ var cars = [
 ]
 
 var check = cars.some(function (car) {
-    // if (car.brand === 'fiat')
+    // if (car.brand === 'Tesla')
     //     return true
 
     // return false
