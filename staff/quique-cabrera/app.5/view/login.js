@@ -39,15 +39,15 @@ loginForm.onsubmit = function (event) {
     var password = loginFormPasswordInput.value
 
     try {
-        logic.loginUser(username, password)
+        loginUser(username, password)
 
         loginForm.reset()
 
-        var name = logi.getUserName()
+        var name = getUserName()
 
         homeUser.innerText = 'Hello, ' + name + '!'
 
-        var posts = logic.getPosts()
+        var posts = getPosts()
 
         homePosts.innerHTML = ''
 

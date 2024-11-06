@@ -1,6 +1,6 @@
 var homeView = document.createElement('main')
 
-if (logic.isUserLoggedIn())
+if (isUserLoggedIn())
     body.appendChild(homeView)
 
 var homeTitle = document.createElement('h2')
@@ -11,8 +11,8 @@ var homeUser = document.createElement('h3')
 homeUser.innerText = 'Hello, User!'
 homeView.appendChild(homeUser)
 
-if (logic.isUserLoggedIn()) {
-    var name = logic.getUserName()
+if (isUserLoggedIn()) {
+    var name = getUserName()
 
     homeUser.innerText = 'Hello, ' + name + '!'
 }
@@ -22,7 +22,7 @@ homeLogoutButton.innerText = 'Logout'
 homeView.appendChild(homeLogoutButton)
 
 homeLogoutButton.onclick = function () {
-    logic.logoutUser()
+    logoutUser()
 
     body.removeChild(homeView)
     body.appendChild(loginView)
@@ -43,7 +43,7 @@ var homePosts = document.createElement('section')
 homeView.appendChild(homePosts)
 
 if (isUserLoggedIn()) {
-    var posts = logic.getPosts()
+    var posts = getPosts()
 
     homePosts.innerHTML = ''
 
@@ -111,14 +111,14 @@ homeCreatePostForm.onsubmit = function (event) {
     var text = homeCreatePostTextImput.value
 
     try {
-        logiccreatePost(image, text)
+        createPost(image, text)
 
         homeCreatePostForm.reset()
 
         homeView.removeChild(homeCreatePost)
         homeView.appendChild(homePosts)
 
-        var posts = logic.getPosts()
+        var posts = getPosts()
 
         homePosts.innerHTML = ''
 
