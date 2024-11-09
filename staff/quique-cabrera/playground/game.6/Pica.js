@@ -41,10 +41,8 @@ function Pica() {
 
     this.attack = false
 
-    this.attackKey = ' '
-
     document.addEventListener('keydown', function (event) {
-        if (event.key === this.attackKey)
+        if (event.key === '+')
             if (this.attack) {
                 this.container.removeChild(picaArmImg)
                 this.container.appendChild(picaImg)
@@ -66,6 +64,3 @@ function Pica() {
 Pica.prototype = Object.create(MovableThing.prototype)
 Pica.prototype.constructor = Pica
 
-Rasca.prototype.setAttakKey = function (attackKey) {
-    this.attackKey = attackKey
-}

@@ -1,5 +1,7 @@
+// var raca = new Rasca
+
 function Rasca() {
-    MovableThing.call(this, document.createElement('div'))
+    Thing.call(this, document.createElement('div'))
 
     this.setSize(310, 320)
 
@@ -39,33 +41,32 @@ function Rasca() {
     rascaArmImg.style.left = '20px'
     rascaArmImg.style.top = '37px'
 
-    this.attack = false
-
-    this.attackKey = ' '
+    var STEP = 10
 
     document.addEventListener('keydown', function (event) {
-        if (event.key === this.attackKey)
-            if (this.attack) {
-                this.container.removeChild(rascaArmImg)
-                this.container.appendChild(rascaImg)
-                this.container.removeChild(rascaHeadUngryImg)
-                this.container.appendChild(rascaHeadImg)
-
-                this.attack = false
-            } else {
-                this.container.removeChild(rascaImg)
-                this.container.appendChild(rascaArmImg)
-                this.container.removeChild(rascaHeadImg)
-                this.container.appendChild(rascaHeadUngryImg)
-
-                this.attack = true
-            }
+        if (event.key === 's') {
+            this.container.removeChild(rascaImg)
+            this.container.appendChild(rascaArmImg)
+            this.container.removeChild(rascaHeadImg)
+            this.container.appendChild(rascaHeadUngryImg)
+        } else if (event.key === 'a') {
+            this.container.removeChild(rascaArmImg)
+            this.container.appendChild(rascaImg)
+            this.container.removeChild(rascaHeadUngryImg)
+            this.container.appendChild(rascaHeadImg)
+        } else if (event.key === 'ArrowUp')
+            this.moveY(- STEP)
+        else if (event.key === 'ArrowDown')
+            this.moveY(+ STEP)
+        else if (event.key === 'ArrowLeft') {
+            this.moveX(- STEP)
+            this.container.style.transform = 'scaleX(-1)' // Voltear hacia la izquierda
+        } else if (event.key === 'ArrowRight') {
+            this.moveX(+ STEP)
+            this.container.style.transform = 'scaleX(1)' // Voltear hacia la izquierda
+        }
     }.bind(this))
 }
 
-Rasca.prototype = Object.create(MovableThing.prototype)
+Rasca.prototype = Object.create(Thing.prototype)
 Rasca.prototype.constructor = Rasca
-
-Rasca.prototype.setAttakKey = function (attackKey) {
-    this.attackKey = attackKey
-}

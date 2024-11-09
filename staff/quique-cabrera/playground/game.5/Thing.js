@@ -27,18 +27,6 @@ Thing.prototype.setY = function (y) {
     this.setXY(this.x, y)
 }
 
-Thing.prototype.move = function (dx, dy) {
-    this.setXY(this.x + dx, this.y + dy)
-}
-
-Thing.prototype.moveX = function (dx) {
-    this.move(dx, 0)
-}
-
-Thing.prototype.moveY = function (dy) {
-    this.move(0, dy)
-}
-
 Thing.prototype.add = function (thing) {
     this.container.appendChild(thing.container)
 }

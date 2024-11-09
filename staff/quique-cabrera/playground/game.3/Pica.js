@@ -1,5 +1,7 @@
+// var raca = new Pica
+
 function Pica() {
-    MovableThing.call(this, document.createElement('div'))
+    Thing.call(this, document.createElement('div'))
 
     this.setSize(310, 320)
 
@@ -38,34 +40,36 @@ function Pica() {
     picaArmImg.style.zIndex = 4
     picaArmImg.style.left = '9px'
     picaArmImg.style.top = '54px'
+    // pica.appendChild(picaArmImg)
 
-    this.attack = false
 
-    this.attackKey = ' '
+
+    var STEP = 10
 
     document.addEventListener('keydown', function (event) {
-        if (event.key === this.attackKey)
-            if (this.attack) {
-                this.container.removeChild(picaArmImg)
-                this.container.appendChild(picaImg)
-                this.container.removeChild(picaHeadUngryImg)
-                this.container.appendChild(picaHeadImg)
-
-                this.attack = false
-            } else {
-                this.container.removeChild(picaImg)
-                this.container.appendChild(picaArmImg)
-                this.container.removeChild(picaHeadImg)
-                this.container.appendChild(picaHeadUngryImg)
-
-                this.attack = true
-            }
+        if (event.key === 'z') {
+            this.container.removeChild(picaImg)
+            this.container.appendChild(picaArmImg)
+            this.container.removeChild(picaHeadImg)
+            this.container.appendChild(picaHeadUngryImg)
+        } else if (event.key === 'x') {
+            this.container.removeChild(picaArmImg)
+            this.container.appendChild(picaImg)
+            this.container.removeChild(picaHeadUngryImg)
+            this.container.appendChild(picaHeadImg)
+        } else if (event.key === '8')
+            this.moveY(-STEP)
+        else if (event.key === '2')
+            this.moveY(+STEP)
+        else if (event.key === '4') {
+            this.moveX(-STEP)
+            this.container.style.transform = 'scaleX(1)' // Voltear hacia la izquierda
+        } else if (event.key === '6') {
+            this.moveX(+STEP)
+            this.container.style.transform = 'scaleX(-1)' // Voltear hacia la izquierda
+        }
     }.bind(this))
 }
 
-Pica.prototype = Object.create(MovableThing.prototype)
+Pica.prototype = Object.create(Thing.prototype)
 Pica.prototype.constructor = Pica
-
-Rasca.prototype.setAttakKey = function (attackKey) {
-    this.attackKey = attackKey
-}

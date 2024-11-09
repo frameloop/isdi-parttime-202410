@@ -41,10 +41,8 @@ function Rasca() {
 
     this.attack = false
 
-    this.attackKey = ' '
-
     document.addEventListener('keydown', function (event) {
-        if (event.key === this.attackKey)
+        if (event.key === 'z')
             if (this.attack) {
                 this.container.removeChild(rascaArmImg)
                 this.container.appendChild(rascaImg)
@@ -65,7 +63,3 @@ function Rasca() {
 
 Rasca.prototype = Object.create(MovableThing.prototype)
 Rasca.prototype.constructor = Rasca
-
-Rasca.prototype.setAttakKey = function (attackKey) {
-    this.attackKey = attackKey
-}

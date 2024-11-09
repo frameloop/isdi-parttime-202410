@@ -1,5 +1,7 @@
+// var raca = new Pica
+
 function Pica() {
-    MovableThing.call(this, document.createElement('div'))
+    Thing.call(this, document.createElement('div'))
 
     this.setSize(310, 320)
 
@@ -39,12 +41,33 @@ function Pica() {
     picaArmImg.style.left = '9px'
     picaArmImg.style.top = '54px'
 
+
+    this.upKey = '8'
+    this.downKey = '2'
+    this.leftKey = '4'
+    this.rightKey = '6'
+
+
+    var STEP = 10
+
     this.attack = false
 
-    this.attackKey = ' '
+    document.addEventListener('keydown', function (event) {
+        if (event.key === this.upKey)
+            this.moveY(-STEP)
+        else if (event.key === this.downKey)
+            this.moveY(+STEP)
+        else if (event.key === this.leftKey) {
+            this.moveX(-STEP)
+            this.container.style.transform = 'scaleX(1)' // Voltear hacia la izquierda
+        } else if (event.key === this.rightKey) {
+            this.moveX(+STEP)
+            this.container.style.transform = 'scaleX(-1)' // Voltear hacia la izquierda
+        }
+    }.bind(this))
 
     document.addEventListener('keydown', function (event) {
-        if (event.key === this.attackKey)
+        if (event.key === '+')
             if (this.attack) {
                 this.container.removeChild(picaArmImg)
                 this.container.appendChild(picaImg)
@@ -63,9 +86,12 @@ function Pica() {
     }.bind(this))
 }
 
-Pica.prototype = Object.create(MovableThing.prototype)
+Pica.prototype = Object.create(Thing.prototype)
 Pica.prototype.constructor = Pica
 
-Rasca.prototype.setAttakKey = function (attackKey) {
-    this.attackKey = attackKey
+Pica.prototype.setKeys = function (upKey, downKey, leftKey, rightKey) {
+    this.upKey = upKey
+    this.downKey = downKey
+    this.leftKey = leftKey
+    this.rightKey = rightKey
 }

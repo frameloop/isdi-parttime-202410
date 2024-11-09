@@ -38,7 +38,3 @@ Thing.prototype.moveX = function (dx) {
 Thing.prototype.moveY = function (dy) {
     this.move(0, dy)
 }
-
-Thing.prototype.add = function (thing) {
-    this.container.appendChild(thing.container)
-}

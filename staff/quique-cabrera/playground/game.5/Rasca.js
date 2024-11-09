@@ -1,5 +1,7 @@
+// var raca = new Rasca
+
 function Rasca() {
-    MovableThing.call(this, document.createElement('div'))
+    Thing.call(this, document.createElement('div'))
 
     this.setSize(310, 320)
 
@@ -39,12 +41,31 @@ function Rasca() {
     rascaArmImg.style.left = '20px'
     rascaArmImg.style.top = '37px'
 
+    var STEP = 10
+
+    this.upKey = 'ArrowUp'
+    this.downKey = 'ArrowDown'
+    this.leftKey = 'ArrowLeft'
+    this.rightKey = 'ArrowRight'
+
     this.attack = false
 
-    this.attackKey = ' '
+    document.addEventListener('keydown', function (event) {
+        if (event.key === this.upKey)
+            this.moveY(- STEP)
+        else if (event.key === this.downKey)
+            this.moveY(+ STEP)
+        else if (event.key === this.leftKey) {
+            this.moveX(- STEP)
+            this.container.style.transform = 'scaleX(-1)' // Voltear hacia la izquierda
+        } else if (event.key === this.rightKey) {
+            this.moveX(+ STEP)
+            this.container.style.transform = 'scaleX(1)' // Voltear hacia la izquierda
+        }
+    }.bind(this))
 
     document.addEventListener('keydown', function (event) {
-        if (event.key === this.attackKey)
+        if (event.key === 'z')
             if (this.attack) {
                 this.container.removeChild(rascaArmImg)
                 this.container.appendChild(rascaImg)
@@ -63,9 +84,12 @@ function Rasca() {
     }.bind(this))
 }
 
-Rasca.prototype = Object.create(MovableThing.prototype)
+Rasca.prototype = Object.create(Thing.prototype)
 Rasca.prototype.constructor = Rasca
 
-Rasca.prototype.setAttakKey = function (attackKey) {
-    this.attackKey = attackKey
+Rasca.prototype.setKeys = function (upKey, downKey, leftKey, rightKey) {
+    this.upKey = upKey
+    this.downKey = downKey
+    this.leftKey = leftKey
+    this.rightKey = rightKey
 }

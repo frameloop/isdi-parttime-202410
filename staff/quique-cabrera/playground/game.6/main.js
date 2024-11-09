@@ -6,9 +6,8 @@ rasca.setXY(100, 20)
 
 var rasca2 = new Rasca
 rasca.setKeys('e', 'x', 's', 'd') // Setup Move Keys
-rasca.setAttakKey('z')
 root.add(rasca2)
-rasca.setXY(170, 300)
+rasca.setXY(100, 100)
 
 var pica = new Pica
 root.add(pica)
