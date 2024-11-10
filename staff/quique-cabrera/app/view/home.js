@@ -28,11 +28,11 @@ homeLogoutButton.onclick = function () {
     body.appendChild(loginView)
 }
 
-var homePostAddButton = document.createElement('button')
-homePostAddButton.innerText = 'Create Post'
-homeView.appendChild(homePostAddButton)
+var homeAddPostButton = document.createElement('button')
+homeAddPostButton.innerText = 'Create Post'
+homeView.appendChild(homeAddPostButton)
 
-homePostAddButton.onclick = function () {
+homeAddPostButton.onclick = function () {
 
     homeView.removeChild(homePosts)
     homeView.appendChild(homeCreatePost)
@@ -42,7 +42,7 @@ homePostAddButton.onclick = function () {
 var homePosts = document.createElement('section')
 homeView.appendChild(homePosts)
 
-if (isUserLoggedIn()) {
+if (logic.isUserLoggedIn()) {
     var posts = logic.getPosts()
 
     homePosts.innerHTML = ''
@@ -84,20 +84,20 @@ homeCreatePostImageLabel.innerText = 'Image'
 homeCreatePostImageLabel.htmlFor = 'image'
 homeCreatePostForm.appendChild(homeCreatePostImageLabel)
 
-var homeCreatePostImageImput = document.createElement('input')
-homeCreatePostImageImput.type = 'url'
-homeCreatePostImageImput.id = 'image'
-homeCreatePostForm.appendChild(homeCreatePostImageImput)
+var homeCreatePostImageInput = document.createElement('input')
+homeCreatePostImageInput.type = 'url'
+homeCreatePostImageInput.id = 'image'
+homeCreatePostForm.appendChild(homeCreatePostImageInput)
 
 var homeCreatePostTextLabel = document.createElement('label')
 homeCreatePostTextLabel.innerText = 'Caption'
 homeCreatePostTextLabel.htmlFor = 'text'
 homeCreatePostForm.appendChild(homeCreatePostTextLabel)
 
-var homeCreatePostTextImput = document.createElement('input')
-homeCreatePostTextImput.type = 'text'
-homeCreatePostTextImput.id = 'text'
-homeCreatePostForm.appendChild(homeCreatePostTextImput)
+var homeCreatePostTextInput = document.createElement('input')
+homeCreatePostTextInput.type = 'text'
+homeCreatePostTextInput.id = 'text'
+homeCreatePostForm.appendChild(homeCreatePostTextInput)
 
 var homeCreatePostSubmitButton = document.createElement('button')
 homeCreatePostSubmitButton.innerText = 'Share'
@@ -107,11 +107,11 @@ homeCreatePostForm.appendChild(homeCreatePostSubmitButton)
 homeCreatePostForm.onsubmit = function (event) {
     event.preventDefault()
 
-    var image = homeCreatePostImageImput.value
-    var text = homeCreatePostTextImput.value
+    var image = homeCreatePostImageInput.value
+    var text = homeCreatePostTextInput.value
 
     try {
-        logiccreatePost(image, text)
+        logic.createPost(image, text)
 
         homeCreatePostForm.reset()
 

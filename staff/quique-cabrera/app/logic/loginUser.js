@@ -14,5 +14,6 @@
 
         sessionStorage.userId = user.id
     }
+
     logic.loginUser = loginUser
-})
+})()

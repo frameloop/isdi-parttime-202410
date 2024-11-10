@@ -43,7 +43,7 @@ loginForm.onsubmit = function (event) {
 
         loginForm.reset()
 
-        var name = logi.getUserName()
+        var name = logic.getUserName()
 
         homeUser.innerText = 'Hello, ' + name + '!'
 

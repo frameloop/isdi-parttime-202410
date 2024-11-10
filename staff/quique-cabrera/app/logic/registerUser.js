@@ -24,7 +24,7 @@
         users.push(user)
 
         localStorage.users = JSON.stringify(users)
-
     }
+
     logic.registerUser = registerUser
 })()

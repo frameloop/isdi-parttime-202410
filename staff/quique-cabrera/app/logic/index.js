@@ -1,3 +1,1 @@
-var logic = {
-
-}
+var logic = {}

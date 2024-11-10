@@ -1,7 +1,6 @@
 (function () {
     function createPost(image, text) {
         if (typeof image !== 'string') throw new Error('invalid image type')
-
         if (typeof text !== 'string') throw new Error('invalid text type')
 
         var posts = JSON.parse(localStorage.posts)
@@ -18,5 +17,6 @@
 
         localStorage.posts = JSON.stringify(posts)
     }
+
     logic.createPost = createPost
 })()

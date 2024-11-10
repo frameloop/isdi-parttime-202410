@@ -23,6 +23,6 @@ var validate = (function () {
         username: validateUsername,
         password: validatePassword,
         name: validateName,
-        email: validateEmail,
+        email: validateEmail
     }
-})) ()
+})()

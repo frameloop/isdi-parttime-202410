@@ -10,5 +10,6 @@
 
         return user.name
     }
+
     logic.getUserName = getUserName
 })()
