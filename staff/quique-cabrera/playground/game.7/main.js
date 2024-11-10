@@ -1,15 +1,15 @@
-const root = new Thing(document.body.querySelector('#root'))
+var root = new Thing(document.body.querySelector('#root'))
 
-const rasca = new Rasca
+var rasca = new Rasca
 root.add(rasca)
 rasca.setXY(100, 20)
 
-const rasca2 = new Rasca
+var rasca2 = new Rasca
 rasca.setKeys('e', 'x', 's', 'd') // Setup Move Keys
 rasca.setAttakKey('z')
 root.add(rasca2)
 rasca.setXY(170, 300)
 
-const pica = new Pica
+var pica = new Pica
 root.add(pica)
 pica.setXY(400, 20)
