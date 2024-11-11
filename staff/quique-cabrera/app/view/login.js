@@ -31,4 +31,18 @@ class Login extends Component {
         registerLink.setText('Register')
         this.add(registerLink)
     }
+
+    onRegisterClick(callback) {
+        const registerLink = this.children[2]
+
+        registerLink.addBehavior('click', event => {
+            event.preventDefault()
+
+            callback()
+        })
+    }
+
+    onLoginSubmit(callback) {
+        // ?
+    }
 }

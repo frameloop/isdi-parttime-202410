@@ -3,7 +3,7 @@ class Register extends Component {
         super(document.createElement('main'))
 
         const title = new Heading(2)
-        title.setText('Login')
+        title.setText('Register')
         this.add(title)
 
         const form = new Form
@@ -38,11 +38,21 @@ class Register extends Component {
         form.add(passwordInput)
 
         const submitButton = new Button('submit')
-        submitButton.setText('Login')
+        submitButton.setText('Register')
         form.add(submitButton)
 
         const registerLink = new Link
-        registerLink.setText('Register')
+        registerLink.setText('Login')
         this.add(registerLink)
+    }
+
+    onLoginClick(callback) {
+        const loginLink = this.children[2]
+
+        loginLink.addBehavior('click', event => {
+            event.preventDefault()
+
+            callback()
+        })
     }
 }

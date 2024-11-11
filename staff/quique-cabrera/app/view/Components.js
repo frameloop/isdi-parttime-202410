@@ -25,4 +25,8 @@ class Component {
     setText(text) {
         this.container.innerText = text
     }
+
+    addBehavior(type, callback) {
+        this.container.addEventListener(type, callback)
+    }
 }

@@ -10,7 +10,7 @@ class Landing extends Component {
         this.add(intro)
 
         const registerLink = new Link
-        registerLink.setText('Regiter')
+        registerLink.setText('Register')
         intro.add(registerLink)
 
         const orText = new Text(' or ')
@@ -19,5 +19,25 @@ class Landing extends Component {
         const loginLink = new Link
         loginLink.setText('Login')
         intro.add(loginLink)
+    }
+
+    onRegisterClick(callback) {
+        const registerLink = this.children[1].children[0]
+
+        registerLink.addBehavior('click', event => {
+            event.preventDefault()
+
+            callback()
+        })
+    }
+
+    onLoginClick(callback) {
+        const loginLink = this.children[1].children[2]
+
+        loginLink.addBehavior('click', event => {
+            event.preventDefault()
+
+            callback()
+        })
     }
 }
