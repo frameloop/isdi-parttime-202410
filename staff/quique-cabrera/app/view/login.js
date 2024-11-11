@@ -1,94 +1,34 @@
-var loginView = document.createElement('main')
+class Login extends Component {
+    constructor() {
+        super(document.createElement('main'))
 
-var loginTitle = document.createElement('h2')
-loginTitle.innerText = 'Login'
-loginView.appendChild(loginTitle)
+        const title = new Heading(2)
+        title.setText('Login')
+        this.add(title)
 
-var loginForm = document.createElement('form')
-loginView.appendChild(loginForm)
+        const form = new Form
+        this.add(form)
 
-var loginFormUsernameLabel = document.createElement('label')
-loginFormUsernameLabel.innerText = 'Username'
-loginFormUsernameLabel.htmlFor = 'username'
-loginForm.appendChild(loginFormUsernameLabel)
+        const usernameLabel = new Label('username')
+        usernameLabel.setText('Username')
+        form.add(usernameLabel)
 
-var loginFormUsernameInput = document.createElement('input')
-loginFormUsernameInput.type = 'text'
-loginFormUsernameInput.id = 'username'
-loginForm.appendChild(loginFormUsernameInput)
+        const usernameInput = new Input('text', 'username')
+        form.add(usernameInput)
 
-var loginFormPasswordLabel = document.createElement('label')
-loginFormPasswordLabel.innerText = 'Password'
-loginFormPasswordLabel.htmlFor = 'password'
-loginForm.appendChild(loginFormPasswordLabel)
+        const passwordLabel = new Label('password')
+        passwordLabel.setText('Password')
+        form.add(passwordLabel)
 
-var loginFormPasswordInput = document.createElement('input')
-loginFormPasswordInput.type = 'password'
-loginFormPasswordInput.id = 'password'
-loginForm.appendChild(loginFormPasswordInput)
+        const passwordInput = new Input('password', 'password')
+        form.add(passwordInput)
 
-var loginFormSubmitButton = document.createElement('button')
-loginFormSubmitButton.type = 'submit'
-loginFormSubmitButton.innerText = 'Login'
-loginForm.appendChild(loginFormSubmitButton)
+        const submitButton = new Button('submit')
+        submitButton.setText('Login')
+        form.add(submitButton)
 
-loginForm.onsubmit = function (event) {
-    event.preventDefault()
-
-    var username = loginFormUsernameInput.value
-    var password = loginFormPasswordInput.value
-
-    try {
-        logic.loginUser(username, password)
-
-        loginForm.reset()
-
-        var name = logic.getUserName()
-
-        homeUser.innerText = 'Hello, ' + name + '!'
-
-        var posts = logic.getPosts()
-
-        homePosts.innerHTML = ''
-
-        posts.forEach(function (post) {
-            var homePost = document.createElement('article')
-            homePosts.appendChild(homePost)
-
-            var postAuthor = document.createElement('h3')
-            postAuthor.innerText = post.author.username
-            homePost.appendChild(postAuthor)
-
-            var postImage = document.createElement('img')
-            postImage.src = post.image
-            homePost.appendChild(postImage)
-
-            var postCaption = document.createElement('p')
-            postCaption.innerText = post.text
-            homePost.appendChild(postCaption)
-
-            var postDate = document.createElement('time')
-            postDate.innerText = post.date
-            homePost.appendChild(postDate)
-        })
-
-        body.removeChild(loginView)
-        body.appendChild(homeView)
-    } catch (error) {
-        alert(error.message)
-
-        console.error(error)
+        const registerLink = new Link
+        registerLink.setText('Register')
+        this.add(registerLink)
     }
 }
-
-var loginRegisterLink = document.createElement('a')
-loginRegisterLink.href = ''
-loginRegisterLink.innerText = 'Register'
-
-loginRegisterLink.onclick = function (event) {
-    event.preventDefault()
-
-    body.removeChild(loginView)
-    body.appendChild(registerView)
-}
-loginView.appendChild(loginRegisterLink)
