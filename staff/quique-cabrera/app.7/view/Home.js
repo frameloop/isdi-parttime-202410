@@ -18,25 +18,4 @@ class Home extends Component {
         addPostButton.setText('+')
         this.add(addPostButton)
     }
-    setUserName(name) {
-        this.children[1].setText(`Hello, ${name}!`)
-    }
-
-    onLoggedOut(callback) {
-        const logoutButton = this.children[2]
-
-        logoutButton.addBehavior('click', () => {
-            try {
-                logic.logoutUser()
-
-                callback()
-            } catch (error) {
-                alert(error.message)
-
-                console.error(error)
-            }
-        })
-    }
-
-
 }

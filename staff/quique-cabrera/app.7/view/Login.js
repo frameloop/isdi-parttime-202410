@@ -42,29 +42,7 @@ class Login extends Component {
         })
     }
 
-    onLoggedIn(callback) {
-        const form = this.children[1]
-
-        form.addBehavior('submit', event => {
-            event.preventDefault()
-
-            const usernameInput = form.children[1]
-            const passwordInput = form.children[3]
-
-            const username = usernameInput.getValue()
-            const password = passwordInput.getValue()
-
-            try {
-                logic.loginUser(username, password)
-
-                form.clear()
-
-                callback()
-            } catch (error) {
-                alert(error.message)
-
-                console.error(error)
-            }
-        })
+    onLoginSubmit(callback) {
+        // ?
     }
 }
