@@ -17,37 +17,9 @@ class Home extends Component {
         const addPostButton = new Button('button')
         addPostButton.setText('+')
         this.add(addPostButton)
-
-        addPostButton.addBehavior('click', () => {
-            this.remove(postList)
-            this.add(createPost)
-        })
-
-        const postList = new PostList
-        this.add(postList)
-
-        const createPost = new CreatePost
-
-        createPost.onCreated(() => {
-            try {
-
-                const posts = logic.getPosts()
-                postList.setPosts(posts)
-
-                this.remove(createPost)
-                this.add(postList)
-            } catch (error) {
-                alert(error.message)
-
-                console.error(error)
-            }
-        })
     }
-
     setUserName(name) {
-        const userGreeting = this.children[1]
-
-        userGreeting.setText(`Hello, ${name}!`)
+        this.children[1].setText(`Hello, ${name}!`)
     }
 
     onLoggedOut(callback) {
@@ -65,12 +37,6 @@ class Home extends Component {
             }
         })
     }
-    setPosts(posts) {
-        const postList = this.children[4]
 
-        postList.setPosts(posts)
-
-
-    }
 
 }

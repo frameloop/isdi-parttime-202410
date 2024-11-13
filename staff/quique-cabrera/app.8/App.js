@@ -31,9 +31,6 @@ class App extends Component {
                 const name = logic.getUserName()
                 home.setUserName(name)
 
-                const posts = logic.getPosts()
-                home.setPosts(posts)
-
                 this.remove(login)
                 this.add(home)
             } catch (error) {
