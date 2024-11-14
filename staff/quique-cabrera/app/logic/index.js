@@ -1,1 +1,1 @@
-var logic = {}
+const logic = {}

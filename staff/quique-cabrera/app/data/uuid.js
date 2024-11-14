@@ -1,3 +1,1 @@
-function uuid() {
-    return (Date.now() + Math.random()).toString(36).replace('.', '')
-}
+const uuid = () => (Date.now() + Math.random()).toString(36).replace('.', '')

@@ -1,7 +1,1 @@
-(function () {
-    function logoutUser() {
-        delete sessionStorage.userId
-    }
-
-    logic.logoutUser = logoutUser
-})()
+logic.logoutUser = () => { delete sessionStorage.userId }
