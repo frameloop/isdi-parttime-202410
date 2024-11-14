@@ -29,8 +29,8 @@ class Pica extends MovableThing {
         picaHeadUngryImg.style.rotate = '45deg'
         picaHeadUngryImg.style.position = 'absolute'
         picaHeadUngryImg.style.zIndex = 3
-        picaHeadUngryImg.style.left = '18px'
-        picaHeadUngryImg.style.top = '10px'
+        picaHeadUngryImg.style.left = '37px'
+        picaHeadUngryImg.style.top = '12px'
 
         const picaArmImg = document.createElement('img')
         picaArmImg.src = 'images/picaArm.png'
