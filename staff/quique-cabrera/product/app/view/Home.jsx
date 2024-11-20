@@ -65,7 +65,21 @@ class Home extends Component {
                             <img src={post.image} />
                             <p>{post.text}</p>
                             <time>{post.date}</time>
-                            <button > x </button>
+                            <button type="button" onClick={() => {
+                                try {
+
+                                    logic.deletePost(post.id)
+
+                                    const posts = logic.getPosts()
+
+                                    this.setState({ posts })
+
+                                } catch (error) {
+                                    alert(error.message)
+
+                                    console.error(error)
+                                }
+                            }}> x </button>
                         </article>
                     })
                 }
