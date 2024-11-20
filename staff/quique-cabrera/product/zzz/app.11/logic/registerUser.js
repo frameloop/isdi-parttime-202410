@@ -22,6 +22,3 @@ logic.registerUser = (name, email, username, password) => {
 
     localStorage.users = JSON.stringify(users)
 }
-
-logic.registerUser = registerUser
-}) ()
