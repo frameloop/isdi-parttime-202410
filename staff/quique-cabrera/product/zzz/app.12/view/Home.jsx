@@ -6,7 +6,11 @@ class Home extends Component {
 
         super(props)
 
-        this.state = { name: null, posts: [] }
+        this.state = {
+            greeting: '',
+            posts: [],
+            view: 'posts'
+        }
     }
 
     componentDidMount() {
@@ -14,10 +18,10 @@ class Home extends Component {
 
         try {
             const name = logic.getUserName()
-            const posts = logic.getPosts()
+            this.setState({ greeting: `Hello, ${name}!` })
 
-            this.setState({ name, posts })
-
+            const posts = logic.getPosts();
+            this.setState({ posts });
 
         } catch (error) {
             alert(error.message)
@@ -27,12 +31,12 @@ class Home extends Component {
     }
 
     render() {
-        console.log('Home -> render')
+        console.log('Home --> render')
 
         return <main>
             <h2>Home</h2>
 
-            <h3>Hello, {this.state.name}!</h3>
+            <h3>{this.state.greeting}</h3>
 
             <button type="button" onClick={() => {
                 try {
@@ -44,38 +48,44 @@ class Home extends Component {
 
                     console.error(error)
                 }
-            }}>Logout</button>
+            }}>logout</button>
+            <button type="button" onClick={() => {
 
-            <button type="button">+</button>
+                this.setState({ view: 'createPost' })
 
-            <section>
-                {this.state.posts.map(post =>
-                    <article>
-                        <h3>{post.author.username}</h3>
+            }}>+</button>
 
-                        <img src={post.image} />
+            {this.state.view === 'createPost' && <CreatePost onCreatedPost={() => this.setState({ view: 'posts' })} />}
 
-                        <p>{post.text}</p>
-
-                        <time>{post.date}</time>
-
-                        {post.own && <button type="button" onClick={() => {
-                            if (confirm('Delete post?'))
+            {this.state.view === 'posts' && <ul>
+                {
+                    this.state.posts.map(post => {
+                        return <article>
+                            <h3>{post.author.username}</h3>
+                            <img src={post.image} />
+                            <p>{post.text}</p>
+                            <time>{post.date}</time>
+                            <button type="button" onClick={() => {
                                 try {
+
                                     logic.deletePost(post.id)
 
                                     const posts = logic.getPosts()
 
                                     this.setState({ posts })
+
                                 } catch (error) {
                                     alert(error.message)
 
                                     console.error(error)
                                 }
-                        }}> x </button>}
-                    </article>
-                )}
-            </section>
+                            }}> x </button>
+                        </article>
+                    })
+                }
+            </ul>}
+
         </main>
+
     }
 }
