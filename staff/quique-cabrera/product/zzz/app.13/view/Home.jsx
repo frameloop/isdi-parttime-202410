@@ -2,7 +2,7 @@ const Component = React.Component
 
 class Home extends Component {
     constructor(props) {
-        console.log('Home -> constructor')
+        console.log('Home --> constructor')
 
         super(props)
 
@@ -10,13 +10,15 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        console.log('Home -> componentDidMount')
+        console.log('Home --> componentDidMount')
 
         try {
             const name = logic.getUserName()
             const posts = logic.getPosts()
 
             this.setState({ name, posts })
+
+
         } catch (error) {
             alert(error.message)
 
@@ -70,7 +72,7 @@ class Home extends Component {
 
                                     console.error(error)
                                 }
-                        }}>🗑️</button>}
+                        }}> x </button>}
                     </article>
                 )}
             </section>

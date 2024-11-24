@@ -2,23 +2,20 @@ const Component = React.Component
 
 class Home extends Component {
     constructor(props) {
-        console.log('Home --> constructor')
+        console.log('Home -> constructor')
 
         super(props)
 
-        this.state = { name: null, posts: [] }
+        this.state = { name: null, view: 'posts' }
     }
 
     componentDidMount() {
-        console.log('Home --> componentDidMount')
+        console.log('Home -> componentDidMount')
 
         try {
             const name = logic.getUserName()
-            const posts = logic.getPosts()
 
-            this.setState({ name, posts })
-
-
+            this.setState({ name })
         } catch (error) {
             alert(error.message)
 
@@ -46,36 +43,10 @@ class Home extends Component {
                 }
             }}>Logout</button>
 
-            <button type="button">+</button>
+            <button type="button" onClick={() => this.setState({ view: 'create-post' })}>+</button>
 
-            <section>
-                {this.state.posts.map(post =>
-                    <article>
-                        <h3>{post.author.username}</h3>
-
-                        <img src={post.image} />
-
-                        <p>{post.text}</p>
-
-                        <time>{post.date}</time>
-
-                        {post.own && <button type="button" onClick={() => {
-                            if (confirm('Delete post?'))
-                                try {
-                                    logic.deletePost(post.id)
-
-                                    const posts = logic.getPosts()
-
-                                    this.setState({ posts })
-                                } catch (error) {
-                                    alert(error.message)
-
-                                    console.error(error)
-                                }
-                        }}> x </button>}
-                    </article>
-                )}
-            </section>
+            {this.state.view === 'posts' && <Posts />}
+            {this.state.view === 'create-post' && <CreatePost onPostCreated={() => this.setState({ view: 'posts' })} />}
         </main>
     }
 }
