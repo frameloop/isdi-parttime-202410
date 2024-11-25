@@ -6,7 +6,7 @@ class App extends Component {
 
         super(props)
 
-        this.state = { view: 'landing' }
+        this.state = { view: logic.isUserLoggedIn() ? 'home' : 'landing' }
     }
 
     render() {
