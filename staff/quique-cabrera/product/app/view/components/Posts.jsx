@@ -28,7 +28,7 @@ class Posts extends Component {
 
         return <section>
             {this.state.posts.map(post =>
-                <Post post={post} onPostDeleted={() => {
+                <Post key={post.id} post={post} onPostDeleted={() => {
                     try {
                         const posts = logic.getPosts()
 
