@@ -3,7 +3,6 @@ const express = require('express')
 const server = express()
 
 const logic = require('./logic/index')
-const e = require('express')
 
 const PORT = 8080
 
@@ -27,11 +26,10 @@ server.get('/login', (req, res) => {
             <input id="username" name="username" type="text">
 
             <label for="password">Password</label>
-            <input id="password" name="password" type="password">
+            <input id="passwor"d" name="password" type="password">
 
             <button type="submit">Login</button>
         </form>
-        <a href="/register">Register</a>
     </body>
 </html>
 `)
@@ -94,54 +92,5 @@ server.post('/logout', (req, res) => {
     }
 })
 
-server.get('/register', (req, res) => {
-    if (logic.isUserLoggedIn()) {
-        res.redirect('/')
-
-        return
-    }
-
-    res.send(`<doctype html>
-<html>
-    <head>
-        <title>Register</title>
-    </head>
-    <body>
-        <h2>Register</h2>
-
-        <form action="/register" method="post">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text">
-            
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email">
-
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text">
-
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password">
-
-            <button type="submit">Register</button>
-        </form>
-        <a href="/login">Login</a>
-
-    </body>
-</html>`)
-})
-
-server.post('/register', express.urlencoded({ extended: true }), (req, res) => {
-
-    const { name, email, username, password } = req.body
-
-    try {
-        logic.registerUser(name, email, username, password)
-
-        res.redirect('/login')
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
-
-})
 
 server.listen(PORT, () => console.log(`server listening on port ${PORT}`))
