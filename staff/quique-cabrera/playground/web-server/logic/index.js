@@ -1,21 +1,11 @@
-const loginUser = require('./loginUser')
-const isUserLoggedIn = require('./isUserLoggedIn')
+const authenticateUser = require('./authenticateUser')
 const getUserName = require('./getUserName')
-const logoutUser = require('./logoutUser')
 const registerUser = require('./registerUser')
-const getPosts = require('./getPosts')
-const createPost = require('./createPost')
-const deletePost = require('./deletePost')
 
 const logic = {
-    loginUser,
-    isUserLoggedIn,
+    authenticateUser,
     getUserName,
-    logoutUser,
-    registerUser,
-    getPosts,
-    createPost,
-    deletePost
+    registerUser
 }
 
 module.exports = logic

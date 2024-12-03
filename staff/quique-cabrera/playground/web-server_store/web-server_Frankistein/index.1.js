@@ -2,7 +2,7 @@ const express = require('express')
 
 const server = express()
 
-const logic = require('./logic/index')
+const logic = require('../web-server.1/logic/index')
 const e = require('express')
 
 const PORT = 8080

@@ -1,9 +1,10 @@
 const localStorage = require('../data/localStorage')
+const sessionStorage = require('../data/sessionStorage')
 
-const getUserName = userId => {
+const getUserName = () => {
     const users = JSON.parse(localStorage.users)
 
-    const user = users.find(user => user.id === userId)
+    const user = users.find(user => user.id === sessionStorage.userId)
 
     if (!user) throw new Error('user not found')
 
