@@ -47,4 +47,16 @@ api.get('/users/:userId', (req, res) => {
     }
 })
 
+api.get('/posts/:userId', (req, res) => {
+    try {
+        const { userId } = req.params
+
+        const posts = logic.getPosts(userId)
+
+        res.json(posts)
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+})
+
 api.listen(PORT, () => console.log(`API running on port ${PORT}`))
