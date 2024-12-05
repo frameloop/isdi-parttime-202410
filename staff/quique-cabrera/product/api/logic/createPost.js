@@ -1,7 +1,9 @@
 import db from '../data/db.js'
 import uuid from '../data/uuid.js'
+import validate from './helper/validate.js'
 
-const createPost = (image, text) => {
+const createPost = (userId, image, text) => {
+    validate.id(userId, 'userId')
     if (typeof image !== 'string') throw Error('invalid image type')
     if (typeof text !== 'string') throw Error('invalid text type')
 
@@ -17,7 +19,7 @@ const createPost = (image, text) => {
 
     posts.push(post)
 
-    db.posts = JSON.stringify(posts)
+    db.posts = posts
 }
 
 export default createPost
