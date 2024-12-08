@@ -1,0 +1,1 @@
+curl -X POST -H 'Content-Type: application/json' -d '{"https://acortar.link/KFg2wd", "picKachull"}' http://localhost:8080/posts/createpost -v

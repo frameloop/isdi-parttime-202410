@@ -59,4 +59,16 @@ api.get('/posts/:userId', (req, res) => {
     }
 })
 
+api.post('/posts/createpost', jsonBodyParser, (req, res) => {
+    try {
+        const { image, name } = req.body
+
+        const post = logic.createPost(image, name)
+
+        res.json(post)
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+})
+
 api.listen(PORT, () => console.log(`API running on port ${PORT}`))

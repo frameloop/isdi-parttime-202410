@@ -8,7 +8,7 @@ const logic = {
     authenticateUser,
     getUserName,
     registerUser,
-    getPosts
+    getPosts,
     createPost
 }
 
