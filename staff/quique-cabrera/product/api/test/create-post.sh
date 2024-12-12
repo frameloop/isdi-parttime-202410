@@ -1,1 +1,1 @@
-curl -X POST -H 'Content-Type: application/json' -d '{"https://acortar.link/KFg2wd", "picKachull"}' http://localhost:8080/posts/createpost -v
+curl -X DELETE -H 'Authorization: Basic m2w92r8h09' http://localhost:8080/posts/m3rqet5v1wc -v

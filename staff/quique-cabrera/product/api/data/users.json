@@ -7,17 +7,45 @@
         "password": "123123123"
     },
     {
-        "id": "m41rjo7ulg",
+        "id": "m2w92r8h10",
         "name": "Wendy Darling",
         "email": "wendy@darling.com",
         "username": "wendydarling",
         "password": "123123123"
     },
     {
-        "id": "m4a9nds06yl",
+        "id": "m3gc0wwt7q",
+        "name": "James Hook",
+        "email": "james@hook.com",
+        "username": "jameshook",
+        "password": "123123123"
+    },
+    {
+        "id": "m3ngm8d7ck",
+        "name": "Pepito Grillo",
+        "email": "pepito@grillo.com",
+        "username": "pepitogrillo",
+        "password": "123123123"
+    },
+    {
+        "id": "m3ngndijfak",
+        "name": "Campa Nilla",
+        "email": "campa@nilla.com",
+        "username": "campanilla",
+        "password": "123123123"
+    },
+    {
+        "id": "m4hfmf7nd4e",
         "name": "Le Chuga",
         "email": "le@chuga.com",
         "username": "lechuga",
+        "password": "123123123"
+    },
+    {
+        "id": "m4hfv7dq5b",
+        "name": "Pa Tata",
+        "email": "pa@tata.com",
+        "username": "patata",
         "password": "123123123"
     }
 ]

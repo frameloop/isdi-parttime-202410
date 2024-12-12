@@ -1,12 +1,9 @@
-import createPosts from './createPost.js'
+import createPost from './createPost.js'
 
 try {
-    createPosts('m41rjo7ulg', 'https: //imgs.search.brave.com/4Yr4bPF5HLTvrFy5yyIQrpHYojeeLh2u3x8XMYO-CXQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2UzLzhi/Lzc0L2UzOGI3NDk3/MjRkYTU3ODNkNDk5/NDM4ZWNmNWYyZjdj/LmpwZw', 'picKachull')
+    createPost('m2w92r8h09', 'https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/A493675734794E0DD2563A1595988F35F3152BB7062DA6F854515830B702873A/scale?width=1200&aspectRatio=1.78&format=webp', 'hello neverland')
 
-    console.log('Post Create')
+    console.log('post created')
 } catch (error) {
     console.error(error)
 }
-
-
-

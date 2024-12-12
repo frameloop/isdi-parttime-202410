@@ -1,13 +1,18 @@
+import validate from './helper/validate.js'
+
 import db from '../data/db.js'
 import uuid from '../data/uuid.js'
-import validate from './helper/validate.js'
 
 const createPost = (userId, image, text) => {
     validate.id(userId, 'userId')
-    if (typeof image !== 'string') throw Error('invalid image type')
-    if (typeof text !== 'string') throw Error('invalid text type')
+    validate.image(image)
+    validate.text(text)
 
-    const { posts } = db
+    const { users, posts } = db
+
+    const user = users.find(user => user.id === userId)
+
+    if (!user) throw new Error('user not found')
 
     const post = {
         id: uuid(),
