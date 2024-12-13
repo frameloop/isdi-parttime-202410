@@ -4,7 +4,6 @@ fetch('http://localhost:8080/users', {
         Authorization: 'Basic m2w92r8h09'
     }
 })
-
     .then(res => {
         const { status } = res;
 
