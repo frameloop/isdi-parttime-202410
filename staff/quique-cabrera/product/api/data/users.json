@@ -21,31 +21,10 @@
         "password": "123123123"
     },
     {
-        "id": "m3ngm8d7ck",
-        "name": "Pepito Grillo",
-        "email": "pepito@grillo.com",
-        "username": "pepitogrillo",
-        "password": "123123123"
-    },
-    {
-        "id": "m3ngndijfak",
-        "name": "Campa Nilla",
-        "email": "campa@nilla.com",
-        "username": "campanilla",
-        "password": "123123123"
-    },
-    {
-        "id": "m4hfmf7nd4e",
+        "id": "m4n8j90oj6q",
         "name": "Le Chuga",
         "email": "le@chuga.com",
         "username": "lechuga",
-        "password": "123123123"
-    },
-    {
-        "id": "m4hfv7dq5b",
-        "name": "Pa Tata",
-        "email": "pa@tata.com",
-        "username": "patata",
         "password": "123123123"
     }
 ]

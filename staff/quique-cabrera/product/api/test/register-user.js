@@ -3,7 +3,8 @@ fetch('http://localhost:8080/users', {
     headers: {
         'Content-Type': 'application/json'
     },
-    body: '{"name":"Le Chuga","email":"le@chuga.com","username":"lechuga","password":"123123123"}'
+    // body: '{"name":"Le Chuga","email":"le@chuga.com","username":"lechuga","password":"123123123"}'
+    body: JSON.stringify({ name: 'Le Chuga', email: 'le@chuga.com', username: 'lechuga', password: '123123123' })
 })
     .then(res => {
         const { status } = res
