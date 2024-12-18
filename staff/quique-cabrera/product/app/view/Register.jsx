@@ -2,16 +2,17 @@ const Component = React.Component
 
 class Register extends Component {
     constructor(props) {
-        console.log('Register --> constructor')
+        console.log('Register -> constructor')
 
         super(props)
     }
 
     render() {
-        console.log('Register --> render')
+        console.log('Register-> render')
 
         return <main>
             <h2>Register</h2>
+
             <form onSubmit={event => {
                 event.preventDefault()
 
@@ -24,10 +25,16 @@ class Register extends Component {
 
                 try {
                     logic.registerUser(name, email, username, password)
+                        .then(() => {
+                            form.reset()
 
-                    form.reset()
+                            this.props.onUserRegistered()
+                        })
+                        .catch(error => {
+                            alert(error.message)
 
-                    this.props.onUserRegistered()
+                            console.error(error)
+                        })
                 } catch (error) {
                     alert(error.message)
 
@@ -53,9 +60,7 @@ class Register extends Component {
                 event.preventDefault()
 
                 this.props.onLoginClicked()
-            }} >Login</a>
+            }}>Login</a>
         </main>
     }
-
 }
-

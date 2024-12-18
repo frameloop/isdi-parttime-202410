@@ -1,60 +1,61 @@
 const Component = React.Component
 
-class Login extends Component {
+class Register extends Component {
     constructor(props) {
-        console.log('Login --> constructor')
+        console.log('Register --> constructor')
 
         super(props)
     }
 
     render() {
-        console.log('Login --> render')
+        console.log('Register --> render')
 
         return <main>
-            <h2>Login</h2>
-
+            <h2>Register</h2>
             <form onSubmit={event => {
                 event.preventDefault()
 
                 const form = event.target
 
+                const name = form.name.value
+                const email = form.email.value
                 const username = form.username.value
                 const password = form.password.value
 
                 try {
-                    logic.loginUser(username, password)
-                        .then(() => {
-                            form.reset()
+                    logic.registerUser(name, email, username, password)
 
-                            this.props.onUserLoggedIn()
-                        })
-                        .catch(error => {
-                            alert(error.message)
+                    form.reset()
 
-                            console.error(error)
-                        })
-
+                    this.props.onUserRegistered()
                 } catch (error) {
                     alert(error.message)
 
                     console.error(error)
                 }
             }}>
+                <label htmlFor="name">Name</label>
+                <input type="text" id="name" />
+
+                <label htmlFor="email">E-mail</label>
+                <input type="email" id="email" />
+
                 <label htmlFor="username">Username</label>
                 <input type="text" id="username" />
 
                 <label htmlFor="password">Password</label>
                 <input type="password" id="password" />
 
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
 
             <a href="" onClick={event => {
                 event.preventDefault()
 
-                this.props.onRegisterClicked()
-            }}>Register</a>
+                this.props.onLoginClicked()
+            }} >Login</a>
         </main>
     }
+
 }
 

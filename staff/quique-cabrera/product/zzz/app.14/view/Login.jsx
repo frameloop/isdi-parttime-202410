@@ -12,7 +12,6 @@ class Login extends Component {
 
         return <main>
             <h2>Login</h2>
-
             <form onSubmit={event => {
                 event.preventDefault()
 
@@ -23,17 +22,10 @@ class Login extends Component {
 
                 try {
                     logic.loginUser(username, password)
-                        .then(() => {
-                            form.reset()
 
-                            this.props.onUserLoggedIn()
-                        })
-                        .catch(error => {
-                            alert(error.message)
+                    form.reset()
 
-                            console.error(error)
-                        })
-
+                    this.props.onUserLoggedIn()
                 } catch (error) {
                     alert(error.message)
 

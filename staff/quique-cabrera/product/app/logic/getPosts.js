@@ -1,22 +1,23 @@
 logic.getPosts = () => {
-    const users = JSON.parse(localStorage.users)
-    const posts = JSON.parse(localStorage.posts)
-
-    posts.forEach(post => {
-        const authorId = post.author
-
-        const user = users.find(user => user.id === authorId)
-
-        const username = user.username
-
-        post.author = {
-            id: authorId,
-            username: username
+    return fetch('http://localhost:8080/posts', {
+        method: 'GET',
+        headers: {
+            Authorization: `Basic ${sessionStorage.userId}`
         }
-
-        post.own = authorId === sessionStorage.userId
     })
+        .catch(error => { throw new Error(error.message) })
+        .then(res => {
+            const { status } = res
 
-    return posts.reverse()
+            if (status === 200)
+                return res.json()
+                    .then(posts => posts)
+
+            return res.json()
+                .then(body => {
+                    const { error, message } = body
+
+                    throw new Error(message)
+                })
+        })
 }
-

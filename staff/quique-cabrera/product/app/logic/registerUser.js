@@ -4,21 +4,24 @@ logic.registerUser = (name, email, username, password) => {
     validate.username(username)
     validate.password(password)
 
-    const users = JSON.parse(localStorage.users)
+    return fetch('http://localhost:8080/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, username, password })
+    })
+        .catch(error => { throw new Error(error.message) })
+        .then(res => {
+            const { status } = res
 
-    const found = users.some(user => user.email === email || user.username === username)
+            if (status === 201) return
 
-    if (found)
-        throw new Error('user already exists')
+            return res.json()
+                .then(body => {
+                    const { error, message } = body
 
-    const user = {}
-    user.id = uuid()
-    user.name = name
-    user.email = email
-    user.username = username
-    user.password = password
-
-    users.push(user)
-
-    localStorage.users = JSON.stringify(users)
-} 
+                    throw new Error(message)
+                })
+        })
+}
