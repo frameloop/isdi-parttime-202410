@@ -23,13 +23,8 @@ class Post extends Component {
                 if (confirm('Delete post?'))
                     try {
                         logic.deletePost(this.props.post.id)
-                            .then(() => this.props.onPostDeleted())
-                            .catch(error => {
-                                alert(error.message)
 
-                                console.error(error)
-                            })
-
+                        this.props.onPostDeleted()
                     } catch (error) {
                         alert(error.message)
 

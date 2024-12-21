@@ -1,19 +1,27 @@
 logic.createPost = (image, text) => {
-    if (typeof image !== 'string') throw new Error('invalid image type')
-    if (typeof text !== 'string') throw new Error('invalid text type')
+    validate.image(image)
+    validate.text(text)
 
-    const posts = JSON.parse(localStorage.posts)
+    return fetch('http://localhost:8080/posts', {
+        method: 'POST',
+        headers: {
+            Authorization: `Basic ${sessionStorage.userId}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+    })
+        .catch(error => { throw new Error(error.message) })
+        .then(res => {
+            const { status } = res
 
-    const post = {
-        id: uuid(),
-        author: sessionStorage.userId,
-        image,
-        text,
-        date: new Date().toISOString()
-    }
+            if (status === 201) return // early return
 
-    posts.push(post)
+            return res.json()
+                .then(body => {
+                    const { error, message } = body
 
-    localStorage.posts = JSON.stringify(posts)
+                    throw new Error(message)
+                })
+        })
 }
 

@@ -1,13 +1,25 @@
 logic.deletePost = postId => {
     validate.id(postId, 'postId')
 
-    const posts = JSON.parse(localStorage.posts)
+    return fetch('http://localhost:8080/posts', {
+        method: 'DELETE',
+        headers: {
+            Autorization: `Basic ${sessionStorege.userId}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ postId })
+    })
+        .catch(error => { throw new Error(error.message) })
+        .then(res => {
+            const { status } = res
 
-    const index = posts.findIndex(post => post.id === postId)
+            if (status === 201) return // early return
 
-    if (index < 0) throw new Error('post not found')
+            return res.json()
+                .then(body => {
+                    const { error, message } = body
 
-    posts.splice(index, 1)
-
-    localStorage.posts = JSON.stringify(posts)
+                    throw new Error(message)
+                })
+        })
 }

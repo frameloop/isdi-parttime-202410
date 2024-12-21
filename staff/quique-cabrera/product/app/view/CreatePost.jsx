@@ -5,8 +5,6 @@ class CreatePost extends Component {
         console.log('CreatePost --> constructor')
 
         super(props)
-
-
     }
 
     render() {
@@ -18,15 +16,19 @@ class CreatePost extends Component {
                 event.preventDefault()
 
                 const form = event.target
+
                 const image = form.image.value
                 const text = form.text.value
 
                 try {
                     logic.createPost(image, text)
+                        .then(() => this.props.onPostCreated())
+                        .catch(error => {
+                            alert(error.message)
 
-                    form.reset()
+                            console.error(error)
+                        })
 
-                    this.props.onCreatedPost()
                 } catch (error) {
                     alert(error.message)
 
@@ -42,6 +44,6 @@ class CreatePost extends Component {
 
                 <button type="submit">Create</button>
             </form>
-        </section>
+        </section >
     }
 }
