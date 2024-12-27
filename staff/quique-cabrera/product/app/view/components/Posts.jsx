@@ -35,9 +35,14 @@ class Posts extends Component {
             {this.state.posts.map(post =>
                 <Post key={post.id} post={post} onPostDeleted={() => {
                     try {
-                        const posts = logic.getPosts()
+                        logic.getPosts()
+                            .then(posts => this.setState({ posts }))
+                            .catch(error => {
+                                alert(error.message)
 
-                        this.setState({ posts })
+                                console.error(error)
+                            })
+
                     } catch (error) {
                         alert(error.message)
 

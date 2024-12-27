@@ -1,7 +1,7 @@
 logic.deletePost = postId => {
     validate.id(postId, 'postId')
 
-    return fetch('http://localhost:8080/posts/:postId', {
+    return fetch(`http://localhost:8080/posts/${postId}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Basic ${sessionStorage.userId}`,
@@ -13,9 +13,8 @@ logic.deletePost = postId => {
         .then(res => {
             const { status } = res
 
-            if (status === 201)
-                return res.json()
-                    .then(postId => postId)
+            if (status === 204)
+                return
 
             return res.json()
                 .then(body => {
