@@ -1,60 +1,53 @@
-const Component = React.Component
+function Login(props) {
+    console.log('Login --> render')
 
-class Login extends Component {
-    constructor(props) {
-        console.log('Login --> constructor')
+    const handleFormSubmit = event => {
+        event.preventDefault()
 
-        super(props)
-    }
+        const form = event.target
 
-    render() {
-        console.log('Login --> render')
+        const username = form.username.value
+        const password = form.password.value
 
-        return <main>
-            <h2>Login</h2>
+        try {
+            logic.loginUser(username, password)
+                .then(() => {
+                    form.reset()
 
-            <form onSubmit={event => {
-                event.preventDefault()
-
-                const form = event.target
-
-                const username = form.username.value
-                const password = form.password.value
-
-                try {
-                    logic.loginUser(username, password)
-                        .then(() => {
-                            form.reset()
-
-                            this.props.onUserLoggedIn()
-                        })
-                        .catch(error => {
-                            alert(error.message)
-
-                            console.error(error)
-                        })
-
-                } catch (error) {
+                    props.onUserLoggedIn()
+                })
+                .catch(error => {
                     alert(error.message)
 
                     console.error(error)
-                }
-            }}>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" />
+                })
 
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" />
+        } catch (error) {
+            alert(error.message)
 
-                <button type="submit">Login</button>
-            </form>
-
-            <a href="" onClick={event => {
-                event.preventDefault()
-
-                this.props.onRegisterClicked()
-            }}>Register</a>
-        </main>
+            console.error(error)
+        }
     }
-}
 
+    const handleLoginLinkClick = event => {
+        event.preventDefault()
+
+        props.onRegisterClicked()
+    }
+
+    return <main>
+        <h2>Login</h2>
+
+        <form onSubmit={handleFormSubmit}>
+            <label htmlFor="username">Username</label>
+            <input type="text" id="username" />
+
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" />
+
+            <button type="submit">Login</button>
+        </form>
+
+        <a href="" onClick={handleLoginLinkClick}>Register</a>
+    </main>
+}

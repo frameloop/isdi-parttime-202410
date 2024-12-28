@@ -26,5 +26,33 @@
         "email": "magi@simpson.es",
         "username": "Magi",
         "password": "12341234"
+    },
+    {
+        "id": "m58ivxjco0f",
+        "name": "Cristina Crespo",
+        "email": "cristina@emestudi.es",
+        "username": "Cris",
+        "password": "12341234"
+    },
+    {
+        "id": "m58j1enwpx",
+        "name": "Lola Cabrera",
+        "email": "lola@cabrera.es",
+        "username": "lola",
+        "password": "12341234"
+    },
+    {
+        "id": "m58j2fhfna6",
+        "name": "Lola",
+        "email": "info@emestudi.es",
+        "username": "frameloop",
+        "password": "12341234"
+    },
+    {
+        "id": "m58j7v3qf5t",
+        "name": "Pa Co",
+        "email": "paco@emestudi.es",
+        "username": "Paco",
+        "password": "12341234"
     }
 ]

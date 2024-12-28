@@ -1,28 +1,17 @@
-const Component = React.Component
+function Landing(props) {
+    console.log('Landing --> render')
 
-class Landing extends Component {
-    constructor(props) {
-        console.log('Landing --> constructor')
+    const handleLoginLinkClick = event => {
+        event.preventDefault()
 
-        super(props)
+        props.onRegisterClicked()
     }
 
-    render() {
-        console.log('Landing --> render')
-        return <main>
+    return <main>
 
-            <h2>Welcome!</h2>
+        <h2>Welcome!</h2>
 
-            <p><a href="" onClick={event => {
-                event.preventDefault()
+        <p><a href="" onClick={handleLoginLinkClick}>Register</a> or <a href="" onClick={handleLoginLinkClick}>Login</a></p>
 
-                this.props.onRegisterClicked()
-            }}>Register</a> or <a href="" onClick={event => {
-                event.preventDefault()
-
-                this.props.onLoginClicked()
-            }}>Login</a></p>
-
-        </main>
-    }
+    </main>
 }

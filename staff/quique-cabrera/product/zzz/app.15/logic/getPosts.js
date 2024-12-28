@@ -1,20 +1,17 @@
-logic.createPost = (image, text) => {
-    validate.image(image)
-    validate.text(text)
-
+logic.getPosts = () => {
     return fetch('http://localhost:8080/posts', {
-        method: 'POST',
+        method: 'GET',
         headers: {
-            Authorization: `Basic ${sessionStorage.userId}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ image, text })
+            Authorization: `Basic ${sessionStorage.userId}`
+        }
     })
         .catch(error => { throw new Error(error.message) })
         .then(res => {
             const { status } = res
 
-            if (status === 201) return // early return
+            if (status === 200)
+                return res.json()
+                    .then(posts => posts)
 
             return res.json()
                 .then(body => {
@@ -24,4 +21,3 @@ logic.createPost = (image, text) => {
                 })
         })
 }
-

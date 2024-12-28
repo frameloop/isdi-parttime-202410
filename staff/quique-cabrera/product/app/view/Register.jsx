@@ -1,66 +1,60 @@
-const Component = React.Component
 
-class Register extends Component {
-    constructor(props) {
-        console.log('Register -> constructor')
+function Register(props) {
+    console.log('Register --> Render')
 
-        super(props)
-    }
+    const handleFormSubmit = event => {
+        event.preventDefault()
 
-    render() {
-        console.log('Register-> render')
+        const form = event.target
 
-        return <main>
-            <h2>Register</h2>
+        const name = form.name.value
+        const email = form.email.value
+        const username = form.username.value
+        const password = form.password.value
 
-            <form onSubmit={event => {
-                event.preventDefault()
+        try {
+            logic.registerUser(name, email, username, password)
+                .then(() => {
+                    form.reset()
 
-                const form = event.target
-
-                const name = form.name.value
-                const email = form.email.value
-                const username = form.username.value
-                const password = form.password.value
-
-                try {
-                    logic.registerUser(name, email, username, password)
-                        .then(() => {
-                            form.reset()
-
-                            this.props.onUserRegistered()
-                        })
-                        .catch(error => {
-                            alert(error.message)
-
-                            console.error(error)
-                        })
-                } catch (error) {
+                    props.onUserRegistered()
+                })
+                .catch(error => {
                     alert(error.message)
 
                     console.error(error)
-                }
-            }}>
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" />
+                })
+        } catch (error) {
+            alert(error.message)
 
-                <label htmlFor="email">E-mail</label>
-                <input type="email" id="email" />
-
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" />
-
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" />
-
-                <button type="submit">Register</button>
-            </form>
-
-            <a href="" onClick={event => {
-                event.preventDefault()
-
-                this.props.onLoginClicked()
-            }}>Login</a>
-        </main>
+            console.error(error)
+        }
     }
+    const handleLoginLinkClick = event => {
+        event.preventDefault()
+
+        props.onLoginClicked()
+    }
+
+    return <main>
+        <h2>Register</h2>
+
+        <form onSubmit={handleFormSubmit}>
+            <label htmlFor="name">Name</label>
+            <input type="text" id="name" />
+
+            <label htmlFor="email">E-mail</label>
+            <input type="email" id="email" />
+
+            <label htmlFor="username">Username</label>
+            <input type="text" id="username" />
+
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" />
+
+            <button type="submit">Register</button>
+        </form>
+
+        <a href="" onClick={handleLoginLinkClick}>Login</a>
+    </main>
 }

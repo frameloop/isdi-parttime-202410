@@ -1,20 +1,20 @@
-logic.createPost = (image, text) => {
-    validate.image(image)
-    validate.text(text)
+logic.deletePost = postId => {
+    validate.id(postId, 'postId')
 
-    return fetch('http://localhost:8080/posts', {
-        method: 'POST',
+    return fetch(`http://localhost:8080/posts/${postId}`, {
+        method: 'DELETE',
         headers: {
             Authorization: `Basic ${sessionStorage.userId}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ image, text })
+
     })
         .catch(error => { throw new Error(error.message) })
         .then(res => {
             const { status } = res
 
-            if (status === 201) return // early return
+            if (status === 204)
+                return
 
             return res.json()
                 .then(body => {
@@ -24,4 +24,3 @@ logic.createPost = (image, text) => {
                 })
         })
 }
-
