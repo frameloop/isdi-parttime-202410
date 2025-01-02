@@ -29,7 +29,7 @@ function Login(props) {
         }
     }
 
-    const handleLoginLinkClick = event => {
+    const handleRegisterLinkClick = event => {
         event.preventDefault()
 
         props.onRegisterClicked()
@@ -48,6 +48,6 @@ function Login(props) {
             <button type="submit">Login</button>
         </form>
 
-        <a href="" onClick={handleLoginLinkClick}>Register</a>
+        <a href="" onClick={handleRegisterLinkClick}>Register</a>
     </main>
 }
