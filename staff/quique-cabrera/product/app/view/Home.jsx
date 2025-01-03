@@ -1,20 +1,15 @@
-const Component = React.Component
+const { useState, useEffect } = React
 
-class Home extends Component {
-    constructor(props) {
-        console.log('Home -> constructor')
+function Home(props) {
+    const [view, setView] = useState('posts')
+    const [name, setName] = useState(null)
 
-        super(props)
-
-        this.state = { name: null, view: 'posts' }
-    }
-
-    componentDidMount() {
-        console.log('Home -> componentDidMount')
+    useEffect(() => {
+        console.log('Home -> old componentDidMount')
 
         try {
             logic.getUserName()
-                .then(name => this.setState({ name }))
+                .then(name => setName(name))
                 .catch(error => {
                     alert(error.message)
 
@@ -26,32 +21,36 @@ class Home extends Component {
 
             console.error(error)
         }
+    }, [])
+
+    const handleLogoutButtonClick = () => {
+        try {
+            logic.logoutUser()
+
+            props.onUserLoggedOut()
+        } catch (error) {
+            alert(error.message)
+
+            console.error(error)
+        }
     }
 
-    render() {
-        console.log('Home -> render')
+    const handlePostCreated = () => setView('posts')
 
-        return <main>
-            <h2>Home</h2>
+    const handleCreatePostButtonClick = () => setView('create-post')
 
-            <h3>Hello, {this.state.name}!</h3>
+    console.log('Home -> render')
 
-            <button type="button" onClick={() => {
-                try {
-                    logic.logoutUser()
+    return <main>
+        <h2>Home</h2>
 
-                    this.props.onUserLoggedOut()
-                } catch (error) {
-                    alert(error.message)
+        <h3>Hello, {name}!</h3>
 
-                    console.error(error)
-                }
-            }}>Logout</button>
+        <button type="button" onClick={handleLogoutButtonClick}>Logout</button>
 
-            <button type="button" onClick={() => this.setState({ view: 'create-post' })}>+</button>
+        <button type="button" onClick={handleCreatePostButtonClick}>+</button>
 
-            {this.state.view === 'posts' && <Posts />}
-            {this.state.view === 'create-post' && <CreatePost onPostCreated={() => this.setState({ view: 'posts' })} />}
-        </main>
-    }
+        {view === 'posts' && <Posts />}
+        {view === 'create-post' && <CreatePost onPostCreated={handlePostCreated} />}
+    </main>
 }
