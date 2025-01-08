@@ -5,7 +5,6 @@ logic.deletePost = postId => {
         method: 'DELETE',
         headers: {
             Authorization: `Basic ${sessionStorage.userId}`,
-            'Content-Type': 'application/json'
         },
 
     })
