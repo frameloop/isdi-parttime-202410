@@ -26,7 +26,7 @@ Photographer (User)
 
 ### UXUI Design
 
-[Figma]()
+[Figma](https://)
 
 ## Technical
 
