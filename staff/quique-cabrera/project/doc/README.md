@@ -14,12 +14,14 @@ La arquitectura del sistema está diseñada para escalar de forma flexible, perm
 ### Use Cases
 
 Customer (User)
-- search sesion (day, hour, geo,...)
+- search sesion (set day, set hour, set geo,...)
 - add session
 - remove sesion
 - checkout cart (create order)
 - view order
 - view orders history
+- add profile (phone, email, geo,...)
+- edit profile
 
 Photographer (User)
 - add services
@@ -67,4 +69,4 @@ User
 
 ## Tasks
 
-[GitHub](https://github.com/b00tc4mp/isdi-parttime-202410/issues/44)https://media.giphy.com/media/bIQP1URyq1joCjFUWt/giphy.gif?cid=ecf05e47y7acbkkz6p68ld2v4r57itdsufp1mmsk5aycawkf&ep=v1_gifs_search&rid=giphy.gif&ct=g
+[GitHub](https://github.com/b00tc4mp/isdi-parttime-202410/issues/44)
