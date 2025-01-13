@@ -31,7 +31,7 @@ Photographer (User)
 
 ### UXUI Design
 
-[Figma](https://www.figma.com/proto/ec0DHZy7CKIwtIT6DcUVBP/emestudi?node-id=41-24&p=f&t=vtZ00tAQg8mohWsz-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=37%3A27)
+[Figma](https://www.figma.com/proto/ec0DHZy7CKIwtIT6DcUVBP/Untitled?node-id=0-1&t=pNPWIXNj7gWhT5JO-1)
 
 ## Technical
 
