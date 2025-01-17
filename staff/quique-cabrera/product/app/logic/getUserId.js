@@ -1,1 +1,3 @@
-logic.getUserId = () => sessionStorage.userId || null
+const getUserId = () => sessionStorage.userId || null
+
+export default getUserId

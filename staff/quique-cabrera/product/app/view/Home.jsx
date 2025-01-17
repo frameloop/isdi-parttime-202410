@@ -1,4 +1,11 @@
-const { useState, useEffect } = React
+import './Home.css'
+
+import { useState, useEffect } from 'react'
+
+import logic from '../logic'
+
+import Posts from './components/Posts'
+import CreatePost from './components/CreatePost'
 
 function Home(props) {
     const [view, setView] = useState('posts')
@@ -41,16 +48,24 @@ function Home(props) {
 
     console.log('Home -> render')
 
-    return <main>
-        <h2>Home</h2>
+    return <div>
+        <header className='Home-header'>
+            <h2 className='Home-logo'>H</h2>
 
-        <h3>Hello, {name}!</h3>
+            <h3 className="Home-name">{name}</h3>
 
-        <button type="button" onClick={handleLogoutButtonClick}>Logout</button>
+            <button type=" button" onClick={handleLogoutButtonClick} className="L-button">Logout</button>
+        </header >
 
-        <button type="button" onClick={handleCreatePostButtonClick}>+</button>
+        <div className='Home-content'>
+            {view === 'posts' && <Posts />}
+            {view === 'create-post' && <CreatePost onPostCreated={handlePostCreated} />}
+        </div>
 
-        {view === 'posts' && <Posts />}
-        {view === 'create-post' && <CreatePost onPostCreated={handlePostCreated} />}
-    </main>
+        <footer className="Home-footer">
+            <button type="button" onClick={handleCreatePostButtonClick} className="New-post">+</button>
+        </footer>
+    </div >
 }
+
+export default Home

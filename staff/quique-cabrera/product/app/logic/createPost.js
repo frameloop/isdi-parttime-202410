@@ -1,4 +1,6 @@
-logic.createPost = (image, text) => {
+import validate from './helper/validate.js'
+
+const createPost = (image, text) => {
     validate.image(image)
     validate.text(text)
 
@@ -25,3 +27,4 @@ logic.createPost = (image, text) => {
         })
 }
 
+export default createPost

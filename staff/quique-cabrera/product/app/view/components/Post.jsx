@@ -1,3 +1,7 @@
+import './Post.css'
+
+import logic from '../../logic'
+
 function Post(props) {
     console.log('Post -> render')
 
@@ -19,15 +23,19 @@ function Post(props) {
             }
     }
 
-    return <article>
-        <h3>{props.post.author.username}</h3>
+    return <article className='Post'>
+        <h3 className="Post-author">{props.post.author.username}</h3>
 
-        <img src={props.post.image} />
+        <img className="Post-image" src={props.post.image} />
 
-        <p>{props.post.text}</p>
+        <p className='Post-text'>{props.post.text}</p>
 
-        <time>{props.post.date}</time>
+        <div className="Post-bottom">
+            <time className="Post-date">{props.post.date}</time>
 
-        {props.post.own && <button type="button" onClick={handleDeleteButton}> X </button>}
+            {props.post.own && <button type="button" onClick={handleDeleteButton} className="Post-delete">X</button>}
+        </div>
     </article>
 }
+
+export default Post

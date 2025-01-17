@@ -13,7 +13,7 @@ function Landing(props) {
         props.onLoginClicked()
     }
 
-    return <main>
+    return <main className="Main">
 
         <h2>Welcome!</h2>
 
@@ -21,3 +21,5 @@ function Landing(props) {
 
     </main>
 }
+
+export default Landing

@@ -1,4 +1,4 @@
-logic.getPosts = () => {
+const getPosts = () => {
     return fetch('http://localhost:8080/posts', {
         method: 'GET',
         headers: {
@@ -21,3 +21,5 @@ logic.getPosts = () => {
                 })
         })
 }
+
+export default getPosts

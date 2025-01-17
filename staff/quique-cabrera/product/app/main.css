@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=VT323&display=swap');
+
+* {
+    font-family: Quicksand;
+    color: rgb(66, 66, 66);
+}
+
+a {
+    margin: 0 .5rem;
+    font-size: .9rem;
+    color: rgb(66, 66, 66);
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 2rem;
+    color: rgb(50, 50, 50);
+    text-align: center;
+    margin-top: 2rem;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(to bottom, #c2c2c2, #a4a4a4);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    border-style: dashed;
+    border-width: 1px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    font-weight: lighter;
+    font-size: 1.2rem;
+    color: rgb(98, 98, 98);
+    padding: 2% 2%;
+
+}
+
+input:focus {
+    background-color: rgb(255, 0, 102);
+    ;
+    color: white;
+    transition: ease-in-out 0.4s;
+}
+
+.L-button {
+    display: block;
+    margin: 10px auto;
+    background-color: rgb(255, 0, 102);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    width: 25%;
+    border-radius: 8px;
+    border-color: rgb(255, 0, 102);
+    border-style: solid;
+    align-content: center;
+
+}
+
+label {
+    margin-top: .3rem;
+    font-weight: lighter;
+    font-size: .9rem;
+}
+
+.Main {
+    display: flex;
+    margin: 60% auto;
+    align-items: center;
+}

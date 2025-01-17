@@ -1,5 +1,12 @@
 
-const { useState } = React
+import { useState } from 'react'
+
+import logic from './logic'
+
+import Landing from './view/Landing'
+import Login from './view/Login'
+import Register from './view/Register'
+import Home from './view/Home'
 
 function App() {
     const [view, setView] = useState(logic.isUserLoggedIn() ? 'home' : 'landing')
@@ -17,11 +24,11 @@ function App() {
     const handleUserLoggedOut = () => setView('login')
 
     return <>
-        <h1>Hola, App!</h1>
-
         {view === 'landing' && <Landing onRegisterClicked={handleRegisterCliked} onLoginClicked={handleLoginClicked} />}
         {view === 'login' && <Login onRegisterClicked={handleRegisterCliked} onUserLoggedIn={handleLoggedIn} />}
         {view === 'register' && <Register onLoginClicked={handleLoginClicked} onUserRegistered={handleUserRegistered} />}
         {view === 'home' && <Home onUserLoggedOut={handleUserLoggedOut} />}
     </>
 }
+
+export default App

@@ -1,3 +1,6 @@
+import './Register.css'
+
+import logic from '../logic'
 
 function Register(props) {
     console.log('Register --> Render')
@@ -52,9 +55,11 @@ function Register(props) {
             <label htmlFor="password">Password</label>
             <input type="password" id="password" />
 
-            <button type="submit">Register</button>
+            <button type="submit" className="L-button">Register</button>
         </form>
 
-        <a href="" onClick={handleLoginLinkClick}>Login</a>
+        <a href="" onClick={handleLoginLinkClick}>{"<< Login"}</a>
     </main>
 }
+
+export default Register

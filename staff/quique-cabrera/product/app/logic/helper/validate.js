@@ -32,3 +32,5 @@ const validate = {
         if (typeof text !== 'string') throw new Error('invalid text type')
     }
 }
+
+export default validate

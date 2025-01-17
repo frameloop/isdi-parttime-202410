@@ -1,1 +1,3 @@
-logic.isUserLoggedIn = () => !!sessionStorage.userId
+const isUserLoggedIn = () => !!sessionStorage.userId
+
+export default isUserLoggedIn

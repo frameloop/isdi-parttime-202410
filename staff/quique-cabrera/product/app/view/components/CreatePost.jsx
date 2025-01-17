@@ -1,6 +1,6 @@
-function CreatePost(props) {
-    console.log('CreatePost --> render')
+import logic from '../../logic'
 
+function CreatePost(props) {
     const handleFormSubmit = event => {
         event.preventDefault()
 
@@ -17,7 +17,6 @@ function CreatePost(props) {
 
                     console.error(error)
                 })
-
         } catch (error) {
             alert(error.message)
 
@@ -25,8 +24,11 @@ function CreatePost(props) {
         }
     }
 
-    return <section>
-        <h3>this.setState({"Create Post"}) </h3>
+    console.log('CreatePost -> render')
+
+    return <main>
+        <h2>Create Post</h2>
+
         <form onSubmit={handleFormSubmit}>
             <label htmlFor="image">Image</label>
             <input type="url" id="image" />
@@ -34,7 +36,9 @@ function CreatePost(props) {
             <label htmlFor="text">Text</label>
             <input type="text" id="text" />
 
-            <button type="submit">Create</button>
+            <button type="submit" className="L-button">Create</button>
         </form>
-    </section >
+    </main>
 }
+
+export default CreatePost
