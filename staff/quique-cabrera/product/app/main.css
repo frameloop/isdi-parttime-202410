@@ -6,9 +6,7 @@
 }
 
 a {
-    margin: 0 .5rem;
     font-size: .9rem;
-    color: rgb(66, 66, 66);
     text-decoration: none;
 }
 
@@ -20,9 +18,10 @@ h2 {
 }
 
 html {
-    height: 100%;
+    /* height: 110%; */
     margin: 0;
-    background: linear-gradient(to bottom, #c2c2c2, #a4a4a4);
+    /* background: linear-gradient(to bottom, #c2c2c2, #575656); */
+    background-color: rgb(244, 242, 235)
 }
 
 form {
@@ -49,7 +48,7 @@ input:focus {
     transition: ease-in-out 0.4s;
 }
 
-.L-button {
+.button {
     display: block;
     margin: 10px auto;
     background-color: rgb(255, 0, 102);
@@ -64,14 +63,26 @@ input:focus {
 
 }
 
+.button-cancel {
+    display: block;
+    margin: 5px auto;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    width: 25%;
+    border-radius: 8px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+    align-content: center;
+}
+
 label {
     margin-top: .3rem;
     font-weight: lighter;
     font-size: .9rem;
 }
 
-.Main {
-    display: flex;
-    margin: 60% auto;
-    align-items: center;
+.w-full {
+    width: 100%;
 }

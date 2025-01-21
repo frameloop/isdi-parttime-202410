@@ -2,6 +2,8 @@ import './Post.css'
 
 import logic from '../../logic'
 
+import formatDate from '../helper/formatDate'
+
 function Post(props) {
     console.log('Post -> render')
 
@@ -23,6 +25,8 @@ function Post(props) {
             }
     }
 
+    console.log('Post -> render')
+
     return <article className='Post'>
         <h3 className="Post-author">{props.post.author.username}</h3>
 
@@ -31,7 +35,7 @@ function Post(props) {
         <p className='Post-text'>{props.post.text}</p>
 
         <div className="Post-bottom">
-            <time className="Post-date">{props.post.date}</time>
+            <time className="Post-date">{formatDate(props.post.date)}</time>
 
             {props.post.own && <button type="button" onClick={handleDeleteButton} className="Post-delete">X</button>}
         </div>

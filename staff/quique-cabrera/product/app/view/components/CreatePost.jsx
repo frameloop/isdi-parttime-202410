@@ -24,6 +24,8 @@ function CreatePost(props) {
         }
     }
 
+    const handleCancelButtonClick = () => props.onCancel()
+
     console.log('CreatePost -> render')
 
     return <main>
@@ -36,8 +38,10 @@ function CreatePost(props) {
             <label htmlFor="text">Text</label>
             <input type="text" id="text" />
 
-            <button type="submit" className="L-button">Create</button>
+            <button type="submit" className="button">Create</button>
         </form>
+
+        <button className="button-cancel" onClick={handleCancelButtonClick}>Cancel</button>
     </main>
 }
 

@@ -1,11 +1,15 @@
 .Home-header {
-    background-color: #282c34;
+    background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: fixed;
+    top: 8px;
+    width: 95vw;
+    left: 2;
     color: white;
-    margin: 7px 0px;
     border-radius: 10px;
+    margin-bottom: 8px;
 }
 
 .Home-logo {
@@ -24,9 +28,10 @@
     background-color: #282c34;
     color: white;
     border: 1px solid white;
-    padding: 10px;
+    padding: 8px;
     margin: 10px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .Home-footer {
@@ -42,7 +47,8 @@
 }
 
 .Home-content {
-    margin-bottom: 36em;
+    margin-top: 80px;
+    margin-bottom: 36px;
 }
 
 .New-post {
@@ -51,6 +57,6 @@
     width: 3em;
     font-weight: bold;
     font-size: 1.2em;
-    background-color: rgb(255, 0, 102);
+    background-color: rgb(255, 0, 102, 0.9);
     color: white;
 }

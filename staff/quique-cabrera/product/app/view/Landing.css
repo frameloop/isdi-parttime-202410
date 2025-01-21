@@ -1,0 +1,11 @@
+.Main-langding {
+    display: flex;
+    margin: 60% 3%;
+}
+
+.Main-langding-link {
+    display: flex;
+    margin-top: 1.9rem;
+    padding-left: 20px;
+    font-size: .9rem;
+}

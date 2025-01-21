@@ -49,7 +49,7 @@ function Login(props) {
             <label htmlFor="password">Password</label>
             <input type="password" id="password" />
 
-            <button type="submit" className="L-button">Login</button>
+            <button type="submit" className="button">Login</button>
         </form>
 
         <a href="" onClick={handleRegisterLinkClick}>{"<< Register"}</a>

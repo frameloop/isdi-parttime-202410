@@ -46,24 +46,28 @@ function Home(props) {
 
     const handleCreatePostButtonClick = () => setView('create-post')
 
+    const handleCancelCreatePost = () => setView('posts')
+
+    const handleHomeClick = () => setView('posts')
+
     console.log('Home -> render')
 
     return <div>
         <header className='Home-header'>
-            <h2 className='Home-logo'>H</h2>
+            <h2 className='Home-logo' onClick={handleHomeClick}>H</h2>
 
             <h3 className="Home-name">{name}</h3>
 
-            <button type=" button" onClick={handleLogoutButtonClick} className="L-button">Logout</button>
+            <button type=" button" onClick={handleLogoutButtonClick} className="Logout-button">Logout</button>
         </header >
 
         <div className='Home-content'>
             {view === 'posts' && <Posts />}
-            {view === 'create-post' && <CreatePost onPostCreated={handlePostCreated} />}
+            {view === 'create-post' && <CreatePost onPostCreated={handlePostCreated} onCancel={handleCancelCreatePost} />}
         </div>
 
         <footer className="Home-footer">
-            <button type="button" onClick={handleCreatePostButtonClick} className="New-post">+</button>
+            {view !== 'create-post' && <button type="button" onClick={handleCreatePostButtonClick} className="New-post">+</button>}
         </footer>
     </div >
 }
