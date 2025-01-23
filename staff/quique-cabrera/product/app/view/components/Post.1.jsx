@@ -25,23 +25,6 @@ function Post(props) {
             }
     }
 
-    // const handleHeartButtonClick = () => {
-    //     if ()
-    //         try {
-    //             logic. (props.post.heart)
-    //                 .then(() => props. ())
-    //                 .catch(error => {
-    //                     alert(error.message)
-
-    //                     console.error(error)
-    //                 })
-    //         } catch (error) {
-    //             alert(error.message)
-
-    //             console.error(error)
-    //         }
-    // }
-
     console.log('Post -> render')
 
     return <article className='Post'>
@@ -50,8 +33,6 @@ function Post(props) {
         <img className="Post-image" src={props.post.image} />
 
         <p className='Post-text'>{props.post.text}</p>
-
-        {/* <button className="Post-heartButton" onClick={handleHeartButtonClick}>{props.post.heart}</button> */}
 
         <div className="Post-bottom">
             <time className="Post-date">{formatDate(props.post.date)}</time>

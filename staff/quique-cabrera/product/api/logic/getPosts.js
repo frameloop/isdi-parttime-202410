@@ -1,32 +1,29 @@
-import db from '../data/db.js'
-
 import validate from './helper/validate.js'
+import { User, Post } from '../data/models.js'
 
 const getPosts = userId => {
     validate.id(userId, 'userId')
 
-    const { users, posts } = db
+    return User.findById(userId)
+        .then(user => {
+            if (!user) throw new Error('user not found')
 
-    const user = users.find(user => user.id === userId)
+            return Post.find().populate('author', 'username').sort('-date').lean()
+                .then(posts => {
+                    posts.forEach(post => {
+                        post.id = post._id.toString()
+                        delete post._id
 
-    if (!user) throw new Error('user not found')
+                        delete post.__v
 
-    posts.forEach(post => {
-        const authorId = post.author
-
-        const user = users.find(user => user.id === authorId)
-
-        const username = user.username
-
-        post.author = {
-            id: authorId,
-            username: username
-        }
-
-        post.own = authorId === userId
-    })
-
-    return posts.reverse()
+                        if (post.author._id) {
+                            post.author.id = post.author._id.toString()
+                            delete post.author._id
+                        }
+                    })
+                    return posts
+                })
+        })
 }
 
 export default getPosts

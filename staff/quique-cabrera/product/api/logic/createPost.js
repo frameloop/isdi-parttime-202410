@@ -1,30 +1,20 @@
 import validate from './helper/validate.js'
-
-import db from '../data/db.js'
-import uuid from '../data/uuid.js'
+import { User, Post } from '../data/models.js'
 
 const createPost = (userId, image, text) => {
     validate.id(userId, 'userId')
     validate.image(image)
     validate.text(text)
 
-    const { users, posts } = db
+    return User.findById(userId)
+        .then(user => {
+            if (!user) throw new Error('user not found')
 
-    const user = users.find(user => user.id === userId)
+            const post = new Post({ author: user._id, image, text })
 
-    if (!user) throw new Error('user not found')
-
-    const post = {
-        id: uuid(),
-        author: userId,
-        image,
-        text,
-        date: new Date().toISOString()
-    }
-
-    posts.push(post)
-
-    db.posts = posts
+            return post.save()
+        })
+        .then(post => { })
 }
 
 export default createPost

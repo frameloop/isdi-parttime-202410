@@ -1,9 +1,14 @@
+import mongoose from 'mongoose'
 import createPost from './createPost.js'
 
-try {
-    createPost('m2w92r8h09', 'https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/A493675734794E0DD2563A1595988F35F3152BB7062DA6F854515830B702873A/scale?width=1200&aspectRatio=1.78&format=webp', 'hello neverland')
-
-    console.log('post created')
-} catch (error) {
-    console.error(error)
-}
+mongoose.connect('mongodb://localhost:27017/test')
+    .then(() => {
+        try {
+            createPost('6792aa6fd75b767a552e2dc3©', 'https://i.pinimg.com/736x/d0/5b/5d/d05b5d3e9ce095549369b4fd1f8eabe4.jpg', 'I can Sing!')
+                .then(result => console.log('post created', result))
+                .catch(error => console.error(error))
+        } catch (error) {
+            console.error(error)
+        }
+    })
+    .catch(error => console.error(error))

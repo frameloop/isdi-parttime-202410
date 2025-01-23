@@ -1,24 +1,22 @@
 import validate from './helper/validate.js'
-
-import db from '../data/db.js'
+import { User, Post } from '../data/models.js'
 
 const deletePost = (userId, postId) => {
     validate.id(userId, 'userId')
     validate.id(postId, 'postId')
 
-    const { users, posts } = db
+    return User.findById(userId)
+        .then(user => {
+            if (!user) throw new Error('user not found')
 
-    const user = users.find(user => user.id === userId)
+            return Post.findById(postId)
+        })
+        .then(post => {
+            if (!post) throw new Error('post not found')
 
-    if (!user) throw new Error('user not found')
-
-    const index = posts.findIndex(post => post.id === postId)
-
-    if (index < 0) throw new Error('post not found')
-
-    posts.splice(index, 1)
-
-    db.posts = posts
+            return Post.deleteOne({ _id: post._id })
+        })
+        .then(result => { })
 }
 
 export default deletePost 
