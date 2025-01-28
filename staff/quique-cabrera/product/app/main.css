@@ -17,12 +17,16 @@ h2 {
     margin-top: 2rem;
 }
 
-html {
+html,
+body,
+#root {
     /* height: 110%; */
     margin: 0;
     /* background: linear-gradient(to bottom, #c2c2c2, #575656); */
-    background-color: rgb(244, 242, 235)
+    background-color: rgb(244, 242, 235);
+    height: 100%;
 }
+
 
 form {
     display: flex;

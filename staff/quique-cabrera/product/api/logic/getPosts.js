@@ -20,6 +20,8 @@ const getPosts = userId => {
                             post.author.id = post.author._id.toString()
                             delete post.author._id
                         }
+
+                        post.own = userId === post.author.id
                     })
                     return posts
                 })

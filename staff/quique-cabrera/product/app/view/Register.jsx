@@ -39,7 +39,7 @@ function Register(props) {
         props.onLoginClicked()
     }
 
-    return <main>
+    return <main className="Register">
         <h2>Register</h2>
 
         <form onSubmit={handleFormSubmit}>

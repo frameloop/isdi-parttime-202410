@@ -1,11 +1,13 @@
-.Main-langding {
+.Main-landing {
     display: flex;
-    margin: 60% 3%;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /* margin: 60% 3%; */
+    height: 100%;
+    padding: 2%;
 }
 
-.Main-langding-link {
-    display: flex;
-    margin-top: 1.9rem;
-    padding-left: 20px;
-    font-size: .9rem;
+.Main-paragraph {
+    margin-top: 25px;
 }

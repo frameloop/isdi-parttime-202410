@@ -52,7 +52,7 @@ function Home(props) {
 
     console.log('Home -> render')
 
-    return <div>
+    return <div className='Home'>
         <header className='Home-header'>
             <h2 className='Home-logo' onClick={handleHomeClick}>H</h2>
 

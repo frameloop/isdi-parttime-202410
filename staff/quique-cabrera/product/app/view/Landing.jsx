@@ -15,13 +15,12 @@ function Landing(props) {
         props.onLoginClicked()
     }
 
-    return <main className="Main-langding">
+    return <main className="Main-landing">
 
         <h2>Welcome!</h2>
 
-        <div className="Main-langding-link">
-            <p><a href="" onClick={handleRegisterLinkClick}>Register</a> or <a href="" onClick={handleLoginLinkClick}>Login</a></p>
-        </div>
+        <p className="Main-paragraph"><a href="" onClick={handleRegisterLinkClick}>Register</a> or <a href="" onClick={handleLoginLinkClick}>Login</a></p>
+
     </main>
 }
 
