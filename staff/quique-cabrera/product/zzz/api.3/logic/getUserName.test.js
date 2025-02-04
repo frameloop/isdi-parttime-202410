@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
-import registerUser from './registerUser.js'
+import getUserName from './getUserName.js'
 
 mongoose.connect('mongodb://localhost:27017/test')
     .then(() => {
         try {
-            registerUser('Lisa Simpson', 'lisa@simpson.es', 'lisa', '346734567')
-                .then(result => console.log('user registered', result))
+            getUserName('6792aa6fd75b767a552e2dc3')
+                .then(name => console.log('user name gotten', name))
                 .catch(error => console.error(error))
         } catch (error) {
             console.error(error)

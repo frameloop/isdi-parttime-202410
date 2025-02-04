@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import getPosts from './getPosts.js'
 
-mongoose.connect('mongodb://localhost:27017')
+mongoose.connect('mongodb://localhost:27017/test')
     .then(() => {
         try {
             getPosts('6792aa6fd75b767a552e2dc3')
@@ -12,3 +12,4 @@ mongoose.connect('mongodb://localhost:27017')
         }
     })
     .catch(error => console.error(error))
+
