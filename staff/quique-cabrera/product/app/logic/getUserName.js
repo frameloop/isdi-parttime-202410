@@ -2,7 +2,7 @@ const getUserName = () => {
     return fetch('http://localhost:8080/users', {
         method: 'GET',
         headers: {
-            Authorization: `Basic ${sessionStorage.userId}`
+            Authorization: `Bearer ${sessionStorage.token}`
         }
     })
         .catch(error => { throw new Error(error.message) })

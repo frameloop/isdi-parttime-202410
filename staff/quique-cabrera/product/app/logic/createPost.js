@@ -7,7 +7,7 @@ const createPost = (image, text) => {
     return fetch('http://localhost:8080/posts', {
         method: 'POST',
         headers: {
-            Authorization: `Basic ${sessionStorage.userId}`,
+            Authorization: `Bearer ${sessionStorage.token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ image, text })

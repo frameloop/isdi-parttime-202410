@@ -6,7 +6,7 @@ const deletePost = postId => {
     return fetch(`http://localhost:8080/posts/${postId}`, {
         method: 'DELETE',
         headers: {
-            Authorization: `Basic ${sessionStorage.userId}`,
+            Authorization: `Bearer ${sessionStorage.token}`,
         },
 
     })
