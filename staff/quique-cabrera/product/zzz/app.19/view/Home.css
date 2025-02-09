@@ -1,0 +1,66 @@
+.Home {
+    padding: 2%;
+}
+
+.Home-header {
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 8px;
+    width: 96%;
+    /* left: 2; */
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.Home-logo {
+    font-size: 2rem;
+    color: rgb(255, 255, 255);
+    margin: 7px auto;
+}
+
+.Home-name {
+    font-size: 1rem;
+    color: rgb(255, 255, 255);
+    margin: 10px auto;
+}
+
+.Logout-button {
+    background-color: #282c34;
+    color: white;
+    border: 1px solid white;
+    padding: 8px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.Home-footer {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 36px;
+    left: 0;
+}
+
+.Home-content {
+    margin-top: 80px;
+    margin-bottom: 36px;
+}
+
+.New-post {
+    border-radius: 15px;
+    border: none;
+    width: 3em;
+    font-weight: bold;
+    font-size: 1.2em;
+    background-color: rgb(255, 0, 102, 0.8);
+    color: white;
+}

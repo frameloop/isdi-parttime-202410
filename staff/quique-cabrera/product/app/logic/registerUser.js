@@ -1,4 +1,4 @@
-import validate from './helper/validate'
+import { validate, errors } from 'com'
 
 const registerUser = (name, email, username, password) => {
     validate.name(name)
@@ -6,7 +6,7 @@ const registerUser = (name, email, username, password) => {
     validate.username(username)
     validate.password(password)
 
-    return fetch('http://localhost:8080/users', {
+    return fetch(`${import.meta.env.VITE_API_URL}/users`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -23,7 +23,9 @@ const registerUser = (name, email, username, password) => {
                 .then(body => {
                     const { error, message } = body
 
-                    throw new Error(message)
+                    const constructor = errors[error]
+
+                    throw new constructor(message)
                 })
         })
 }

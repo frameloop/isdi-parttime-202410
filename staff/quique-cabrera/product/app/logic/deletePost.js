@@ -1,9 +1,9 @@
-import validate from './helper/validate'
+import { validate, errors } from 'com'
 
 const deletePost = postId => {
     validate.id(postId, 'postId')
 
-    return fetch(`http://localhost:8080/posts/${postId}`, {
+    return fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,
@@ -21,7 +21,9 @@ const deletePost = postId => {
                 .then(body => {
                     const { error, message } = body
 
-                    throw new Error(message)
+                    const constructor = errors[error]
+
+                    throw new constructor(message)
                 })
         })
 }

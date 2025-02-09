@@ -1,10 +1,10 @@
-import validate from './helper/validate'
+import { validate, errors } from 'com'
 
 const loginUser = (username, password) => {
     validate.username(username)
     validate.password(password)
 
-    return fetch('http://localhost:8080/users/auth',
+    return fetch(`${import.meta.env.VITE_API_URL}/users/auth`,
         {
             method: 'POST',
             headers: {
@@ -27,7 +27,9 @@ const loginUser = (username, password) => {
                 .then(body => {
                     const { error, message } = body
 
-                    throw new Error(message)
+                    const constructor = errors[error]
+
+                    throw new constructor(message)
                 })
         })
 }

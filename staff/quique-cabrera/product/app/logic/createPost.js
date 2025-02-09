@@ -1,10 +1,10 @@
-import validate from './helper/validate.js'
+import { validate, errors } from 'com'
 
 const createPost = (image, text) => {
     validate.image(image)
     validate.text(text)
 
-    return fetch('http://localhost:8080/posts', {
+    return fetch(`${import.meta.env.VITE_API_URL}/posts`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`,
@@ -22,7 +22,9 @@ const createPost = (image, text) => {
                 .then(body => {
                     const { error, message } = body
 
-                    throw new Error(message)
+                    const constructor = errors[error]
+
+                    throw new constructor(message)
                 })
         })
 }

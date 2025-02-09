@@ -1,6 +1,5 @@
-import validate from './helper/validate.js'
 import { User } from '../data/models.js'
-import errors from './errors/index.js'
+import { validate, errors } from 'com'
 
 const { SystemError, CredentialsError } = errors
 
