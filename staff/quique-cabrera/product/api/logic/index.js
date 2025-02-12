@@ -5,6 +5,7 @@ import registerUser from './registerUser.js'
 import getPosts from './getPosts.js'
 import createPost from './createPost.js'
 import deletePost from './deletePost.js'
+import toggleLikePost from './toggleLikePost.js'
 
 const logic = {
     authenticateUser,
@@ -13,7 +14,8 @@ const logic = {
 
     getPosts,
     createPost,
-    deletePost
+    deletePost,
+    toggleLikePost
 }
 
 export default logic

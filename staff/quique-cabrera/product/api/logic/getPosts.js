@@ -26,6 +26,9 @@ const getPosts = userId => {
                         }
 
                         post.own = userId === post.author.id
+
+                        post.liked = post.likes.some(userObjectId => userObjectId.toString() === userId)
+                        post.likes = post.likes.length
                     })
                     return posts
                 })

@@ -25,36 +25,34 @@ function Post(props) {
             }
     }
 
-    // const handleHeartButtonClick = () => {
-    //     if ()
-    //         try {
-    //             logic. (props.post.heart)
-    //                 .then(() => props. ())
-    //                 .catch(error => {
-    //                     alert(error.message)
+    const handleToggleLikeClick = () => {
+        try {
+            logic.toggleLikePost(props.post.id)
+                .then(() => props.onPostLikeToggled())
+                .catch(error => {
+                    alert(error.message)
 
-    //                     console.error(error)
-    //                 })
-    //         } catch (error) {
-    //             alert(error.message)
+                    console.error(error)
+                })
+        } catch (error) {
+            alert(error.message)
 
-    //             console.error(error)
-    //         }
-    // }
+            console.error(error)
+        }
+    }
 
     console.log('Post -> render')
 
     return <article className='Post'>
         <h3 className="Post-author">{props.post.author.username}</h3>
-
         <img className="Post-image" src={props.post.image} />
-
         <p className='Post-text'>{props.post.text}</p>
 
-        {/* <button className="Post-heartButton" onClick={handleHeartButtonClick}>{props.post.heart}</button> */}
 
         <div className="Post-bottom">
             <time className="Post-date">{formatDate(props.post.date)}</time>
+
+            <button type="button" onClick={handleToggleLikeClick} className="Toggle-Like">{`${props.post.liked ? '❤️' : '🤍'} ${props.post.likes}`}</button>
 
             {props.post.own && <button type="button" onClick={handleDeleteButton} className="Post-delete">X</button>}
         </div>

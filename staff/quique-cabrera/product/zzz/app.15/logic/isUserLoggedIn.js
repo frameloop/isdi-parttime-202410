@@ -1,1 +1,0 @@
-logic.isUserLoggedIn = () => !!sessionStorage.userId
