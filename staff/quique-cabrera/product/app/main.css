@@ -27,6 +27,9 @@ body,
     height: 100%;
 }
 
+button {
+    cursor: pointer;
+}
 
 form {
     display: flex;
@@ -41,8 +44,6 @@ input {
     font-weight: lighter;
     font-size: 1.2rem;
     color: rgb(98, 98, 98);
-    padding: 2% 2%;
-
 }
 
 input:focus {

@@ -28,6 +28,8 @@ const toggleLikePost = (userId, postId) => {
                 likes.splice(index, 1)
 
             return post.save()
+                .catch(error => { throw new SystemError(error.message) })
+
         })
         .then(result => { })
 }

@@ -1,6 +1,6 @@
 import logic from '../../logic'
 
-function CreatePost(props) {
+function CreatePost({ onPostCreated, onCancel }) {
     const handleFormSubmit = event => {
         event.preventDefault()
 
@@ -11,7 +11,7 @@ function CreatePost(props) {
 
         try {
             logic.createPost(image, text)
-                .then(() => props.onPostCreated())
+                .then(() => onPostCreated())
                 .catch(error => {
                     alert(error.message)
 
@@ -24,7 +24,7 @@ function CreatePost(props) {
         }
     }
 
-    const handleCancelButtonClick = () => props.onCancel()
+    const handleCancelButtonClick = () => onCancel()
 
     console.log('CreatePost -> render')
 

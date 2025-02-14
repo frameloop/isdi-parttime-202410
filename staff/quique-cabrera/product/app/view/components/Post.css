@@ -14,6 +14,16 @@
 
 .Post-text {
     margin: 0;
+    margin-bottom: 1px;
+}
+
+.Post-text--highlight {
+    border: 1px solid red;
+    border-style: dashed;
+    padding-left: 6px;
+    margin-bottom: 4px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .Post-date {
@@ -26,6 +36,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.Toggle-Image-Like {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
 }
 
 .Toggle-Like {

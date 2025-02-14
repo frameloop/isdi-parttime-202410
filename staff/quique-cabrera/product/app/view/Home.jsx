@@ -9,7 +9,7 @@ import CreatePost from './components/CreatePost'
 
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
 
-function Home(props) {
+function Home({ onUserLoggedOut }) {
     const navigate = useNavigate()
 
     const [view, setView] = useState('posts')
@@ -49,7 +49,7 @@ function Home(props) {
         try {
             logic.logoutUser()
 
-            props.onUserLoggedOut()
+            onUserLoggedOut()
         } catch (error) {
             alert(error.message)
 

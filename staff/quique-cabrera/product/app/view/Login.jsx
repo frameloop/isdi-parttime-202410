@@ -2,7 +2,7 @@ import './Login.css'
 
 import logic from '../logic'
 
-function Login(props) {
+function Login({ onUserLoggedIn, onRegisterClicked }) {
     console.log('Login --> render')
 
     const handleFormSubmit = event => {
@@ -18,7 +18,7 @@ function Login(props) {
                 .then(() => {
                     form.reset()
 
-                    props.onUserLoggedIn()
+                    onUserLoggedIn()
                 })
                 .catch(error => {
                     alert(error.message)
@@ -36,7 +36,7 @@ function Login(props) {
     const handleRegisterLinkClick = event => {
         event.preventDefault()
 
-        props.onRegisterClicked()
+        onRegisterClicked()
     }
 
     return <main className="Login">
