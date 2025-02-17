@@ -91,11 +91,11 @@ function Post({ post, onPostDeleted, onPostLikeToggled, onPostTextEdited }) {
         {post.own && <>
             {edit ?
                 <div>
-                    <button type="button" onClick={handleSaveEditButtonClick}>save</button>
-                    <button type="button" onClick={handleCancelEditButtonClick}>cancel</button>
+                    <button type="button" onClick={handleSaveEditButtonClick} className='button-edit'>save</button>
+                    <button type="button" onClick={handleCancelEditButtonClick} className='button-edit-cancel'>cancel</button>
                 </div>
                 :
-                <button type="button" onClick={handleEditButtonClick}>edit</button>
+                <button type="button" onClick={handleEditButtonClick} className='button-edit'>edit</button>
             }
         </>}
 

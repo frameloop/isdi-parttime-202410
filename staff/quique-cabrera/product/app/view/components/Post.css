@@ -62,3 +62,21 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.button-edit {
+    border: none;
+    outline: none;
+    color: white;
+    background-color: dimgray;
+    border-radius: 5px;
+    margin-left: 2px;
+}
+
+.button-edit-cancel {
+    border: none;
+    outline: none;
+    color: white;
+    background-color: rgb(255, 0, 0);
+    border-radius: 5px;
+    margin-left: 2px;
+}
