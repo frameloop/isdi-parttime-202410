@@ -1,5 +1,13 @@
-.Posts {
+@import "tailwindcss";
+
+@layer base {
+    .Posts {
+        @apply flex flex-col gap-2;
+    }
+}
+
+/* .Posts {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-}
+} */

@@ -1,5 +1,3 @@
-import './Login.css'
-
 import logic from '../logic'
 
 function Login({ onUserLoggedIn, onRegisterClicked }) {
@@ -39,7 +37,7 @@ function Login({ onUserLoggedIn, onRegisterClicked }) {
         onRegisterClicked()
     }
 
-    return <main className="Login">
+    return <main class="p-[2%]">
         <h2>Login</h2>
 
         <form onSubmit={handleFormSubmit}>

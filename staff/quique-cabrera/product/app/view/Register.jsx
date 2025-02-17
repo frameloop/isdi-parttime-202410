@@ -1,5 +1,3 @@
-import './Register.css'
-
 import logic from '../logic'
 
 import { errors } from 'com'
@@ -46,7 +44,7 @@ function Register({ onUserRegistered, onLoginClicked }) {
         onLoginClicked()
     }
 
-    return <main className="Register">
+    return <main class="p-[2%]">
         <h2>Register</h2>
 
         <form onSubmit={handleFormSubmit}>

@@ -1,5 +1,3 @@
-import './Landing.css'
-
 function Landing({ onRegisterClicked, onLoginClicked }) {
     console.log('Landing --> render')
 
@@ -15,11 +13,11 @@ function Landing({ onRegisterClicked, onLoginClicked }) {
         onLoginClicked()
     }
 
-    return <main className="Main-landing">
+    return <main class="flex justify-center items-center gap-[10px] h-full p-[2%]">
 
         <h2>Welcome!</h2>
 
-        <p className="Main-paragraph"><a href="" onClick={handleRegisterLinkClick}>Register</a> or <a href="" onClick={handleLoginLinkClick}>Login</a></p>
+        <p class="mt-[25px]"><a href="" onClick={handleRegisterLinkClick}>Register</a> or <a href="" onClick={handleLoginLinkClick}>Login</a></p>
 
     </main>
 }
