@@ -15,7 +15,7 @@ function Landing({ onRegisterClicked, onLoginClicked }) {
 
     return <main class="flex justify-center items-center gap-[10px] h-full p-[2%]">
 
-        <h2>Welcome!</h2>
+        <h2 class="text-2xl text-[--color-greydark] text-center font-extrabold mt-6">Welcome!</h2>
 
         <p class="mt-[25px]"><a href="" onClick={handleRegisterLinkClick}>Register</a> or <a href="" onClick={handleLoginLinkClick}>Login</a></p>
 

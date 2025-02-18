@@ -1,5 +1,3 @@
-import './Posts.css'
-
 import { useState, useEffect } from 'react'
 
 import logic from '../../logic'
@@ -40,7 +38,7 @@ function Posts() {
 
     console.log('Posts -> render')
 
-    return <main className='Posts'>
+    return <main class="flex flex-col gap-3">
         {posts.map(post => <Post
             key={post.id}
             post={post}

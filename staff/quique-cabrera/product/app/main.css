@@ -7,16 +7,11 @@
     --color-greydarklight: #626262;
     --color-greydark: #323232;
     --color-pink: #ff0066;
-
 }
 
 @layer base {
     a {
         @apply text-[0.9rem] no-underline;
-    }
-
-    h2 {
-        @apply text-2xl text-[--color-greydark] text-center mt-6;
     }
 
     html,
@@ -46,10 +41,6 @@
 
     .button {
         @apply block mx-auto my-2 bg-[#ff0066] text-white font-bold text-[15px] w-1/4 rounded-lg border border-[#ff0066] text-center p-2;
-    }
-
-    .button-cancel {
-        @apply block mx-auto my-1 bg-black text-white font-bold text-[15px] w-1/4 rounded-lg border border-black text-center p-2;
     }
 
     label {

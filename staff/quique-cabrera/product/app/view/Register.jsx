@@ -45,20 +45,20 @@ function Register({ onUserRegistered, onLoginClicked }) {
     }
 
     return <main class="p-[2%]">
-        <h2>Register</h2>
+        <h2 class="text-[2rem] text-[--color-greydark] text-center mt-8">Register</h2>
 
         <form onSubmit={handleFormSubmit}>
             <label htmlFor="name">Name</label>
-            <input type="text" id="name" />
+            <input class="rounded-lg" type="text" id="name" />
 
             <label htmlFor="email">E-mail</label>
-            <input type="email" id="email" />
+            <input class="rounded-lg" type="email" id="email" />
 
             <label htmlFor="username">Username</label>
-            <input type="text" id="username" />
+            <input class="rounded-lg" type="text" id="username" />
 
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
+            <input class="rounded-lg" type="password" id="password" />
 
             <button type="submit" className="button">Register</button>
         </form>

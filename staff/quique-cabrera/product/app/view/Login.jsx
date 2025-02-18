@@ -38,14 +38,14 @@ function Login({ onUserLoggedIn, onRegisterClicked }) {
     }
 
     return <main class="p-[2%]">
-        <h2>Login</h2>
+        <h2 class="text-[2rem] text-[--color-greydark] text-center mt-8">Login</h2>
 
         <form onSubmit={handleFormSubmit}>
             <label htmlFor="username">Username</label>
-            <input type="text" id="username" />
+            <input class="rounded-lg" type="text" id="username" />
 
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
+            <input class="rounded-lg" type="password" id="password" />
 
             <button type="submit" className="button">Login</button>
         </form>

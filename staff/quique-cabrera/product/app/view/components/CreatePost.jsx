@@ -41,7 +41,7 @@ function CreatePost({ onPostCreated, onCancel }) {
             <button type="submit" className="button">Create</button>
         </form>
 
-        <button className="button-cancel" onClick={handleCancelButtonClick}>Cancel</button>
+        <button class="block mx-auto my-1 bg-black text-white font-bold text-[15px] w-1/4 rounded-lg border border-black text-center p-2" onClick={handleCancelButtonClick}>Cancel</button>
     </main>
 }
 

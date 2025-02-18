@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-import './Post.css'
-
 import logic from '../../logic'
 
 import formatDate from '../helper/formatDate'
@@ -77,34 +75,35 @@ function Post({ post, onPostDeleted, onPostLikeToggled, onPostTextEdited }) {
 
     console.log('Post -> render')
 
-    return <article className='Post'>
-        <h3 className="Post-author">{post.author.username}</h3>
+    return <article class="rounded-xl p-4 bg-white">
+        <h3 class="m-0">{post.author.username}</h3>
 
-        <button type="button" onClick={handleToggleLikeClick} className="Toggle-Image-Like"> <img className="Post-image" src={post.image} /></button>
+        <button type="button" onClick={handleToggleLikeClick} class="m-0 p-0 bg-none border-none outline-none;"> <img class="w-full" src={post.image} /></button>
 
         {edit ?
-            <input className="Post-text Post-text--highlight" onChange={handlePostTextChange} defaultValue={text} />
+            <input class="border border-red-500 border-dashed pl-[6px] mb-[4px] w-full box-border rounded-lg" onChange={handlePostTextChange} defaultValue={text} />
             :
-            <p className="Post-text Post-text">{text}</p>
+            <p class="m-0 mb-[1px]">{text}</p>
         }
 
         {post.own && <>
             {edit ?
                 <div>
-                    <button type="button" onClick={handleSaveEditButtonClick} className='button-edit'>save</button>
-                    <button type="button" onClick={handleCancelEditButtonClick} className='button-edit-cancel'>cancel</button>
+                    <button type="button" onClick={handleSaveEditButtonClick} class="border-none outline-none text-white bg-gray-600 rounded-md px-2 py-1">save</button>
+
+                    <button type="button" onClick={handleCancelEditButtonClick} class="border-none outline-none text-white bg-red-500 rounded-md ml-1 px-2 py-1">cancel</button>
                 </div>
                 :
-                <button type="button" onClick={handleEditButtonClick} className='button-edit'>edit</button>
+                <button type="button" onClick={handleEditButtonClick} class="border-none outline-none text-white bg-gray-600 rounded-md px-2 py-1">edit</button>
             }
         </>}
 
-        <div className="Post-bottom">
-            <time className="Post-date">{formatDate(post.date)}</time>
+        <div class="flex items-center justify-between">
+            <time class="text-[0.7rem] text-gray-500 font-light">{formatDate(post.date)}</time>
 
-            <button type="button" onClick={handleToggleLikeClick} className="Toggle-Like">{`${post.liked ? '❤️' : '🤍'} ${post.likes}`}</button>
+            <button type="button" onClick={handleToggleLikeClick} class="ml-auto bg-none border-none outline-none text-[1.3rem]">{`${post.liked ? '❤️' : '🤍'} ${post.likes}`}</button>
 
-            {post.own && <button type="button" onClick={handleDeleteButton} className="Post-delete">X</button>}
+            {post.own && <button type="button" onClick={handleDeleteButton} class="bg-red-500 text-white border-none rounded-md cursor-pointer px-2">X</button>}
         </div>
     </article>
 }
