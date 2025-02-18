@@ -1,7 +1,8 @@
+import 'dotenv/config'
 import mongoose from 'mongoose'
 import registerUser from './registerUser.js'
 
-mongoose.connect('mongodb://localhost:27017/test')
+mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         try {
             registerUser('Lisa Simpson', 'lisa@simpson.es', 'lisa', '346734567')
