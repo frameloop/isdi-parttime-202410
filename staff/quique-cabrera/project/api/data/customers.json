@@ -1,0 +1,2354 @@
+[
+    {
+        "name": "Housfy (130167635)",
+        "address": "Carrer Tànger, 35, 08018 Barcelona Barcelona",
+        "phone": "931760099",
+        "email": "chat@housfy.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 40
+            }
+        ]
+    },
+    {
+        "name": "Proddigia Barcelona (260407847)",
+        "address": "Carrer Anglí, 45, 08017 Barcelona Barcelona",
+        "phone": "932387826",
+        "email": "info@proddigia.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 8
+            },
+            {
+                "type": "360",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "ATIPIKA Lifestyle Properties (260429095)",
+        "address": "Passeig de Gràcia, 20, 08007 Barcelona Barcelona",
+        "phone": "934815032",
+        "email": "portales@atipika.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 5
+            },
+            {
+                "type": "360",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Forcadell Oficinas (130048339)",
+        "address": "Pl. Universitat, 3, 08011 Barcelona Barcelona",
+        "phone": "934965413",
+        "email": "oficinas@forcadell.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 2
+            },
+            {
+                "type": "360",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Keller Williams Imperium (260396252)",
+        "address": "Rambla Nova, 78, 43001 Tarragona Tarragona",
+        "phone": "877238147",
+        "email": "kwimperium@kwspain.es",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 1
+            },
+            {
+                "type": "360",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Grupo Saloumar (260400595)",
+        "address": "BARCELONA, 45, 43840 Salou Tarragona",
+        "phone": "977353527",
+        "email": "solicitudes@gruposaloumar.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 1
+            },
+            {
+                "type": "360",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "fincasbellamar.com (130008689)",
+        "address": "Pso Maritimo, 182, 08860 Castelldefels Barcelona",
+        "phone": "936658083",
+        "email": "comercial@fincasbellamar.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 2
+            },
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Lunallar by Keller Williams (130009558)",
+        "address": "Rambla Josep Tarradellas, 3, 08860 Castelldefels Barcelona",
+        "phone": "936333939",
+        "email": "mayca@lunallar.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 2
+            },
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "aProperties Real Estate Barcelona (130043140)",
+        "address": "Passeig de Gràcia, 85, 08008 Barcelona Barcelona",
+        "phone": "935288908",
+        "email": "leadsapbcn@aproperties.es",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 1
+            },
+            {
+                "type": "360",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Merkapiso Calafell (130162553)",
+        "address": "Carretera de Barcelona, 99, 43882 Calafell Tarragona",
+        "phone": "609340502",
+        "email": "calafell@merkapiso.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 2
+            },
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Ethic Real Estate (260367530)",
+        "address": "Paseo Garcia Faria, 57, 08019 Barcelona Barcelona",
+        "phone": "931058949",
+        "email": "recepcion@cincrodris.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 1
+            },
+            {
+                "type": "360",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Open Inmo (260379878)",
+        "address": "Carreretera del Carç, 48, 08810 Sant Pere de Ribes Barcelona",
+        "phone": "623415145",
+        "email": "i.openinmobarcelona.5763@inmovilla.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 2
+            },
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Homim (130150946)",
+        "address": "Calle Paris, 206, 08008 Barcelona Barcelona",
+        "phone": "648954755",
+        "email": "ncamara@homim.es",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 1
+            },
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "The Vila Home (260415333)",
+        "address": "Avda. Francesc Macià, 48, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "936061800",
+        "email": "info@thevilahome.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 1
+            },
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Ota Cochs (130006170)",
+        "address": "Prat de la Riba, 41, 43201 Reus Tarragona",
+        "phone": "977311999",
+        "email": "pere@ota.cat",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 1
+            },
+            {
+                "type": "360",
+                "value": 3
+            }
+        ]
+    },
+    {
+        "name": "Finques el Pallars (130021698)",
+        "address": "Avda.Madrid, 165, 08028 Barcelona Barcelona",
+        "phone": "933394062",
+        "email": "ventas@finqueselpallars.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Grup Living (130039317)",
+        "address": "AVINGUDA CAMI DELS CAPELLANS, 83, 08870 Sitges Barcelona",
+        "phone": "653847686",
+        "email": "jaume@livingsitges.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 0
+            },
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Habitat (130040085)",
+        "address": "Plaça Soler i Carbonell, 28, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "938147330",
+        "email": "habitatcatvilanova@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Fincas Baramar (130149789)",
+        "address": "calle Englantina, 67, 43880 El Vendrell Tarragona",
+        "phone": "977681510",
+        "email": "inmo@fincasbaramar.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "GOLDMARK (130157514)",
+        "address": "Carrer Vivaldi, 7, 08757 Corbera de Llobregat Barcelona",
+        "phone": "938538165",
+        "email": "info@goldmark.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "RibesRoig (130150361)",
+        "address": "crta. Sitges, 61, 08810 Sant Pere de Ribes Barcelona",
+        "phone": "938963111",
+        "email": "info@ribesroig.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 2
+            },
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Premium Houses Sitges (260374553)",
+        "address": "Avinguda Camí dels Capellans, 81, 08870 Sitges Barcelona",
+        "phone": "938097240",
+        "email": "i.oficina.7088@inmovilla.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 0
+            },
+            {
+                "type": "360",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "ONIX REAL ESTATE (260427168)",
+        "address": "Ronda Europa, 60, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "637270174",
+        "email": "tvinas@onixirealestate.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 0
+            },
+            {
+                "type": "360",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Teval inmobiliaria (130006157)",
+        "address": "Neptu, 34, 43850 Cambrils Tarragona",
+        "phone": "695798248",
+        "email": "teval@inmobiliaria-teval.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Cerrato Inmobiliaria (130007449)",
+        "address": "C. De la Cristina Baixa, 101, 43700 El Vendrell Tarragona",
+        "phone": "977181874",
+        "email": "cerrato@cerratoinmobiliaria.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Sam Real Estate Management (130010281)",
+        "address": "PONENT, 85, 08912 Badalona Barcelona",
+        "phone": "934622729",
+        "email": "tgy@inbox.witei.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "llars.net agents immobiliaris (130010369)",
+        "address": "Josep Llanza, 27, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "938147400",
+        "email": "infohabitatges@llars.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Fincas Jeys (130019966)",
+        "address": "paseo marítimo, 21, 43880 El Vendrell Tarragona",
+        "phone": "977681020",
+        "email": "fincasjeys@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Candelaflat (130022146)",
+        "address": "Setantí, 0, 08034 Barcelona Barcelona",
+        "phone": "651168287",
+        "email": "nieves@candelaflat.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques Segarra (130025245)",
+        "address": "Avinguda Brisamar, 2, 43880 El Vendrell Tarragona",
+        "phone": "688254351",
+        "email": "info@finquessegarra.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Apireus (130025281)",
+        "address": "Passeig prim, 34, 43202 Reus Tarragona",
+        "phone": "977322999",
+        "email": "jordi@apireus.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Optimum (130029197)",
+        "address": "C/ Comptes De Bell-LLoc,, 189, 08014 Barcelona Barcelona",
+        "phone": "934197184",
+        "email": "clients@optim-e.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "SERRA GRUP IMMOBILIARI (130030090)",
+        "address": "Sant Pius X, 17, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "938148718",
+        "email": "comercial.garraf@serra.immo",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Transactio Gestio Immobiliaria (130037227)",
+        "address": "Rambla de Jaume I, 44, 43850 Cambrils Tarragona",
+        "phone": "977793157",
+        "email": "transactio@transactio.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Anforas Mar S.L.U (130037698)",
+        "address": "Paseo Miramar, 138, 43830 Torredembarra Tarragona",
+        "phone": "691393311",
+        "email": "info@anforasmar.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques Imperial (130040598)",
+        "address": "Prat de la Riba, 20, 43001 Tarragona Tarragona",
+        "phone": "977920657",
+        "email": "info@finquesimperial.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "òptima immobiliària (130042211)",
+        "address": "Av Falset, 15, 43206 Reus Tarragona",
+        "phone": "977338621",
+        "email": "immobiliaria@optimagrup.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques vilarenc (130042793)",
+        "address": "Sant Pere, 44, 43820 Calafell Tarragona",
+        "phone": "977694375",
+        "email": "info@finquesvilarenc.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Gebira (130042950)",
+        "address": "Avenida Barcelona, 37, 43881 Cunit Tarragona",
+        "phone": "977672753",
+        "email": "infocomtal.comtal@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Tenemostucasa (130043493)",
+        "address": "Consolat de Mar, 68, 43850 Cambrils Tarragona",
+        "phone": "695202461",
+        "email": "carmen@tenemostucasa.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques sant telm (130044599)",
+        "address": "Passeig Marítim Sant Joan de Déu,, 233, 43882 Calafell Tarragona",
+        "phone": "977164073",
+        "email": "santelmsegur@msn.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Forcadell industrial (naves) (130048602)",
+        "address": "plaça Universitat, 3, 08007 Barcelona Barcelona",
+        "phone": "934965411",
+        "email": "industrial@forcadell.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "FINCAS LA MASIA (130049132)",
+        "address": "avenida más Mila, 4, 08818 Olivella Barcelona",
+        "phone": "938959065",
+        "email": "info@fincaslamasia.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques vilafranca (130149430)",
+        "address": "Avinguda Lluis Companys, 26, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "938199900",
+        "email": "info@finquesvilafranca.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques Rovira & Jubert SL (130150344)",
+        "address": "josep Tarradella, 3, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "938171977",
+        "email": "comercial@rovira-jubertfinques.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Brisasol Reus (130150605)",
+        "address": "Raval Robuster, 44, 43204 Reus Tarragona",
+        "phone": "977319406",
+        "email": "i.brisasolreus.2432@inmovilla.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Brisasol Miami Playa (130150609)",
+        "address": "Av. Barcelona , 128, 43892 Mont-Roig del Camp Tarragona",
+        "phone": "977811319",
+        "email": "i.brisasol.2415@inmovilla.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Darder & Lupgens (130152883)",
+        "address": "Rambla Josep Tomàs Ventosa, 13, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "938150158",
+        "email": "info@darder-lupgens.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Agencia Valles (130153256)",
+        "address": "raval de gracia, 11, 43850 Cambrils Tarragona",
+        "phone": "977360527",
+        "email": "vallesapi@hotmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Sitges Factor Immobiliari (130156142)",
+        "address": "Espalter, 30, 08870 Sitges Barcelona",
+        "phone": "936885758",
+        "email": "info@factorimmobiliari.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Vistamar finques (130157338)",
+        "address": "Girona, 16, 08880 Cubelles Barcelona",
+        "phone": "938956945",
+        "email": "info@finquesvistamar.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "FINQUES MONTMAR (130160374)",
+        "address": "CARRETERA DEL CARÇ, 43, 08810 Sant Pere de Ribes Barcelona",
+        "phone": "938960876",
+        "email": "info@finquesmontmar.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "ASSESSORIA VALEMO, S.L. (130160514)",
+        "address": "POMPEU FABRA, 7, 43830 Torredembarra Tarragona",
+        "phone": "636947625",
+        "email": "comercial@valemo.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "insa assessoria immobiliària (130160593)",
+        "address": "calle filadors, 31, 43830 Torredembarra Tarragona",
+        "phone": "676446848",
+        "email": "insaimmobiliaria@hotmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "CAMBRA DE LA PROPIETAT URBANA DE TARRAGONA (130163987)",
+        "address": "MENDEZ NUÑEZ, 23, 43004 Tarragona Tarragona",
+        "phone": "623140927",
+        "email": "pilar.ducasi@cambrapropietat.org",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Serveis Immobiliaris Fortuny (130165801)",
+        "address": "Prat de la Riba, 17, 43201 Reus Tarragona",
+        "phone": "977076271",
+        "email": "cuargomfortuny@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "on-viure.com (130166133)",
+        "address": "Avinguda Lluis Companys, 52, 08172 Sant Cugat del Vallès Barcelona",
+        "phone": "936747776",
+        "email": "alex@on-viure.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Aincat Viladecans (130168234)",
+        "address": "viladecans, 0, 08840 Viladecans Barcelona",
+        "phone": "936375856",
+        "email": "viladecans@aincat.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Fincas Martínez (130168895)",
+        "address": "Baleares, 20, 43850 Cambrils Tarragona",
+        "phone": "677367063",
+        "email": "inmocambrils6@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "La Casa Agency (130172965)",
+        "address": "Avinguda constitució, 150, 08860 Castelldefels Barcelona",
+        "phone": "663504830",
+        "email": "08860a@lacasa.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "SABATER ASSESSORS, S.L. (130172986)",
+        "address": "Plaça Pintor Fortuny, 1, 43201 Reus Tarragona",
+        "phone": "977328585",
+        "email": "red@sareus.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Eva Bernal Immobiliaria (130173104)",
+        "address": "Passeig Pau Casals, 79, 43481 La Pineda Tarragona",
+        "phone": "601631384",
+        "email": "eva@ebernal.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "el metre quadrat (130173421)",
+        "address": "Barcelona, 21, 43840 Salou Tarragona",
+        "phone": "629333290",
+        "email": "elmetrequadrat@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "TARRACO GESTIÓ IMMOBILIÀRIA (130175120)",
+        "address": "c. Robert Gerhard, 3, 43830 Tarragona Tarragona",
+        "phone": "611165511",
+        "email": "tarracogimmo@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Suite Patrimonios (130175344)",
+        "address": "Deu i Mata, 54, 08029 Barcelona Barcelona",
+        "phone": "930173246",
+        "email": "info@suitepatrimonios.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "LLEFIÀ REAL ESTATE, S.L. (130177926)",
+        "address": "AV. DOCTOR BASSOLS, 77, 08913 Badalona Barcelona",
+        "phone": "930383017",
+        "email": "coordinacionllefia@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Lucas Fox Vilanova (130178666)",
+        "address": "Rambla de la Pau, 56, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "930186738",
+        "email": "info@lucasfox.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "EXPOHABITAT 97 Immobiliaria (260360235)",
+        "address": "Carrer Major, 48, 43840 Salou Tarragona",
+        "phone": "977382277",
+        "email": "santi@expohabitat97.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "SentisGroup (260360327)",
+        "address": "PAU CASALS, 13, 43850 Cambrils Tarragona",
+        "phone": "977791916",
+        "email": "info@sentisgroup.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Servicosta Dorada (260360693)",
+        "address": "ABAT ESCARRÉ, 17, 43204 Reus Tarragona",
+        "phone": "637808802",
+        "email": "info@servicostadorada.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Inmodeslay (260362065)",
+        "address": "Carrer Olerdola, 39, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "663838353",
+        "email": "inmodeslay@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Rawson Real Estate & Property Management (260362224)",
+        "address": "Llibertat, 43, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "936246389",
+        "email": "vinyet.alonso@rawson.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Habitat Nou (260362441)",
+        "address": "Av. Generalitat, 24, 43717 La Bisbal del Penedès Tarragona",
+        "phone": "977688219",
+        "email": "josepmanuel@habitatnou.eu",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "REDVANDERS REAL ESTATE  (260363809)",
+        "address": "CORTINA , 16, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "675762322",
+        "email": "redvanders@outlook.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "GRANT   Real Estate - Investments (260363844)",
+        "address": "Passeig Ferrocarril, 339, 08860 Castelldefels Barcelona",
+        "phone": "639710371",
+        "email": "info.grantrealestate@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques Butí (260366823)",
+        "address": "Carrer Espalter, 38, 08870 Sitges Barcelona",
+        "phone": "938940514",
+        "email": "crisbuti@hotmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Century 21 Pasifae (260370359)",
+        "address": "Codonyat, 7, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "931573270",
+        "email": "pasifae@century21.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "IMMODUR (260371392)",
+        "address": "Llibertat, 13, 08860 Castelldefels Barcelona",
+        "phone": "673422252",
+        "email": "silvia@immodur.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "MARPA (260372359)",
+        "address": "Plaça del Nen de les Oques, 2, 43202 Reus Tarragona",
+        "phone": "647705283",
+        "email": "pbeltran@marpa.cat",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Bi9 gestió (260374989)",
+        "address": "Carrer Joan Fuster, 26, 43007 Tarragona Tarragona",
+        "phone": "669500202",
+        "email": "gestio@beinou.cat",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Inmo Montse (260375329)",
+        "address": "Rambla Mossèn Jaume Tobella, 28, 43820 Calafell Tarragona",
+        "phone": "661825849",
+        "email": "info@inmomontse.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Viven  Inmobiliaria (260376002)",
+        "address": "Pelegrí Ballester, 23, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "930267436",
+        "email": "hola@viven.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "LA TIENDA DE LAS CASAS (260378475)",
+        "address": "C/ Robert Gerhard, 5, 43850 Cambrils Tarragona",
+        "phone": "679093197",
+        "email": "latiendadelascasas@telefonica.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques Canyelles (260381073)",
+        "address": "Avinguda Raval, 52, 08811 Canyelles Barcelona",
+        "phone": "938188450",
+        "email": "info@finquescanyelles.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Vall & Cuerba (260383397)",
+        "address": "Carrer Amargura , 23, 43201 Reus Tarragona",
+        "phone": "686750240",
+        "email": "evall@vallcuerba.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Service Jeda (260393087)",
+        "address": "Puig i llagostera nº 1-7, 0, 43700 El Vendrell Tarragona",
+        "phone": "610689175",
+        "email": "inmobjeda@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Remax Liberty (260395191)",
+        "address": "Av. Diputació, 166, 43850 Cambrils Tarragona",
+        "phone": "722320512",
+        "email": "liberty@remax.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Wersal Property (260395351)",
+        "address": "Pere III El Gran, 8, 43840 Salou Tarragona",
+        "phone": "644303300",
+        "email": "info@wersalproperty.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Global Inmobiliaria (260395373)",
+        "address": "De La Fàbrica, 2, 43830 Torredembarra Tarragona",
+        "phone": "616020962",
+        "email": "globalinmobiliaria16@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Baixamar (260396353)",
+        "address": "Rambla la Pau 87, 87, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "667525976",
+        "email": "info@baixamar.cat",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "ONREALE (260396850)",
+        "address": "Marina, 140, 08013 Barcelona Barcelona",
+        "phone": "665850461",
+        "email": "in@onreale.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "GRUPSCASA (260396909)",
+        "address": "Passeig Prim, 38, 43202 Reus Tarragona",
+        "phone": "615991400",
+        "email": "reus@grupscasa.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "VESTA SOLUCIONS IMMOBILIARIES (260397004)",
+        "address": "C/ Sant Joan, 9, 43201 Reus Tarragona",
+        "phone": "977788136",
+        "email": "i.vestasolucionesinmobiliarias.8375@inmovilla.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Antoni Olivera asesores inmobiliarios (260397026)",
+        "address": "Calle Salvador Espriu, 0, 43201 Reus Tarragona",
+        "phone": "622767222",
+        "email": "info@antoniolivera.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "CORVI INMOBILIARIA (260397806)",
+        "address": "Eusebi Güell, 136, 08830 Sant Boi de Llobregat Barcelona",
+        "phone": "931269164",
+        "email": "manelromero@cor-vi.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Finques Giró (260400414)",
+        "address": "AV TANCAT DE LA PLANA, 2, 43700 El Vendrell Tarragona",
+        "phone": "977665454",
+        "email": "info@finquesgiro.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "PEDRO MOYA INMOBILIARIA (260401327)",
+        "address": "grup sant pau, 17, 43850 Cambrils Tarragona",
+        "phone": "977792506",
+        "email": "info@apipedromoya.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "INMOMETROPOLIS (260401820)",
+        "address": "Balmes, 383, 08022 Barcelona Barcelona",
+        "phone": "932540805",
+        "email": "info@inmometropolis.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "MATCHOME (260402260)",
+        "address": "Calle Tuset, 10, 08006 Barcelona Barcelona",
+        "phone": "678604205",
+        "email": "matchome.barcelona@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "IMMO-SIB (260402543)",
+        "address": "Santa Creu de Calafell, 43, 08850 Gavà Barcelona",
+        "phone": "610100614",
+        "email": "ymiro@immo-sib.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "API PAU CANOVAS (260402721)",
+        "address": "carrer manel tomas, 2, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "610950841",
+        "email": "api@paucanovas.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "FINQUES IMMO2 (260403214)",
+        "address": "Sant Isidre, 48, 43540 Sant Carles de la Rápita Tarragona",
+        "phone": "977746426",
+        "email": "finquesimmo2@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Vestalia Inmobiliaria (260403303)",
+        "address": "Sant Gervasi, 74, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "930115431",
+        "email": "info@vestaliainmobiliaria.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "IMMOSEGUR (260403360)",
+        "address": "Passeig Maritim Sant Joan de Déu, 1, 43820 Calafell Tarragona",
+        "phone": "690641923",
+        "email": "jordi@immosegur.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "JcM ASESORIA INMOBILIARIA (260403508)",
+        "address": "CIUTAT DE REUS N-19 ESC 1 PLANTA 5 PUERTA 11, 1, 43840 Salou Tarragona",
+        "phone": "661741267",
+        "email": "jcmolina23@yahoo.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "finques Ferrer (260404570)",
+        "address": "Plaza MAR, 2, 08880 Cubelles Barcelona",
+        "phone": "938950647",
+        "email": "info@finquesferrer.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Fincas Montse Salou (260404621)",
+        "address": "Berenguer de palou, 4, 43840 Salou Tarragona",
+        "phone": "602083304",
+        "email": "ijm@inbox.witei.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Houses & Dreams (260404890)",
+        "address": "Passeig Francesc Macià, 2, 43830 Torredembarra Tarragona",
+        "phone": "667972195",
+        "email": "alexvalldoseraorti@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "SF Consulting Immobiliaria (260405119)",
+        "address": "Avinguda Catalunya, 5, 43393 Almoster Tarragona",
+        "phone": "656747332",
+        "email": "montse@sfconsulting.cat",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Donpiso Salou (260405529)",
+        "address": "C/ Major, 13, 43840 Salou Tarragona",
+        "phone": "646228394",
+        "email": "salou@donpiso.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Fincas Poal (260406822)",
+        "address": "Passeig del Timó, 6, 08860 Castelldefels Barcelona",
+        "phone": "660407943",
+        "email": "info@fincaspoal.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Housfy Alquiler (260407281)",
+        "address": "Carrer Tànger, 35, 08018 Barcelona Barcelona",
+        "phone": "637710254",
+        "email": "bosch.palomas@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "OR inmobiliaria (260407688)",
+        "address": "GENERAL VALLES, 1, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "615532671",
+        "email": "or@orinmobiliaria.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "AV Investor (260410758)",
+        "address": "Avenida Drassanes, 6, 08001 Barcelona Barcelona",
+        "phone": "609967669",
+        "email": "info@avinvestor.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "FINCAS VENDRELL MAR (260411535)",
+        "address": "AVDA SANT VICENÇ, 1, 43700 El Vendrell Tarragona",
+        "phone": "658581566",
+        "email": "monica.p@fincasvendrellmar.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "DonPiso Calafell (260411575)",
+        "address": "calle Vilamar, 54, 43820 Calafell Tarragona",
+        "phone": "977691733",
+        "email": "calafell@donpiso.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "port cambrils (260412817)",
+        "address": "Passeiga Miramar, 12, 43850 Cambrils Tarragona",
+        "phone": "613717912",
+        "email": "info@immofranmar.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "VILANOVA FUTUR (260413083)",
+        "address": "Rbla. Principal, 15, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "722633124",
+        "email": "vilanovafutur@vilanovafutur.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Fabra Consultors (260413247)",
+        "address": "Av. Marti Pujol, 174, 08911 Badalona Barcelona",
+        "phone": "931570582",
+        "email": "info@fabraconsultors.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "CYP ASSESSORS/VILA-TAX (260414049)",
+        "address": "Carrer de la Cort, 32, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "609022564",
+        "email": "info@vila-tax.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "PLUSVILA (260415699)",
+        "address": "Santa Clara, 28, 08270 Vilafranca del Penedès Barcelona",
+        "phone": "938180960",
+        "email": "plusvilainmobiliaria@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "FÊNIX. (260417702)",
+        "address": "Rambla Salvador Sama, 54, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "930097215",
+        "email": "fenix@fenixbc.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "FINQUES SOCAL PENEDÈS,SL (260421682)",
+        "address": "Rambla La Girada, 43, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "621240220",
+        "email": "finquessocalpenedes@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Home 71 (260424890)",
+        "address": "Sant Xavier, 63, 43700 El Vendrell Tarragona",
+        "phone": "654071575",
+        "email": "inmohome71@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "MEDITERRANEAN LIFE Real Estate (260426005)",
+        "address": "Ronda Europa, 60, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "676198381",
+        "email": "mediterraneanlifesitges@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "SIP Serveis Immobiliaris Penedès (260429555)",
+        "address": "Avinguda Tarragona, 28, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "938900433",
+        "email": "ramon@assessoriarovira.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "SANT JUST Servicios Inmobiliarios (130006081)",
+        "address": "Pau Casals, 113, 43481 La Pineda Tarragona",
+        "phone": "977371151",
+        "email": "ventas2@sant-just.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Finques Orven (130006101)",
+        "address": "plaça Catalunya, 4, 43830 Torredembarra Tarragona",
+        "phone": "633185468",
+        "email": "jventura@finquesorven.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "FINCAS EASYSITGES S.L. (130009662)",
+        "address": "Emerencia Roig I Raventós, 22, 08870 Sitges Barcelona",
+        "phone": "620861598",
+        "email": "nicola@easysitges.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Gestiofincas (130023927)",
+        "address": "Rambla Jaume I, 36, 43850 Cambrils Tarragona",
+        "phone": "977792656",
+        "email": "m.trujillo@gestiofincas.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Rentals Barcinova (130025822)",
+        "address": "C/Balmes 150 5ª, 1, 08008 Barcelona Barcelona",
+        "phone": "619935302",
+        "email": "comercial@rentalsbarcinova.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "VIVALCO Real Estate (130030068)",
+        "address": "Calle de Plató, 14, 08021 Barcelona Barcelona",
+        "phone": "933623939",
+        "email": "rmurtagh@vivalco.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "ALARCON PROPIEDADES (130036638)",
+        "address": "c/ Doctor Fleming, 41, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "938105558",
+        "email": "info@alarconpropiedades.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Finques Plasal (130037428)",
+        "address": "calle Jesús, 28, 08870 Sitges Barcelona",
+        "phone": "938110816",
+        "email": "finquesplasal@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "ALEMANY REAL ESTATE (130039963)",
+        "address": "Avda Narcís Monturiol, 6, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "672275147",
+        "email": "ester@alemanyrealestate.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "bruño & ventura (130043852)",
+        "address": "carretera de San Vicente, 8, 43700 El Vendrell Tarragona",
+        "phone": "687930586",
+        "email": "susannaventura@bandv.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Temppo Inmobiliaria y Servicios Jurídicos SL (130044548)",
+        "address": "Av Baix Penedès, 53, 43700 El Vendrell Tarragona",
+        "phone": "661641108",
+        "email": "info@temppo.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Finques vila-seca (130047721)",
+        "address": "calle Sant Jordi, 26, 43480 Vila-Seca Tarragona",
+        "phone": "610351101",
+        "email": "finquesvilaseca@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Fincas 2000 (130149821)",
+        "address": "Av. Tarragona, 23, 43881 Cunit Tarragona",
+        "phone": "977162035",
+        "email": "fincas2000cunit@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Grupo Torresol (130150446)",
+        "address": "Antoni Roig, 93, 43830 Torredembarra Tarragona",
+        "phone": "665510565",
+        "email": "torresolinmo@gmail.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 0
+            },
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Brisasol Cambrils (130150603)",
+        "address": "Doctor Fleming, 5, 43850 Cambrils Tarragona",
+        "phone": "977369246",
+        "email": "i.brisasol.2387@inmovilla.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Brisasol Salou (130150606)",
+        "address": "avda. Principat d’Andorra, 18, 43840 Salou Tarragona",
+        "phone": "977350009",
+        "email": "i.brisasol.2305@inmovilla.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Brisasol Tarragona (130150607)",
+        "address": "Av. Ramón y Cajal, 25, 43001 Tarragona Tarragona",
+        "phone": "977248355",
+        "email": "marga.adell@brisasol.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Total gestion 2000 (130153035)",
+        "address": "Calle Sant Cosme, 158, 08222 Terrassa Barcelona",
+        "phone": "931172854",
+        "email": "totalgestion2000@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "El Niu Serveis Immobiliaris (130154485)",
+        "address": "Passeig Marítim, 0, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "627490547",
+        "email": "info@immobleselniu.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "MMGestions (130159332)",
+        "address": "C. Bisbe Panyelles, 8 bajos, 8, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "938199690",
+        "email": "albert@mmgestions.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "FINQUES PRIM SERVEIS IMMOBILIARIS (130160293)",
+        "address": "Raval Santa Anna, 43, 43201 Reus Tarragona",
+        "phone": "635255577",
+        "email": "info@finquesprim.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Fincas Pares SL (130161869)",
+        "address": "Torreta, 36, 08810 Sant Pere de Ribes Barcelona",
+        "phone": "8964930",
+        "email": "informacion@fincaspares.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "SOCIO CASA (130162520)",
+        "address": "C/ Ramon LLull, 20, 43850 Cambrils Tarragona",
+        "phone": "636065107",
+        "email": "david@sociocasa.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "INMOSEGUR (130162693)",
+        "address": "C/Salauris, 1, 43840 Salou Tarragona",
+        "phone": "977384790",
+        "email": "inmosegur@inmosegursalou.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Finques Rius (130162953)",
+        "address": "Avda-Francesc Macià, 9, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "938936767",
+        "email": "publicitatfinquesrius@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Trober Asesores Inmobiliarios (130172566)",
+        "address": "Tecnologia, 17, 08840 Viladecans Barcelona",
+        "phone": "651379823",
+        "email": "alejandrogg@trober.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "iad España (130176185)",
+        "address": "Ramón Turró, 23, 08005 Barcelona Barcelona",
+        "phone": "682414072",
+        "email": "info@iadgroup.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Metapiso (130178542)",
+        "address": "Calle Montserrat , 71, 43700 El Vendrell Tarragona",
+        "phone": "977494600",
+        "email": "elvendrell@metapiso.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Alo Vida Inmobiliaria (260360322)",
+        "address": "Ciutat de Reus , 21, 43840 Salou Tarragona",
+        "phone": "646077248",
+        "email": "alovidainmobiliaria@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Fincas Europa (260360448)",
+        "address": "Barcelona, 26, 43840 Salou Tarragona",
+        "phone": "666391517",
+        "email": "dmincaite@fincaseuropa.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Namoredom Real Estate (260360617)",
+        "address": "carrer del nord, 23, 43840 Salou Tarragona",
+        "phone": "633332228",
+        "email": "namoredom@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "REAL TARRACO (260364930)",
+        "address": "C. SANT JOAN, 34, 43201 Reus Tarragona",
+        "phone": "653443668",
+        "email": "info@realtarraco.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "GICAT (260364982)",
+        "address": "MUNTANER, 200, 08036 Barcelona Barcelona",
+        "phone": "932180502",
+        "email": "info@gicatimmo.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "InmoCalafell (260366776)",
+        "address": "Passeig Marítim Sant Joan de Déu, 34, 43820 Calafell Tarragona",
+        "phone": "977694231",
+        "email": "info@inmocalafell.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Worktel (260370354)",
+        "address": "Paseo de la Castellana, 95, 5, 28046 Madrid Madrid",
+        "phone": "673415854",
+        "email": "info@worktel.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 0
+            },
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Finques Bañeras (260371393)",
+        "address": "Carrer Santa Teresa, 25, 43201 Reus Tarragona",
+        "phone": "660427438",
+        "email": "info@finquesbaneras.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Maria Narváez (260372301)",
+        "address": "Carrer del General Palafox, 8, 08860 Castelldefels Barcelona",
+        "phone": "671139265",
+        "email": "maria@marianarvaez.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Tarraco Homes (260377134)",
+        "address": "Carrer Pons d'Icart, 41, 43004 Tarragona Tarragona",
+        "phone": "977591548",
+        "email": "info@tarracohomes.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "INMOTARRACO GRUP (260379036)",
+        "address": "Robert i Gerhard , 3, 43005 Tarragona Tarragona",
+        "phone": "604134263",
+        "email": "inmotarracogrup@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "IMMO-SIB (260379331)",
+        "address": "Crta.Santa Creu de Calafell, 43, 08850 Gavà Barcelona",
+        "phone": "610100614",
+        "email": "ymiro@immo-sib.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "INMOBILIARIA HOMES CS (260380970)",
+        "address": "JOSEP MARIA CRUSSAT    , 2, 43850 Cambrils Tarragona",
+        "phone": "618510807",
+        "email": "ecocshomes@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "METROLAND (260390267)",
+        "address": "josep coroleu, 123, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "659450511",
+        "email": "mireia.sanchezascanio@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Casas & Raluy (260393690)",
+        "address": "Plaça de la Vila, 6, 08720 Vilafranca del Penedès Barcelona",
+        "phone": "687746107",
+        "email": "info@casasraluy.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Apple Houses Estate Agents Sitges (260394270)",
+        "address": "Calle Barcelona, 21, 08870 Sitges Barcelona",
+        "phone": "610221417",
+        "email": "hola@applehouses.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "COSTADORADAVILLAS SL (260396031)",
+        "address": "Montbrio, 5, 43850 Cambrils Tarragona",
+        "phone": "619746447",
+        "email": "ricard@costadorada-villas.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Planet Gold (260396754)",
+        "address": "Rambla Catalunya, 24, 43480 Vila-Seca Tarragona",
+        "phone": "664614997",
+        "email": "planetinmo@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "LA CLAU Costa Dorada (260398325)",
+        "address": "Moll de Lleida, 2, 43004 Tarragona Tarragona",
+        "phone": "977019277",
+        "email": "info@laclaucostadorada.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Fincas ElVinyet (260399286)",
+        "address": "Grecia, 7, 08810 Sant Pere de Ribes Barcelona",
+        "phone": "680965982",
+        "email": "xavi@fincaselvinyet.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "INMORIBES AGENCIA INMOBILIARIA (260399656)",
+        "address": "C/Sitges, 28, 08810 Sant Pere de Ribes Barcelona",
+        "phone": "747427981",
+        "email": "info@inmoribes.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Cases i Terres (260400656)",
+        "address": "O'donell, 13, 43201 Reus Tarragona",
+        "phone": "977341720",
+        "email": "info@casesiterres.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "UNIKO INTERNATIONAL REAL ESTATE (260400813)",
+        "address": "Plaça Sant Gregori Taumatug, 1, 08021 Barcelona Barcelona",
+        "phone": "932009450",
+        "email": "i.uniko.1843@inmovilla.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "finques la torre (260402128)",
+        "address": "carrer pere badia, 13, 43830 Torredembarra Tarragona",
+        "phone": "977641134",
+        "email": "latorre@finqueslatorre.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Vivelo Con Nosotros (260403305)",
+        "address": "Camí de Mas d'en Gual, 27, 43700 El Vendrell Tarragona",
+        "phone": "622171623",
+        "email": "info@viveloconnosotros.eu",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Immobilium (260406544)",
+        "address": "rambla llibertat, 55, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "931719262",
+        "email": "central@immobilium.es",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Immoban (260406936)",
+        "address": "Avda Sant Joan de Deu, 52, 43820 Calafell Tarragona",
+        "phone": "977691999",
+        "email": "bego@immoban.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "casa teva 2022 (260408286)",
+        "address": "Governador González, 20, 43001 Tarragona Tarragona",
+        "phone": "660304284",
+        "email": "casateva2022@gmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Serveis Immobiliaris Fortuny (260410968)",
+        "address": "Carrer de les barques, 16, 43850 Cambrils Tarragona",
+        "phone": "977911122",
+        "email": "cambrils@immofortuny.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "INMOLEMUZ FINCAS COSTA DORADA (260413930)",
+        "address": "Calle ESTACIO, 15, 08880 Cubelles Barcelona",
+        "phone": "938950159",
+        "email": "fcd@fincascostadorada.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "SERLLAR Serveis Immobiliaris (260414018)",
+        "address": "Camí Reial, 17, 43700 El Vendrell Tarragona",
+        "phone": "636979815",
+        "email": "info@serllar.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Serveis Immobiliaris Fortuny (260416260)",
+        "address": "Carrer del Vent, 34, 43201 Reus Tarragona",
+        "phone": "977300590",
+        "email": "estudiofortunyjuroca@hotmail.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Fincasa VNG (260416588)",
+        "address": "Avenida Francesc Macià, 151, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "609632168",
+        "email": "mmartin@fincasavilanova.com",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Finques Les Comparses (260416965)",
+        "address": "Carrer de l'Aigua, 158, 08800 Vilanova i la Geltrú Barcelona",
+        "phone": "931263764",
+        "email": "finqueslescomparses@gmail.com",
+        "tours": [
+            {
+                "type": "3d",
+                "value": 0
+            },
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "name": "Immoban (260419674)",
+        "address": "Avenida Sant Joan de Deu, 54, 43820 Calafell Tarragona",
+        "phone": "977159191",
+        "email": "bego@immoban.net",
+        "tours": [
+            {
+                "type": "360",
+                "value": 0
+            }
+        ]
+    }
+]

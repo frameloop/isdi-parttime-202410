@@ -2,14 +2,15 @@
 
 ## Intro
 
-Sesiona está diseñada para facilitar la contratación eficiente de fotógrafos, optimizando la gestión de la disponibilidad de los profesionales y la accesibilidad de los clientes. A través de un algoritmo de asignación dinámica, el sistema coordina de manera automática las solicitudes de los usuarios, garantizando que se asignen los fotógrafos más adecuados en función de la disponibilidad y las preferencias del cliente.
+Sesiona is designed to facilitate the efficient hiring of photographers, optimizing the management of professionals' availability and clients' accessibility. Through a dynamic allocation algorithm, the system automatically coordinates user requests, ensuring that the most suitable photographers are assigned based on availability and client preferences.
 
 ![Calendar](https://media.giphy.com/media/bIQP1URyq1joCjFUWt/giphy.gif?cid=ecf05e47y7acbkkz6p68ld2v4r57itdsufp1mmsk5aycawkf&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
 ## Funcional
-Incorpora una interfaz intuitiva que permite realizar reservas de manera ágil y sin fricciones, mientras que un sistema de gestión de datos en tiempo real asegura la actualización constante de la disponibilidad. Además, el sistema integra protocolos de comunicación para la interacción eficiente entre clientes y fotógrafos, mejorando la experiencia general y reduciendo los tiempos de espera.
 
-La arquitectura del sistema está diseñada para escalar de forma flexible, permitiendo una fácil incorporación de nuevos usuarios y fotógrafos, mientras mantiene altos niveles de rendimiento y eficiencia.
+It features an intuitive interface that enables swift and frictionless bookings, while a real-time data management system ensures constant availability updates. Additionally, the system integrates communication protocols for efficient interaction between clients and photographers, enhancing the overall experience and reducing wait times.
+
+The system's architecture is designed to scale flexibly, allowing for the seamless onboarding of new users and photographers while maintaining high levels of performance and efficiency.
 
 ### Use Cases
 
@@ -24,10 +25,20 @@ Customer (User)
 - edit profile
 
 Photographer (User)
-- add services
-- remove services
+- add service
+- remove service
+- add availability (Calendar)
+- remove availability (Calendar)
 - add profile (phone, email, geo,...)
 - edit profile
+
+Admin (User)
+- add Customer
+- remove customer
+- add Photographer
+- remove Photographer
+- disable Calendar for Customer
+- enable Calendar for Customer
 
 ### UXUI Design
 
