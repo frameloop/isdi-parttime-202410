@@ -1,9 +1,20 @@
 {
+  "name": "api",
+  "version": "0.0.0",
+  "description": "How to start app server:",
   "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "inspect": "node --inspect-brk index.js"
+  },
+  "keywords": [],
+  "author": "QuiQue",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2",
-    "modules": "^0.4.0",
-    "mongodb": "^6.13.1",
-    "mongoose": "^8.10.2"
-  }
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {}
 }

@@ -10,9 +10,12 @@ const user = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
     },
     phone: {
+        type: String,
+        required: true,
+    },
+    username: {
         type: String,
         required: true,
         unique: true
@@ -32,7 +35,6 @@ const service = Schema({
     name: {
         type: String,
         required: true,
-        unique: true
     },
     quantity: {
         type: Number,
@@ -53,6 +55,8 @@ const customer = new Schema({
     },
     services: [service]
 })
+
+
 
 const User = model('User', user)
 const Customer = model('Customer', customer)

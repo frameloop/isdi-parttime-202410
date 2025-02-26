@@ -1,12 +1,20 @@
-import mongoose from 'mongoose'
 import fs from 'fs'
+
+import mongoose from 'mongoose'
 import { User, Customer, Service } from './models.js'
 
 mongoose.connect('mongodb://localhost:27017/test')
-    .then(() => Promise.all([User.deleteMany(), Customer.deleteMany(), Service.deleteMany()]))
+    // .then(() => Promise.all([User.deleteMany(), Customer.deleteMany()]))
+    .then(() => mongoose.connection.dropDatabase())
     .then(() => {
         const customersJson = fs.readFileSync('./data/customers.json', 'utf8')
         const customers = JSON.parse(customersJson)
+
+        const photographersJson = fs.readFileSync('./data/photographers.json', 'utf8')
+        const photographers = JSON.parse(photographersJson)
+
+        const administratorsJson = fs.readFileSync('./data/administrators.json', 'utf8')
+        const administrators = JSON.parse(administratorsJson)
 
         const promises = []
 
@@ -15,6 +23,7 @@ mongoose.connect('mongodb://localhost:27017/test')
                 name: customer.name,
                 email: customer.email,
                 phone: customer.phone,
+                username: customer.name.replace(/.*\((\d+)\).*/, "$1"),
                 password: '123123123',
                 role: 'customer'
             })
@@ -36,8 +45,34 @@ mongoose.connect('mongodb://localhost:27017/test')
             })
 
             promises.push(customer2.save())
-        });
+        })
+
+        photographers.forEach(photographer => {
+            const user = new User({
+                name: photographer.name,
+                email: photographer.email,
+                phone: photographer.phone,
+                username: photographer.username,
+                password: '123123123',
+                role: 'photographer'
+            })
+            promises.push(user.save())
+        })
+
+        administrators.forEach(administrator => {
+            const user = new User({
+                name: administrator.name,
+                email: administrator.email,
+                phone: administrator.phone,
+                username: administrator.username,
+                password: '123123123',
+                role: 'administrator'
+            })
+            promises.push(user.save())
+        })
+
         return Promise.all(promises)
     })
 
     .catch(error => console.error(error))
+    .finally(() => mongoose.disconnect())
