@@ -24,7 +24,7 @@ mongoose.connect('mongodb://localhost:27017/test')
                 email: customer.email,
                 phone: customer.phone,
                 username: customer.name.replace(/.*\((\d+)\).*/, "$1"),
-                password: '123123123',
+                password: 'S3s10n4!',
                 role: 'customer'
             })
 
