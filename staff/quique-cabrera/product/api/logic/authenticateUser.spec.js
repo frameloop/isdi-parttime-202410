@@ -15,8 +15,8 @@ describe('authenticateUser', () => {
     beforeEach(() => User.deleteMany())
 
     it('succeeds on existing user', () => {
-        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '123123123' })
-            .then(() => authenticateUser('troymcclure', '123123123'))
+        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '346734567' })
+            .then(() => authenticateUser('troymcclure', '346734567'))
             .then(userId => {
                 expect(userId).to.be.a.string
 
@@ -24,15 +24,15 @@ describe('authenticateUser', () => {
             })
             .then(user => {
                 expect(user.username).to.equal('troymcclure')
-                expect(user.password).to.equal('123123123')
+                expect(user.password).to.equal('346734567')
             })
     })
 
     it('fails on wrong username', () => {
         let catchedError
 
-        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '123123123' })
-            .then(() => authenticateUser('pepitogrill', '123123123'))
+        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '346734567' })
+            .then(() => authenticateUser('pepitogrill', '346734567'))
             .catch(error => catchedError = error)
             .finally(() => {
                 expect(catchedError).instanceOf(CredentialsError)
@@ -43,7 +43,7 @@ describe('authenticateUser', () => {
     it('fails on wrong password', () => {
         let catchedError
 
-        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '123123123' })
+        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '346734567' })
             .then(() => authenticateUser('troymcclure', '12312312'))
             .catch(error => catchedError = error)
             .finally(() => {
