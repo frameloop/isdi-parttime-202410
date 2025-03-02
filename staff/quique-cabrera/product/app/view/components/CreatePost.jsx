@@ -1,6 +1,10 @@
 import logic from '../../logic'
 
+import { useAppContext } from '../../context'
+
 function CreatePost({ onPostCreated, onCancel }) {
+    const { alert } = useAppContext()
+
     const handleFormSubmit = event => {
         event.preventDefault()
 
@@ -41,7 +45,7 @@ function CreatePost({ onPostCreated, onCancel }) {
             <button type="submit" className="button">Create</button>
         </form>
 
-        <button class="block mx-auto my-1 bg-black text-white font-bold text-[15px] w-1/4 rounded-lg border border-black text-center p-2" onClick={handleCancelButtonClick}>Cancel</button>
+        <button className="block mx-auto my-1 bg-black text-white font-bold text-[15px] w-1/4 rounded-lg border border-black text-center p-2" onClick={handleCancelButtonClick}>Cancel</button>
     </main>
 }
 

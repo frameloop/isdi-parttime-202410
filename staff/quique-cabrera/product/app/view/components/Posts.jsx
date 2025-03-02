@@ -4,7 +4,11 @@ import logic from '../../logic'
 
 import Post from './Post'
 
+import { useAppContext } from '../../context'
+
 function Posts() {
+    const { alert } = useAppContext()
+
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
@@ -38,7 +42,7 @@ function Posts() {
 
     console.log('Posts -> render')
 
-    return <main class="flex flex-col gap-3">
+    return <main className="flex flex-col gap-3">
         {posts.map(post => <Post
             key={post.id}
             post={post}

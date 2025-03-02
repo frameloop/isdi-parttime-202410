@@ -6,14 +6,16 @@ const deletePost = postId => {
     return fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}`, {
         method: 'DELETE',
         headers: {
-            Authorization: `Bearer ${sessionStorage.token}`
-        }
+            Authorization: `Bearer ${sessionStorage.token}`,
+        },
+
     })
         .catch(error => { throw new Error(error.message) })
         .then(res => {
             const { status } = res
 
-            if (status === 204) return // early return
+            if (status === 204)
+                return
 
             return res.json()
                 .then(body => {

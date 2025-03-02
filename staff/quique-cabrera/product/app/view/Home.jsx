@@ -5,10 +5,14 @@ import logic from '../logic'
 import Posts from './components/Posts'
 import CreatePost from './components/CreatePost'
 
-import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+
+import { useAppContext } from '../context'
 
 function Home({ onUserLoggedOut }) {
     const navigate = useNavigate()
+
+    const { alert } = useAppContext()
 
     const [view, setView] = useState('posts')
     const [name, setName] = useState(null)
@@ -65,25 +69,25 @@ function Home({ onUserLoggedOut }) {
 
     console.log('Home -> render')
 
-    return <div class="p-[2%]">
-        <header class="bg-black bg-opacity-50 flex items-center justify-between fixed top-2 w-[96%] text-white rounded-lg mb-2 px-4 py-2">
+    return <div className="p-[2%]">
+        <header className="bg-black bg-opacity-50 flex items-center justify-between fixed top-2 w-[96%] text-white rounded-lg mb-2 px-4 py-2">
 
-            <h2 class="text-3xl text-white px-3 font-black" onClick={handleHomeClick}>H</h2>
+            <h2 className="text-3xl text-white px-3 font-black" onClick={handleHomeClick}>H</h2>
 
-            <h3 class="text-lg text-white mx-auto">{name}</h3>
+            <h3 className="text-lg text-white mx-auto">{name}</h3>
 
-            <button class="bg-[#282c34] text-white border border-white px-4 py-2 m-2 cursor-pointer rounded-md" type=" button" onClick={handleLogoutButtonClick}>Logout</button>
+            <button className="bg-[#282c34] text-white border border-white px-4 py-2 m-2 cursor-pointer rounded-md" type=" button" onClick={handleLogoutButtonClick}>Logout</button>
         </header >
 
-        <div class="mt-[80px] mb-[36px]">
+        <div className="mt-[80px] mb-[36px]">
             <Routes>
                 <Route path="/" element={<Posts />} />
                 <Route path="/create-post" element={<CreatePost onPostCreated={handlePostCreated} onCancel={handleCancelCreatePost} />} />
             </Routes>
         </div>
 
-        <footer class="bg-transparent flex items-center justify-center fixed bottom-0 w-screen h-15 left-0">
-            {view !== 'create-post' && <button class="rounded-[15px] border-none w-12 font-bold text-[1.2em] bg-[rgba(255,0,102,0.8)] text-white p-2" type="button" onClick={handleCreatePostButtonClick}>+</button>}
+        <footer className="bg-transparent flex items-center justify-center fixed bottom-0 w-screen h-15 left-0">
+            {view !== 'create-post' && <button className="rounded-[15px] border-none w-12 font-bold text-[1.2em] bg-[rgba(255,0,102,0.8)] text-white p-2" type="button" onClick={handleCreatePostButtonClick}>+</button>}
         </footer>
     </div >
 }

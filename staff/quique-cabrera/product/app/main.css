@@ -40,7 +40,7 @@
     }
 
     .button {
-        @apply block mx-auto my-2 bg-[#ff0066] text-white font-bold text-[15px] w-1/4 rounded-lg border border-[#ff0066] text-center p-2;
+        @apply block mx-auto my-2 bg-[#ff0066] text-white font-bold text-[15px] w-1/4 rounded-lg border-2 border-[#ff0066] text-center p-2;
     }
 
     label {

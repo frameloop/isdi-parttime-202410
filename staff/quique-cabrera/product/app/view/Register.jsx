@@ -1,11 +1,14 @@
 import logic from '../logic'
-
 import { errors } from 'com'
 
 const { DuplicityError, SystemError } = errors
 
+import { useAppContext } from '../context'
+
 function Register({ onUserRegistered, onLoginClicked }) {
     console.log('Register --> Render')
+
+    const { alert } = useAppContext()
 
     const handleFormSubmit = event => {
         event.preventDefault()
@@ -44,21 +47,21 @@ function Register({ onUserRegistered, onLoginClicked }) {
         onLoginClicked()
     }
 
-    return <main class="p-[2%]">
-        <h2 class="text-[2rem] text-[--color-greydark] text-center mt-8">Register</h2>
+    return <main className="p-[2%]">
+        <h2 className="text-[2rem] text-[--color-greydark] text-center mt-8">Register</h2>
 
         <form onSubmit={handleFormSubmit}>
             <label htmlFor="name">Name</label>
-            <input class="rounded-lg" type="text" id="name" />
+            <input className="rounded-lg" type="text" id="name" />
 
             <label htmlFor="email">E-mail</label>
-            <input class="rounded-lg" type="email" id="email" />
+            <input className="rounded-lg" type="email" id="email" />
 
             <label htmlFor="username">Username</label>
-            <input class="rounded-lg" type="text" id="username" />
+            <input className="rounded-lg" type="text" id="username" />
 
             <label htmlFor="password">Password</label>
-            <input class="rounded-lg" type="password" id="password" />
+            <input className="rounded-lg" type="password" id="password" />
 
             <button type="submit" className="button">Register</button>
         </form>

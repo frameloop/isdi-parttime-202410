@@ -2,15 +2,20 @@ import errors from './errors/index.js'
 
 const { ValidationError } = errors
 
+const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const USERNAME_REGEX = /^[a-z0-9_-]{1,30}$/
+const PASSWORD_REGEX = /^((?!.*[\s])(?=.*[a-zA-Z0-9])(?=.*\d).{8,15})/
+const URL_REGEX = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+
 const validate = {
     username(username) {
         if (typeof username !== 'string') throw new ValidationError('invalid username type')
-        if (username.length < 4) throw new ValidationError('invalid username length')
+        if (!USERNAME_REGEX.test(username)) throw new ValidationError('invalid username syntax')
     },
 
     password(password) {
         if (typeof password !== 'string') throw new ValidationError('invalid password type')
-        if (password.length < 8) throw new ValidationError('invalid password length')
+        if (!PASSWORD_REGEX.test(password)) throw new ValidationError('invalid password syntax')
     },
 
     name(name) {
@@ -20,7 +25,7 @@ const validate = {
 
     email(email) {
         if (typeof email !== 'string') throw new ValidationError('invalid email type')
-        if (email.length < 6) throw new ValidationError('invalid email length')
+        if (!EMAIL_REGEX.test(email)) new ValidationError('invalid email syntax')
     },
 
     id(id, explain = 'id') {
@@ -30,6 +35,7 @@ const validate = {
 
     image(image) {
         if (typeof image !== 'string') throw new ValidationError('invalid image type')
+        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image syntax')
     },
 
     text(text) {
