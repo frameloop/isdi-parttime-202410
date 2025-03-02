@@ -9,6 +9,8 @@ import registerUser from './registerUser.js'
 import { errors } from 'com'
 const { DuplicityError } = errors
 
+import bcrypt, { hash } from 'bcryptjs'
+
 describe('registerUser', () => {
     before(() => mongoose.connect(process.env.TEST_MONGO_URL))
 
@@ -25,14 +27,18 @@ describe('registerUser', () => {
                 expect(user.name).to.equal('Apu Nahasapeemapetilon')
                 expect(user.email).to.equal('apu@Nahasapeemapetilon.es')
                 expect(user.username).to.equal('apunaha')
-                expect(user.password).to.equal('123123123')
+
+                return bcrypt.compare('123123123', user.password)
             })
+            .then(match => expect(match).to.be.true)
+
     })
 
     it('fails on existing user', () => {
         let catchedError
 
-        return User.create({ name: 'Ned Flanders', email: 'ned@flanders.es', username: 'flanders', password: '12341234' })
+        return bcrypt.hash('123123123', 10)
+            .then(hash => User.create({ name: 'Ned Flanders', email: 'ned@flanders.es', username: 'flanders', password: hash }))
             .then(() => registerUser('Ned Flanders', 'ned@flanders.es', 'flanders', '12341234'))
             .catch(error => catchedError = error)
             .then(() => {
@@ -40,6 +46,7 @@ describe('registerUser', () => {
                 expect(catchedError.message).to.equal('user already exists')
             })
     })
+
     afterEach(() => User.deleteMany())
 
     after(() => mongoose.disconnect())

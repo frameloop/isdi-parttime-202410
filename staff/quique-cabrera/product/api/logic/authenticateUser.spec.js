@@ -9,13 +9,16 @@ import authenticateUser from './authenticateUser.js'
 import { errors } from 'com'
 const { CredentialsError } = errors
 
+import bcrypt from 'bcryptjs'
+
 describe('authenticateUser', () => {
     before(() => mongoose.connect(process.env.TEST_MONGO_URL))
 
     beforeEach(() => User.deleteMany())
 
     it('succeeds on existing user', () => {
-        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '346734567' })
+        return bcrypt.hash('346734567', 10)
+            .then(hash => User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: hash }))
             .then(() => authenticateUser('troymcclure', '346734567'))
             .then(userId => {
                 expect(userId).to.be.a.string
@@ -24,14 +27,17 @@ describe('authenticateUser', () => {
             })
             .then(user => {
                 expect(user.username).to.equal('troymcclure')
-                expect(user.password).to.equal('346734567')
+
+                return bcrypt.compare('346734567', user.password)
             })
+            .then(match => expect(match).to.be.true)
     })
 
     it('fails on wrong username', () => {
         let catchedError
 
-        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '346734567' })
+        return bcrypt.hash('123123123', 10)
+            .then(hash => User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: hash }))
             .then(() => authenticateUser('pepitogrill', '346734567'))
             .catch(error => catchedError = error)
             .finally(() => {
@@ -43,7 +49,8 @@ describe('authenticateUser', () => {
     it('fails on wrong password', () => {
         let catchedError
 
-        return User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: '346734567' })
+        return bcrypt.hash('123123123', 10)
+            .then(hash => User.create({ name: 'Troy McClure', email: 'troy@mcclure.es', username: 'troymcclure', password: hash }))
             .then(() => authenticateUser('troymcclure', '12312312'))
             .catch(error => catchedError = error)
             .finally(() => {
