@@ -18,8 +18,6 @@ const startApi = () => {
 
     api.use('/users', userRouter)
 
-    api.use('/posts', postRouter)
-
     api.use(errorHandler)
 
     api.listen(process.env.PORT, () => console.log(`API running on port ${process.env.PORT}`))

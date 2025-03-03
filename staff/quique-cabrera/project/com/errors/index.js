@@ -1,17 +1,17 @@
-import DuplicityError from './DuplicityErrors.js'
-import CredentialsError from './CredentialsError.js'
+import DuplicityError from './DuplicityError.js'
 import NotFoundError from './NotFoundError.js'
+import SystemError from './SystemError.js'
 import OwnershipError from './OwnershipError.js'
-import SystemError from './SystenError.js',
-import Validation from './ValidationError.js'
+import CredentialsError from './CredentialsError.js'
+import ValidationError from './ValidationError.js'
 
 const errors = {
     DuplicityError,
-    CredentialsError,
     NotFoundError,
-    OwnershipError,
     SystemError,
-    Validation
+    OwnershipError,
+    CredentialsError,
+    ValidationError
 }
 
 export default errors

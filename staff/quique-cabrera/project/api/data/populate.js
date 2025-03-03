@@ -1,78 +1,104 @@
-import fs from 'fs'
+import 'dotenv/config';
+import fs from 'fs';
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import { User, Customer, Service } from './models.js';
 
-import mongoose from 'mongoose'
-import { User, Customer, Service } from './models.js'
+const SALT_ROUNDS = 10;
 
-mongoose.connect('mongodb://localhost:27017/test')
-    // .then(() => Promise.all([User.deleteMany(), Customer.deleteMany()]))
+mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => mongoose.connection.dropDatabase())
     .then(() => {
-        const customersJson = fs.readFileSync('./data/customers.json', 'utf8')
-        const customers = JSON.parse(customersJson)
+        console.log('🗄️ Database cleared, starting population...');
 
-        const photographersJson = fs.readFileSync('./data/photographers.json', 'utf8')
-        const photographers = JSON.parse(photographersJson)
+        const customersJson = fs.readFileSync('./data/customers.json', 'utf8');
+        const customers = JSON.parse(customersJson);
 
-        const administratorsJson = fs.readFileSync('./data/administrators.json', 'utf8')
-        const administrators = JSON.parse(administratorsJson)
+        const photographersJson = fs.readFileSync('./data/photographers.json', 'utf8');
+        const photographers = JSON.parse(photographersJson);
 
-        const promises = []
+        const administratorsJson = fs.readFileSync('./data/administrators.json', 'utf8');
+        const administrators = JSON.parse(administratorsJson);
 
-        customers.forEach(customer => {
-            const user = new User({
-                name: customer.name,
-                email: customer.email,
-                phone: customer.phone,
-                username: customer.name.replace(/.*\((\d+)\).*/, "$1"),
-                password: 'S3s10n4!',
-                role: 'customer'
-            })
+        // Process customers
+        const customerPromises = customers.map(customer => {
+            return bcrypt.hash('A3x9zLp8Q1', SALT_ROUNDS)
+                .then(hashedPassword => {
+                    const user = new User({
+                        name: customer.name,
+                        email: customer.email,
+                        phone: customer.phone,
+                        username: customer.name.replace(/.*\((\d+)\).*/, '$1'),
+                        password: hashedPassword,
+                        role: 'customer'
+                    });
 
-            promises.push(user.save())
-
-            const customer2 = new Customer({
-                user: user._id,
-                address: customer.address
-            })
-
-            customer.tours.forEach(tour => {
-                const service = new Service({
-                    name: tour.type,
-                    quantity: tour.value
+                    return user.save();
                 })
+                .then(user => {
+                    const customer2 = new Customer({
+                        user: user._id,
+                        address: customer.address
+                    });
 
-                customer2.services.push(service)
-            })
+                    customer.tours.forEach(tour => {
+                        const service = new Service({
+                            name: tour.type,
+                            quantity: tour.value
+                        });
 
-            promises.push(customer2.save())
-        })
+                        customer2.services.push(service);
+                    });
 
-        photographers.forEach(photographer => {
-            const user = new User({
-                name: photographer.name,
-                email: photographer.email,
-                phone: photographer.phone,
-                username: photographer.username,
-                password: '123123123',
-                role: 'photographer'
-            })
-            promises.push(user.save())
-        })
+                    return customer2.save();
+                })
+                .then(() => console.log(`✅ Customer ${customer.name} saved.`))
+                .catch(error => console.error('❌ Error saving customer:', error));
+        });
 
-        administrators.forEach(administrator => {
-            const user = new User({
-                name: administrator.name,
-                email: administrator.email,
-                phone: administrator.phone,
-                username: administrator.username,
-                password: '123123123',
-                role: 'administrator'
-            })
-            promises.push(user.save())
-        })
+        // Process photographers
+        const photographerPromises = photographers.map(photographer => {
+            return bcrypt.hash('A3x9zLp8Q1', SALT_ROUNDS)
+                .then(hashedPassword => {
+                    const user = new User({
+                        name: photographer.name,
+                        email: photographer.email,
+                        phone: photographer.phone,
+                        username: photographer.username,
+                        password: hashedPassword,
+                        role: 'photographer'
+                    });
 
-        return Promise.all(promises)
+                    return user.save();
+                })
+                .then(() => console.log(`📸 Photographer ${photographer.name} saved.`))
+                .catch(error => console.error('❌ Error saving photographer:', error));
+        });
+
+        // Process administrators
+        const administratorPromises = administrators.map(administrator => {
+            return bcrypt.hash('A3x9zLp8Q1', SALT_ROUNDS)
+                .then(hashedPassword => {
+                    const user = new User({
+                        name: administrator.name,
+                        email: administrator.email,
+                        phone: administrator.phone,
+                        username: administrator.username,
+                        password: hashedPassword,
+                        role: 'administrator'
+                    });
+
+                    return user.save();
+                })
+                .then(() => console.log(`👨‍💼 Administrator ${administrator.name} saved.`))
+                .catch(error => console.error('❌ Error saving administrator:', error));
+        });
+
+        return Promise.all([...customerPromises, ...photographerPromises, ...administratorPromises]);
     })
-
-    .catch(error => console.error(error))
-    .finally(() => mongoose.disconnect())
+    .then(() => console.log('✅ Data inserted successfully.'))
+    .catch(error => console.error('❌ Error inserting data:', error))
+    .finally(() => {
+        mongoose.disconnect();
+        console.log('🔌 Disconnected from database.');
+    });
