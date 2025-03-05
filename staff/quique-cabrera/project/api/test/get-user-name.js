@@ -1,7 +1,7 @@
-fetch('http://localhost:8080/posts', {
+fetch('http://localhost:8080/users', {
     method: 'GET',
     headers: {
-        Authorization: 'Basic 67c8722ab184f5feeea789f1'
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2M4NzIyYWIxODRmNWZlZWVhNzg5ZjEiLCJpYXQiOjE3NDExOTM0NjB9.V0udQh2Trq2ylw8QVjDMqbDKS35-YlVJqWzJMROzsmk'
     }
 })
     .then(res => {
