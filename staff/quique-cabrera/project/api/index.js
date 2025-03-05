@@ -4,10 +4,10 @@ import mongoose from 'mongoose'
 import express from 'express'
 import cors from 'cors'
 
-// import {usersRouter, postsRouter} from './routes/index.js'
-import errorHandler from './middlewares/errorHandeler.js'
+import { usersRouter } from './routes/index.js'
+import errorHandler from './middlewares/errorHandler.js'
 
-const connection = () => mongoose.connect(process.env.MONGO_URL).then(() => console.log('DB connected'))
+const connectToDb = () => mongoose.connect(process.env.MONGO_URL).then(() => console.log('DB connected'))
 
 const startApi = () => {
     const api = express()
@@ -16,7 +16,7 @@ const startApi = () => {
 
     api.get('/', (req, res) => res.send('Hello, APIO!'))
 
-    api.use('/users', userRouter)
+    api.use('/users', usersRouter)
 
     api.use(errorHandler)
 

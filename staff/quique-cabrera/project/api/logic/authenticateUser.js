@@ -19,7 +19,6 @@ const authenticateUser = (username, password) => {
 
                     return user._id.toString()
                 })
-            return user._id.toString()
         })
 }
 

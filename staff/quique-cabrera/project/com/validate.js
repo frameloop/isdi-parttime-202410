@@ -6,6 +6,7 @@ const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+")
 const USERNAME_REGEX = /^[a-z0-9_-]{1,30}$/
 const PASSWORD_REGEX = /^((?!.*[\s])(?=.*[a-zA-Z0-9])(?=.*\d).{8,15})/
 const URL_REGEX = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+const PHONE_REGEX = /^\+?[1-9]\d{1,14}$/
 
 const validate = {
     username(username) {
@@ -40,6 +41,11 @@ const validate = {
 
     text(text) {
         if (typeof text !== 'string') throw new ValidationError('invalid text type')
+    },
+
+    phone(phone) {
+        if (typeof phone !== 'string') throw new ValidationError('invalid phone type')
+        if (!PHONE_REGEX.test(phone)) throw new ValidationError('invalid phone syntax')
     }
 }
 

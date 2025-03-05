@@ -1,3 +1,3 @@
-import { json } frmm 'express'
+import { json } from 'express'
 
 export default json()

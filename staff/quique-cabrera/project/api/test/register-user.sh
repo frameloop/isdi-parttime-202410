@@ -1,0 +1,1 @@
+curl -X POST -H 'Content-Type: application/json' -d '{"name":"Open IA","email":"open@ia.com","phone":"555555555","username":"open","password":"A3x9zLp8Q1", "role":"administrator"}' http://localhost:8080/users -v
