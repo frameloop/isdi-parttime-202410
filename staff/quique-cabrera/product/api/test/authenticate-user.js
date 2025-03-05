@@ -4,7 +4,7 @@ fetch('http://localhost:8080/users/auth', {
     'Content-Type': 'application/json'
   },
   //body: '{"username":"peterpan", "password":"123123123"}'
-  body: JSON.stringify({ username: 'peterpan', password: '123123123' })
+  body: JSON.stringify({ username: 'lechuga', password: '123123123' })
 })
 
   .then(res => {
