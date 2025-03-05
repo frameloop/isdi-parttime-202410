@@ -6,7 +6,7 @@ import { User, Customer, Service } from './models.js';
 
 const SALT_ROUNDS = 10;
 
-mongoose.connect(process.env.TEST_MONGO_URL)
+mongoose.connect(process.env.MONGO_URL)
     .then(() => mongoose.connection.dropDatabase())
     .then(() => {
         console.log('🗄️ Database cleared, starting population...');

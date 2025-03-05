@@ -3,10 +3,6 @@ import jwt from 'jsonwebtoken'
 
 export default (req, res, next) => {
     try {
-        if (!req.headers.authorization) {
-            return res.status(401).json({ error: "AuthorizationError", message: "Missing token" });
-        }
-
         const token = req.headers.authorization.slice(7) // Bearer token
 
         const payload = jwt.verify(token, process.env.JWT_SECRET)
@@ -20,4 +16,4 @@ export default (req, res, next) => {
     } catch (error) {
         next(error)
     }
-};
+}

@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=VT323&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+    --color-whitedark: #f4f2eb;
+    --color-greydarklight: #626262;
+    --color-greydark: #323232;
+    --color-pink: #ff0066;
+}
+
+@layer base {
+    a {
+        @apply text-[0.9rem] no-underline;
+    }
+
+    html,
+    body,
+    #root {
+        @apply m-0 bg-[--color-whitedark] h-full;
+    }
+
+    button {
+        @apply cursor-pointer px-2;
+
+    }
+
+    form {
+        @apply flex flex-col;
+    }
+
+    input {
+        @apply border border-dashed border-gray-400 bg-white rounded-lg font-light text-[1.2rem] p-2 transition ease-in-out duration-400;
+        color: var(--color-greydark);
+    }
+
+    input:focus {
+        background-color: var(--color-pink);
+        color: white;
+    }
+
+    .button {
+        @apply block mx-auto my-2 bg-[#ff0066] text-white font-bold text-[15px] w-1/4 rounded-lg border-2 border-[#ff0066] text-center p-2;
+    }
+
+    label {
+        @apply mt-[0.3rem] font-light text-[0.9rem];
+    }
+
+    .w-full {
+        @apply w-full;
+    }
+}
