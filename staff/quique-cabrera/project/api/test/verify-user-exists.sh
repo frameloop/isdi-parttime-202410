@@ -1,0 +1,1 @@
+curl -X POST -H "Content-Type: application/json" -d '{"username": "emestudi"}' http://localhost:8080/users/verify -v
