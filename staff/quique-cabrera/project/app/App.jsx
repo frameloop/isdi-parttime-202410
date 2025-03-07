@@ -3,7 +3,9 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './view/Landing';
 import LoginUser from './view/LoginUser';
 import RecoverPassword from './view/RecoverPassword';
-import Home from './view/Home';
+import HomeCustomer from './view/HomeCustomer';
+import HomePhotographer from './view/HomePhotographer';
+import HomeAdmin from './view/HomeAdmin';
 import getUserSession from './logic/getUserSession';
 
 function App() {
@@ -23,11 +25,13 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/" element={<Navigate to={user ? "/home" : "/landing"} />} />
+            <Route path="/" element={<Navigate to={user ? "/home-customer" : "/landing"} />} />
             <Route path="/landing" element={<Landing />} />
             <Route path="/login" element={<LoginUser />} />
             <Route path="/recover-password" element={<RecoverPassword />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home-customer" element={<HomeCustomer />} />
+            <Route path="/home-photographer" element={<HomePhotographer />} />
+            <Route path="/home-admin" element={<HomeAdmin />} />
         </Routes>
     );
 }

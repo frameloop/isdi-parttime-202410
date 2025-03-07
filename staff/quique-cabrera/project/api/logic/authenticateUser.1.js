@@ -17,9 +17,9 @@ const authenticateUser = (username, password) => {
                 .then(match => {
                     if (!match) throw new CredentialsError('bcrypt: wrong credentials')
 
-                    return { _id: user._id.toString(), role: user.role }; // 🔹 Ahora devolvemos el usuario completo
+                    return user._id.toString()
                 })
         })
 }
 
-export default authenticateUser;
+export default authenticateUser
