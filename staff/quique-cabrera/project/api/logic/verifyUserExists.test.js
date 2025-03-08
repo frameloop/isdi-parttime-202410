@@ -6,7 +6,7 @@ mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
         console.log('✅ MongoDB connection OK');
 
-        const usernameToCheck = 'acme'; // Puedes cambiarlo por el username que quieras probar
+        const usernameToCheck = 'cristina'; // Puedes cambiarlo por el username que quieras probar
 
         try {
             console.log('🔍 Checking if user exists:', usernameToCheck);

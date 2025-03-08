@@ -1,19 +1,20 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-const { Schema, model, Types: { ObjectId } } = mongoose
+const { Schema, model, Types: { ObjectId } } = mongoose;
 
+// Esquema de usuario
 const user = new Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     email: {
         type: String,
-        required: true,
+        required: true
     },
     phone: {
         type: String,
-        required: true,
+        required: true
     },
     username: {
         type: String,
@@ -23,25 +24,51 @@ const user = new Schema({
     password: {
         type: String,
         required: true,
+        select: false // ⛔️ Evita que se incluya en las consultas
     },
     role: {
         type: String,
         required: true,
         enum: ['customer', 'photographer', 'administrator']
     }
-})
+});
 
-const service = Schema({
+// Esquema de servicio
+const service = new Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     quantity: {
         type: Number,
         required: true
     }
-})
+});
 
+// Esquema de sesión
+const session = new Schema({
+    date: {
+        type: Date,
+        required: true
+    },
+    photographer: {
+        type: ObjectId,
+        ref: 'Photographer',
+        required: true
+    },
+    customer: {
+        type: ObjectId,
+        ref: 'Customer',
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['scheduled', 'completed', 'cancelled'],
+        default: 'scheduled'
+    }
+});
+
+// Esquema de cliente con sesiones
 const customer = new Schema({
     user: {
         type: ObjectId,
@@ -53,17 +80,45 @@ const customer = new Schema({
         required: true,
         unique: true
     },
-    services: [service]
-})
+    services: [service],
+    sessions: [{
+        type: ObjectId,
+        ref: 'Session'
+    }]
+});
 
+// Esquema de fotógrafo con disponibilidad y sesiones
+const photographer = new Schema({
+    user: {
+        type: ObjectId,
+        ref: 'User',
+        required: true
+    },
+    coverage_area: {
+        type: String,
+        required: true
+    },
+    availability: [{
+        day: {
+            type: String,
+            required: true
+        },
+        slots: [{
+            type: String,
+            required: true
+        }]
+    }],
+    sessions: [{
+        type: ObjectId,
+        ref: 'Session'
+    }]
+});
 
+// Modelos
+const User = model('User', user);
+const Customer = model('Customer', customer);
+const Photographer = model('Photographer', photographer);
+const Service = model('Service', service);
+const Session = model('Session', session);
 
-const User = model('User', user)
-const Customer = model('Customer', customer)
-const Service = model('Service', service)
-
-export {
-    User,
-    Customer,
-    Service
-}
+export { User, Customer, Photographer, Service, Session };

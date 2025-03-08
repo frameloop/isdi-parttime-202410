@@ -23,7 +23,6 @@
 
     button {
         @apply cursor-pointer px-2;
-
     }
 
     form {
@@ -50,5 +49,26 @@
 
     .w-full {
         @apply w-full;
+    }
+}
+
+@layer utilities {
+
+    /* Definimos la animación flash */
+    @keyframes flash {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+    }
+
+    /* Creamos la clase animate-flash */
+    .animate-flash {
+        animation: flash 0.5s infinite;
     }
 }

@@ -17,7 +17,7 @@ function Landing() {
                 onClick={() => navigate('/login')}  // Navigate to LoginUser.jsx
                 className="bg-[#B62682] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-all"
             >
-                enter
+                entrar
             </button>
 
             {/* Footer */}

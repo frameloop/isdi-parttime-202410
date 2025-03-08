@@ -5,6 +5,8 @@ import verifyUserExists from './verifyUserExists.js'
 import logoutUser from './logoutUser.js'
 import sendEmail from './sendEmail.js'
 import sendRecoveryEmail from './sendRecoveryEmail.js'
+import getCustomerSessions from './getCustomerSessions.js'
+import getPhotographerSessions from './getPhotographerSessions.js'
 
 const logic = {
     authenticateUser,
@@ -13,7 +15,9 @@ const logic = {
     verifyUserExists,
     logoutUser,
     sendEmail,
-    sendRecoveryEmail
+    sendRecoveryEmail,
+    getCustomerSessions,
+    getPhotographerSessions
 }
 
 export default logic

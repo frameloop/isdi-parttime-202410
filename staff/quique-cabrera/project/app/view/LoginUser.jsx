@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginUser from '../logic/loginUser';
 import { validate } from 'com';
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs"; // Importa el icono de ojo
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,6 +16,7 @@ function LoginUser() {
     const [error, setError] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [successMessage, setSuccessMessage] = useState(null);
+    const [showPassword, setShowPassword] = useState(false); // Nuevo estado para visibilidad
 
     const navigate = useNavigate();
 
@@ -64,13 +66,11 @@ function LoginUser() {
 
                 console.log("Token received:", token);
 
-                // 🔹 Decodificar el token para extraer el payload
                 const [, payloadBase64] = token.split(".");
                 const payload = JSON.parse(atob(payloadBase64));
 
                 console.log("Decoded payload:", payload);
 
-                // 🔹 Extraer el rol correctamente
                 const userRole = payload.role;
                 console.log("Extracted role:", userRole);
 
@@ -78,11 +78,9 @@ function LoginUser() {
                     throw new Error("Role not found in token");
                 }
 
-                // 🔹 Guardar en localStorage
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', userRole);
 
-                // ✅ Redirigir según el rol
                 if (userRole === 'customer') {
                     navigate('/home-customer');
                 } else if (userRole === 'photographer') {
@@ -90,12 +88,11 @@ function LoginUser() {
                 } else if (userRole === 'administrator') {
                     navigate('/home-admin');
                 } else {
-                    navigate('/home'); // Fallback
+                    navigate('/home');
                 }
             })
             .catch(err => setError(err.message));
     };
-
 
     const handleRecoverPassword = () => {
         if (!username.trim()) {
@@ -114,7 +111,7 @@ function LoginUser() {
                     throw new Error("Failed to send recovery email");
                 }
 
-                setSuccessMessage("✅ A recovery email has been sent to your email address.");
+                setSuccessMessage("✅ ¡Correo de recuperación enviado!");
             })
             .catch(err => setError(err.message))
             .finally(() => setShowPopup(false));
@@ -130,7 +127,7 @@ function LoginUser() {
 
             {step === 1 && (
                 <>
-                    <label className="text-black font-semibold mb-2">Your username</label>
+                    <label className="text-black font-semibold mb-2">Usuario</label>
                     <input
                         type="text"
                         value={username}
@@ -138,37 +135,54 @@ function LoginUser() {
                             setUsername(e.target.value);
                             setError(null);
                         }}
-                        placeholder="Enter your username"
-                        className="w-64 p-2 border border-gray-400 rounded-md mb-4"
+                        placeholder="Introduce el usuario"
+                        className="w-64 p-2 border text-base border-gray-400 text-center rounded-md mb-4"
                     />
 
-                    {error && <p className="text-red-500">{error}</p>}
+                    {error && (
+                        <p className="bg-red-500 text-white mb-4 p-2 rounded animate-flash">
+                            {error}
+                        </p>
+                    )}
 
                     <button
                         onClick={handleContinue}
                         className="bg-[#B62682] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-all"
                     >
-                        Continue
+                        continue
                     </button>
                 </>
             )}
 
             {step === 2 && (
                 <form onSubmit={handleLogin} className="flex flex-col items-center">
-                    <p className="text-black font-semibold">Hello again</p>
+                    <p className="text-black font-semibold">Bienvenid@!</p>
                     <p className="text-black mb-4">{name}</p>
 
                     <input type="hidden" name="username" value={username} />
 
-                    <label className="text-black font-semibold mb-2">Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter your password"
-                        className="w-64 p-2 border border-gray-400 rounded-md mb-2"
-                        autoComplete="current-password"
-                    />
+                    <label className="text-black font-semibold mb-2">Contraseña</label>
+                    <div className="relative w-64 mb-2">
+                        <input
+                            type={showPassword ? "text" : "password"} // Cambia según el estado
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="introduce tu contraseña"
+                            className="w-full p-2 text-base border border-gray-400 text-center rounded-md pr-10"
+                            autoComplete="current-password"
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute inset-y-0 right-0 flex items-center pr-3"
+                        >
+                            {showPassword ? (
+                                <div><BsFillEyeSlashFill /></div>
+                            ) : (
+                                <div><BsFillEyeFill /></div>
+                            )}
+                        </button>
+                    </div>
 
                     <a
                         onClick={() => setShowPopup(true)}
@@ -178,17 +192,17 @@ function LoginUser() {
                     </a>
 
                     {showPopup && (
-                        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-                            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+                        <div className="fixed inset-0 flex justify-center items-center bg-[#E1F56E] bg-opacity-50">
+                            <div className="bg-white p-6 rounded-xl shadow-lg text-center">
                                 <p className="text-black font-semibold mb-4">
-                                    Do you want to receive a recovery email?
+                                    ¿Te enviamos un correo de recuperación?
                                 </p>
                                 <div className="flex justify-around">
                                     <button
                                         onClick={handleRecoverPassword}
                                         className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2"
                                     >
-                                        Yes
+                                        Sí, por favor!
                                     </button>
                                     <button
                                         onClick={() => {
@@ -197,14 +211,14 @@ function LoginUser() {
                                         }}
                                         className="bg-red-500 text-white px-4 py-2 rounded-lg"
                                     >
-                                        No
+                                        No, paso!
                                     </button>
                                 </div>
                             </div>
                         </div>
                     )}
 
-                    {successMessage && <p className="text-green-500">{successMessage}</p>}
+                    {successMessage && <p className="text-black text-center">{successMessage}</p>}
 
                     <div className="flex items-center mb-4">
                         <input
@@ -222,7 +236,7 @@ function LoginUser() {
                         type="submit"
                         className="bg-[#B62682] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-all"
                     >
-                        Log in
+                        entrar
                     </button>
                 </form>
             )}

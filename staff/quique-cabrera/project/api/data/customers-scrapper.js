@@ -1,42 +1,59 @@
-console.clear()
+// 🔄 Limpiar la consola al ejecutar el script
+console.clear();
 
-const clientItems = document.querySelectorAll('.client-item')
+// 🏷️ Selecciona todos los elementos que representan clientes en la página
+const clientItems = document.querySelectorAll('.client-item');
 
-const clients = []
+// 📋 Array donde se almacenarán los datos extraídos de cada cliente
+const clients = [];
 
+// 🏃‍♂️ Iterar sobre cada elemento de cliente en la lista
 clientItems.forEach(clientItem => {
-    const client = {}
+    console.log('🔍 Procesando cliente:', clientItem); // 📌 Verificar cada cliente procesado
 
-    const name = clientItem.querySelector('h5').textContent
-    const address = clientItem.querySelector('h6').textContent
+    // 📌 Objeto donde se almacenarán los datos del cliente actual
+    const client = {};
 
-    const contact = clientItem.querySelector('.both')
-    const [phoneAnchor, emailAnchor] = contact.querySelectorAll('a')
-    const phone = phoneAnchor.textContent
-    const email = emailAnchor.textContent
+    // 📌 Extraer el nombre y la dirección del cliente
+    const name = clientItem.querySelector('h5').textContent;
+    const address = clientItem.querySelector('h6').textContent;
+    console.log('📛 Nombre:', name, '| 📍 Dirección:', address); // 📌 Log de nombre y dirección
 
+    // 📌 Extraer la información de contacto
+    const contact = clientItem.querySelector('.both');
+    const [phoneAnchor, emailAnchor] = contact.querySelectorAll('a');
+    const phone = phoneAnchor.textContent;
+    const email = emailAnchor.textContent;
+    console.log('📞 Teléfono:', phone, '| 📧 Email:', email); // 📌 Log de contacto
 
-    const tours = []
-    const toursTypes = clientItem.querySelector('.tour-types').querySelectorAll('small')
+    // 📌 Extraer información de tours asociados al cliente
+    const tours = [];
+    const toursTypes = clientItem.querySelector('.tour-types').querySelectorAll('small');
+
     toursTypes.forEach(tourType => {
-        const type = tourType.className.replace('n_tour_', '')
-        const value = tourType.textContent
+        const type = tourType.className.replace('n_tour_', ''); // 📌 Limpiar el nombre de la clase
+        const value = tourType.textContent; // 📌 Extraer el valor
 
-        const tour = {}
-        tour.type = type
-        tour.value = Number(value)
-        tours.push(tour)
-    })
+        const tour = {
+            type: type,
+            value: Number(value) // 📌 Convertir el valor a número
+        };
 
+        tours.push(tour);
+    });
 
-    client.name = name
-    client.address = address
-    client.phone = phone
-    client.email = email
-    client.tours = tours
+    console.log('🎟️ Tours:', tours); // 📌 Log de los tours asociados al cliente
 
-    clients.push(client)
-})
+    // 📌 Asignar los valores extraídos al objeto cliente
+    client.name = name;
+    client.address = address;
+    client.phone = phone;
+    client.email = email;
+    client.tours = tours;
 
-//console.log(clients)
-console.log(JSON.stringify(clients))
+    // 📌 Agregar el cliente al array de clientes
+    clients.push(client);
+});
+
+// 📌 Mostrar los datos recopilados en formato JSON
+console.log('✅ Clientes extraídos:', JSON.stringify(clients, null, 2));

@@ -11,5 +11,5 @@ export {
     getUserNameHandler,
     verifyUserHandler,
     logoutUserHandler,
-    recoverPasswordHandler
+    recoverPasswordHandler,
 }
