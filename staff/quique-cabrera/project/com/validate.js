@@ -16,7 +16,9 @@ const validate = {
 
     password(password) {
         if (typeof password !== 'string') throw new ValidationError('invalid password type')
-        if (!PASSWORD_REGEX.test(password)) throw new ValidationError('invalid password syntax')
+        if (!PASSWORD_REGEX.test(password)) throw new ValidationError('Password incorrecto')
+        if (!(password)) throw new ValidationError('invalid password')
+
     },
 
     name(name) {

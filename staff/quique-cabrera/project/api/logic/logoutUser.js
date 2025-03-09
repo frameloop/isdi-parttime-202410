@@ -1,4 +1,4 @@
-import { blacklistToken } from '../data/tokenBlacklist.js'; // Importamos la función para agregar tokens a la blacklist
+import { blacklistToken } from '../data/tokenBlackList.js'; // Importamos la función para agregar tokens a la blacklist
 
 export default (req, res, next) => {
     try {

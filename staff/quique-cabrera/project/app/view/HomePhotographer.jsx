@@ -81,7 +81,7 @@ function HomePhotographer() {
                 Editar Disponibilidad
             </button>
 
-            <footer className="absolute bottom-4 text-white text-sm font-semibold">
+            <footer className="absolute bottom-4 text-black text-sm font-semibold">
                 emestudi © 2025
             </footer>
         </div>

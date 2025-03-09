@@ -56,14 +56,20 @@ function LoginUser() {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        validate.password(password);
+        try {
+            validate.password(password); // Lanza ValidationError si falla
+        } catch (validationError) {
+            setError(validationError.message || "Contraseña inválida. Verifica los requisitos.");
+            return;
+        }
 
         loginUser(username, password, rememberMe)
-            .then(({ token }) => {
-                if (!token) {
-                    throw new Error("No token received from API");
+            .then(response => {
+                if (!response.token) {
+                    throw new Error(response.message || "Error al iniciar sesión");
                 }
 
+                const { token } = response;
                 console.log("Token received:", token);
 
                 const [, payloadBase64] = token.split(".");
@@ -91,7 +97,10 @@ function LoginUser() {
                     navigate('/home');
                 }
             })
-            .catch(err => setError(err.message));
+            .catch(err => {
+                // Mostrar el mensaje de error devuelto por la API
+                setError(err.message || "Error al iniciar sesión. Intenta de nuevo.");
+            });
     };
 
     const handleRecoverPassword = () => {
@@ -140,7 +149,7 @@ function LoginUser() {
                     />
 
                     {error && (
-                        <p className="bg-red-500 text-white mb-4 p-2 rounded animate-flash">
+                        <p className="bg-[#6E82F5] text-white mb-4 p-2 rounded animate-flash">
                             {error}
                         </p>
                     )}
@@ -230,7 +239,11 @@ function LoginUser() {
                         <label className="text-black text-sm">Remember your details</label>
                     </div>
 
-                    {error && <p className="text-red-500">{error}</p>}
+                    {error && (
+                        <p className="bg-[#6E82F5] text-white mb-4 p-2 rounded animate-flash">
+                            {error}
+                        </p>
+                    )}
 
                     <button
                         type="submit"

@@ -40,7 +40,7 @@ const authenticateUser = (username, password) => {
 
                     if (!match) {
                         console.error('❌ [authenticateUser] Incorrect password');
-                        throw new CredentialsError('bcrypt: wrong credentials');
+                        throw new CredentialsError('wrong credentials');
                     }
 
                     return user._id.toString();

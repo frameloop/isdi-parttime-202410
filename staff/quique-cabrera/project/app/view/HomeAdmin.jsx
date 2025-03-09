@@ -104,7 +104,7 @@ function HomeAdmin() {
                 )}
             </section>
 
-            <footer className="absolute bottom-4 text-gray-700 text-sm font-semibold">
+            <footer className="absolute bottom-4 text-black text-sm font-semibold">
                 emestudi © 2025
             </footer>
         </div>

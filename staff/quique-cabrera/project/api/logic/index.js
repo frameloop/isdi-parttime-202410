@@ -17,7 +17,7 @@ const logic = {
     sendEmail,
     sendRecoveryEmail,
     getCustomerSessions,
-    getPhotographerSessions
+    getPhotographerSessions,
 }
 
 export default logic
