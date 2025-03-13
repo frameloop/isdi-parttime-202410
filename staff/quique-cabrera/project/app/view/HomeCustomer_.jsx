@@ -109,14 +109,6 @@ function HomeCustomer() {
                     <Calendar
                         onChange={handleDateChange}
                         value={selectedDate}
-                        tileClassName={({ date, view }) => {
-                            if (view === 'month') {
-                                const dateStr = date.toISOString().split("T")[0];
-                                return availability.some(slot => slot.date.startsWith(dateStr))
-                                    ? 'bg-green-500 text-black font-bold rounded-full'
-                                    : 'text-gray-400';
-                            }
-                        }}
                         className="mt-4 border border-gray-300"
                     />
                     <button

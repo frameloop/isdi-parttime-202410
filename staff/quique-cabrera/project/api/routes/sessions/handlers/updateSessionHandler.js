@@ -1,6 +1,5 @@
 import { Session } from '../../../data/models.js';
 
-// Actualizar sesión (cambiar estado)
 export const updateSession = async (req, res) => {
     try {
         const { status } = req.body;

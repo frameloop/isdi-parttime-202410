@@ -1,21 +1,32 @@
-import logic from '../../../logic/index.js'
-import jwt from 'jsonwebtoken'
+import { Photographer, Session } from '../../../data/models.js';
 
-export default (req, res, next) => {
+export const getPhotographerSessions = async (req, res) => {
     try {
-        if (!req.headers.authorization) {
-            return res.status(401).json({ error: "AuthorizationError", message: "Missing token" });
+        console.log('🟢 [getPhotographerSessions] Request received');
+
+        if (!req.user) {
+            console.warn('⚠️ [getPhotographerSessions] No user found in request');
+            return res.status(401).json({ error: "AuthorizationError", message: "User not found" });
         }
 
-        const token = req.headers.authorization.slice(7);
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        const { sub: userId } = payload; // Obtiene el ID del usuario autenticado
+        console.log(`🔍 [getPhotographerSessions] Searching for photographer linked to user ID: ${req.user._id}`);
 
-        logic.getPhotographerSessions(userId)
-            .then(sessions => res.json(sessions))
-            .catch(error => next(error));
+        const photographer = await Photographer.findOne({ user: req.user._id }).populate('user');
 
+        if (!photographer) {
+            console.warn(`⚠️ [getPhotographerSessions] No photographer found for user ID: ${req.user._id}`);
+            return res.status(404).json({ error: 'Not Found', message: 'Photographer not found' });
+        }
+
+        console.log(`✅ [getPhotographerSessions] Photographer found:`, photographer);
+
+        const sessions = await Session.find({ photographer: photographer._id })
+            .populate('customer', 'name email phone');
+
+        console.log(`✅ [getPhotographerSessions] Found ${sessions.length} sessions`);
+        res.json({ photographer, sessions });
     } catch (error) {
-        next(error);
+        console.error('❌ [getPhotographerSessions] Error fetching photographer sessions:', error);
+        res.status(500).json({ error: 'Internal Server Error', message: 'Error fetching photographer sessions' });
     }
 };

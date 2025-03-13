@@ -1,14 +1,33 @@
 [
     {
         "name": "QuiQue Cabrera",
-        "email": "quique@emestudi.es",
-        "phone": "555555555",
-        "username": "quique"
+        "email": "quique@example.com",
+        "phone": "123456789",
+        "username": "quique",
+        "availability": [
+            {
+                "date": "2025-03-15",
+                "startTime": "09:00",
+                "endTime": "12:00"
+            },
+            {
+                "date": "2025-03-16",
+                "startTime": "14:00",
+                "endTime": "18:00"
+            }
+        ]
     },
     {
         "name": "Cristina Crespo",
-        "email": "cristina@emestudi.es",
-        "phone": "555555555",
-        "username": "cristina"
+        "email": "cristina@example.com",
+        "phone": "987654321",
+        "username": "cristina",
+        "availability": [
+            {
+                "date": "2025-03-17",
+                "startTime": "10:00",
+                "endTime": "13:00"
+            }
+        ]
     }
 ]

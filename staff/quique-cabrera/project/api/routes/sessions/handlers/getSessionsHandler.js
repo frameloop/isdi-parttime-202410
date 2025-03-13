@@ -1,6 +1,5 @@
 import { Session } from '../../../data/models.js';
 
-// Obtener todas las sesiones
 export const getSessions = async (req, res) => {
     try {
         const sessions = await Session.find()

@@ -1,17 +1,33 @@
 import { Customer, Photographer, Session } from '../../../data/models.js';
+import jwt from 'jsonwebtoken';
 
-// Eliminar sesión
-export const deleteSession = async (req, res) => {
+export const deleteSession = async (req, res, next) => {
     try {
-        const session = await Session.findByIdAndDelete(req.params.id);
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) return res.status(401).json({ error: 'Unauthorized' });
+
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = payload.sub;
+
+        const session = await Session.findById(req.params.id);
         if (!session) return res.status(404).json({ error: 'Session not found' });
 
-        // Remover la sesión de clientes y fotógrafos
-        await Customer.findByIdAndUpdate(session.customer, { $pull: { sessions: session._id } });
-        await Photographer.findByIdAndUpdate(session.photographer, { $pull: { sessions: session._id } });
+        const isCustomer = session.customer.toString() === userId;
+        const isPhotographer = session.photographer.toString() === userId;
 
-        res.json({ message: 'Session deleted' });
+        if (!isCustomer && !isPhotographer) {
+            return res.status(403).json({ error: 'Forbidden: You can only delete your own sessions' });
+        }
+
+        await Session.findByIdAndDelete(req.params.id);
+
+        await Promise.all([
+            Customer.findByIdAndUpdate(session.customer, { $pull: { sessions: session._id } }),
+            Photographer.findByIdAndUpdate(session.photographer, { $pull: { sessions: session._id } })
+        ]);
+
+        res.status(204).send();
     } catch (error) {
-        res.status(500).json({ error: 'Error deleting session' });
+        next(error);
     }
 };

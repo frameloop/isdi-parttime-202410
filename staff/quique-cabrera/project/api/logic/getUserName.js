@@ -1,18 +1,18 @@
-import { User } from '../data/models.js'
-import { validate, errors } from 'com'
+import { User } from '../data/models.js';
+import { validate, errors } from 'com';
 
-const { SystemError, NotFoundError } = errors
+const { SystemError, NotFoundError } = errors;
 
 const getUserName = userId => {
-    validate.id(userId, 'userId')
+    validate.id(userId, 'userId');
 
     return User.findById(userId)
-        .catch(error => { throw new SystemError(error.message) })
+        .catch(error => { throw new SystemError(error.message); })
         .then(user => {
-            if (!user) throw new NotFoundError('user not found')
+            if (!user) throw new NotFoundError('user not found');
 
-            return user.name
-        })
-}
+            return user.name;
+        });
+};
 
-export default getUserName
+export default getUserName;

@@ -7,23 +7,25 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs"; // Importa e
 const API_URL = import.meta.env.VITE_API_URL;
 
 function LoginUser() {
-    const [step, setStep] = useState(1);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [role, setRole] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-    const [error, setError] = useState(null);
-    const [showPopup, setShowPopup] = useState(false);
-    const [successMessage, setSuccessMessage] = useState(null);
-    const [showPassword, setShowPassword] = useState(false); // Nuevo estado para visibilidad
+    // Estados para manejar el flujo del componente
+    const [step, setStep] = useState(1); // Paso actual del formulario (1: usuario, 2: contraseña)
+    const [username, setUsername] = useState(''); // Nombre de usuario ingresado
+    const [password, setPassword] = useState(''); // Contraseña ingresada
+    const [name, setName] = useState(''); // Nombre completo del usuario
+    const [role, setRole] = useState(''); // Rol del usuario (no usado en el render)
+    const [rememberMe, setRememberMe] = useState(false); // Opción de recordar datos
+    const [error, setError] = useState(null); // Mensaje de error
+    const [showPopup, setShowPopup] = useState(false); // Mostrar popup de recuperación
+    const [successMessage, setSuccessMessage] = useState(null); // Mensaje de éxito
+    const [showPassword, setShowPassword] = useState(false); // Visibilidad de la contraseña
+    const navigate = useNavigate(); // Hook para navegación
 
-    const navigate = useNavigate();
-
+    // 📌 Manejar la verificación del usuario (paso 1)
     const handleContinue = () => {
-        console.log("Username being validated:", username);
+        console.log("[handleContinue] 🔍 Username being validated:", username);
 
         if (!username.trim()) {
+            console.log("[handleContinue] ⚠️ Username vacío");
             setError('Please enter a username');
             return;
         }
@@ -41,7 +43,7 @@ function LoginUser() {
                     throw new Error("User does not exist");
                 }
 
-                console.log("User verified:", data);
+                console.log("[handleContinue] ✅ User verified:", data);
 
                 setName(data.name);
                 localStorage.setItem('name', data.name);
@@ -50,14 +52,18 @@ function LoginUser() {
                 setStep(2);
                 setError(null);
             })
-            .catch(err => setError(err.message));
+            .catch(err => {
+                console.log("[handleContinue] ❌ Error verifying user:", err.message);
+                setError(err.message);
+            });
     };
 
+    // 📌 Manejar el inicio de sesión (paso 2)
     const handleLogin = (e) => {
         e.preventDefault();
 
         try {
-            validate.password(password); // Lanza ValidationError si falla
+            validate.password(password);
         } catch (validationError) {
             setError(validationError.message || "Contraseña inválida. Verifica los requisitos.");
             return;
@@ -70,22 +76,31 @@ function LoginUser() {
                 }
 
                 const { token } = response;
-                console.log("Token received:", token);
+                console.log("[LOGIN] ✅ Token received:", token);
 
                 const [, payloadBase64] = token.split(".");
                 const payload = JSON.parse(atob(payloadBase64));
 
-                console.log("Decoded payload:", payload);
+                console.log("[LOGIN] 🔍 Decoded payload:", payload);
 
                 const userRole = payload.role;
-                console.log("Extracted role:", userRole);
+                const photographerId = payload.photographerId || null; // 🔹 Aseguramos `photographerId`
+
+                console.log("[LOGIN] 🎭 Extracted role:", userRole);
+                console.log("[LOGIN] 📸 Extracted photographerId:", photographerId);
 
                 if (!userRole) {
                     throw new Error("Role not found in token");
                 }
 
                 localStorage.setItem('token', token);
+                localStorage.setItem('name', payload.name || username);
                 localStorage.setItem('role', userRole);
+
+                if (userRole === 'photographer' && photographerId) {
+                    localStorage.setItem('photographerId', photographerId);
+                    console.log("[LOGIN] 📸 photographerId guardado:", photographerId);
+                }
 
                 if (userRole === 'customer') {
                     navigate('/home-customer');
@@ -98,16 +113,21 @@ function LoginUser() {
                 }
             })
             .catch(err => {
-                // Mostrar el mensaje de error devuelto por la API
+                console.error("[LOGIN] ❌ Error al iniciar sesión:", err.message);
                 setError(err.message || "Error al iniciar sesión. Intenta de nuevo.");
             });
     };
 
+
+    // 📌 Manejar la recuperación de contraseña
     const handleRecoverPassword = () => {
         if (!username.trim()) {
+            console.log("[handleRecoverPassword] ⚠️ Username vacío");
             setError("Please enter your username before requesting a recovery email.");
             return;
         }
+
+        console.log("[handleRecoverPassword] 📧 Solicitando recuperación para:", username);
 
         fetch(`${API_URL}/users/recover-password`, {
             method: 'POST',
@@ -120,9 +140,13 @@ function LoginUser() {
                     throw new Error("Failed to send recovery email");
                 }
 
+                console.log("[handleRecoverPassword] ✅ Correo de recuperación enviado");
                 setSuccessMessage("✅ ¡Correo de recuperación enviado!");
             })
-            .catch(err => setError(err.message))
+            .catch(err => {
+                console.log("[handleRecoverPassword] ❌ Error enviando correo:", err.message);
+                setError(err.message);
+            })
             .finally(() => setShowPopup(false));
     };
 
@@ -186,9 +210,9 @@ function LoginUser() {
                             className="absolute inset-y-0 right-0 flex items-center pr-3"
                         >
                             {showPassword ? (
-                                <div><BsFillEyeSlashFill /></div>
+                                <BsFillEyeSlashFill />
                             ) : (
-                                <div><BsFillEyeFill /></div>
+                                <BsFillEyeFill />
                             )}
                         </button>
                     </div>

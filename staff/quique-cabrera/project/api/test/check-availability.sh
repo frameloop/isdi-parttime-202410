@@ -1,0 +1,5 @@
+curl -X GET http://localhost:8080/sessions/availability \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2QxZjlkNWU2YzIxMjMyZTRhZWNhYWMiLCJyb2xlIjoicGhvdG9ncmFwaGVyIiwiaWF0IjoxNzQxODE3NDU1LCJleHAiOjE3NDE4MjEwNTV9.REo2jlTpoMS1wV-Q9NakRGD_52AV2xaQGEJSbrNOXYE"
+
+curl -X GET http://localhost:8080/sessions/availability/67d1f9d5e6c21232e4aecaac \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2QxZjlkNWU2YzIxMjMyZTRhZWNhYWMiLCJyb2xlIjoicGhvdG9ncmFwaGVyIiwiaWF0IjoxNzQxODE3NDU1LCJleHAiOjE3NDE4MjEwNTV9.REo2jlTpoMS1wV-Q9NakRGD_52AV2xaQGEJSbrNOXYE"
