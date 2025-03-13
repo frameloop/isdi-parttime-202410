@@ -54,51 +54,6 @@ function HomePhotographer() {
     }, [navigate]);
 
 
-    // useEffect(() => {
-    //     console.log("[useEffect inicial] 🚀 Iniciando carga de datos del usuario");
-    //     let storedName = localStorage.getItem('name');
-    //     let storedPhotographerId = localStorage.getItem('photographerId');  // 👈 Obtener ID de fotógrafo
-    //     let token = localStorage.getItem('token');
-
-    //     if (!storedName || !storedPhotographerId || !token) {
-    //         console.log("[useEffect inicial] ⚠️ No hay nombre, ID de fotógrafo o token, redirigiendo a login");
-    //         navigate('/login');
-    //         return;
-    //     }
-
-    //     storedName = storedName.replace(/\s*\(\d+\)$/, '');
-    //     setName(storedName);
-    //     setPhotographerId(storedPhotographerId);  // 👈 Guardar ID en el estado
-    //     console.log("[useEffect inicial] 👤 Nombre procesado:", storedName);
-    //     console.log("[useEffect inicial] 📸 ID del fotógrafo:", storedPhotographerId);
-
-    //     fetchAvailability();
-    // }, [navigate]);
-
-    //OK
-    // useEffect(() => {
-    //     console.log("[useEffect inicial] 🚀 Iniciando carga de datos del usuario");
-    //     let storedName = localStorage.getItem('name');
-    //     if (!storedName) {
-    //         console.log("[useEffect inicial] ⚠️ No hay nombre en localStorage, redirigiendo a login");
-    //         navigate('/login');
-    //         return;
-    //     }
-
-    //     storedName = storedName.replace(/\s*\(\d+\)$/, '');
-    //     setName(storedName);
-    //     console.log("[useEffect inicial] 👤 Nombre procesado:", storedName);
-
-    //     const token = localStorage.getItem('token');
-    //     if (!token) {
-    //         console.log("[useEffect inicial] ⚠️ No hay token, redirigiendo a login");
-    //         navigate('/login');
-    //         return;
-    //     }
-
-    //     fetchAvailability();
-    // }, [navigate]);
-
     // 📌 Obtener disponibilidad y sesiones cuando `photographerId` esté disponible
     useEffect(() => {
         if (photographerId) {
@@ -241,7 +196,9 @@ function HomePhotographer() {
             const isAvailable = availability.some(slot => slot.date.startsWith(formattedDate));
 
             if (isAvailable) {
-                return 'bg-green-500 text-white font-bold rounded-full';
+                return 'text-black font-extrabold'; // 🔹 Días con disponibilidad en negro y negrita
+            } else {
+                return 'text-gray-400'; // 🔹 Todos los demás días en gris
             }
         }
         return null;
@@ -300,8 +257,8 @@ function HomePhotographer() {
                             <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="border p-2 w-full" />
                             <label className="block text-gray-700 mt-2">Hora de fin:</label>
                             <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="border p-2 w-full" />
-                            <button className="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg" onClick={handleSaveAvailability}>
-                                Guardar Disponibilidad
+                            <button className="mt- bg-green-500 text-white px-4 py-2 rounded-lg" onClick={handleSaveAvailability}>
+                                Guardar
                             </button>
                         </>
                     )}

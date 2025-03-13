@@ -5,24 +5,31 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 function HomeCustomer() {
-    const [name, setName] = useState('');
-    const [sessions, setSessions] = useState([]);
-    const [availability, setAvailability] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [availableSlots, setAvailableSlots] = useState([]);
-    const [showCalendar, setShowCalendar] = useState(false);
-    const navigate = useNavigate();
+    // Estados para manejar datos del componente
+    const [name, setName] = useState(''); // Nombre del cliente
+    const [sessions, setSessions] = useState([]); // Lista de sesiones programadas
+    const [availability, setAvailability] = useState([]); // Lista de disponibilidad de fotógrafos
+    const [selectedDate, setSelectedDate] = useState(null); // Fecha seleccionada en el calendario
+    const [availableSlots, setAvailableSlots] = useState([]); // Slots disponibles para la fecha seleccionada
+    const [showCalendar, setShowCalendar] = useState(false); // Mostrar u ocultar el calendario
+    const navigate = useNavigate(); // Hook para navegación
 
+    // 📌 Cargar datos iniciales al montar el componente
     useEffect(() => {
+        console.log("[useEffect inicial] 🚀 Iniciando carga de datos del cliente");
         const storedName = localStorage.getItem('name');
         const token = localStorage.getItem('token');
 
         if (!storedName || !token) {
+            console.log("[useEffect inicial] ⚠️ Falta nombre o token, redirigiendo a login");
             navigate('/login');
             return;
         }
 
-        setName(storedName.replace(/\s*\(\d+\)$/, ''));
+        const processedName = storedName.replace(/\s*\(\d+\)$/, '');
+        setName(processedName);
+        console.log("[useEffect inicial] 👤 Nombre procesado:", processedName);
+
         fetchSessions();
         fetchAvailability();
     }, [navigate]);
@@ -30,7 +37,13 @@ function HomeCustomer() {
     // 📌 Obtener sesiones programadas
     const fetchSessions = () => {
         const token = localStorage.getItem('token');
+        if (!token) {
+            console.log("[fetchSessions] ⚠️ Falta token");
+            return;
+        }
+
         const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/customer`;
+        console.log("[fetchSessions] 🌐 Realizando petición a:", apiUrl);
 
         fetch(apiUrl, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -46,7 +59,13 @@ function HomeCustomer() {
     // 📌 Obtener disponibilidad de los fotógrafos
     const fetchAvailability = () => {
         const token = localStorage.getItem('token');
+        if (!token) {
+            console.log("[fetchAvailability] ⚠️ Falta token");
+            return;
+        }
+
         const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/availability`;
+        console.log("[fetchAvailability] 🌐 Realizando petición a:", apiUrl);
 
         fetch(apiUrl, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -66,8 +85,8 @@ function HomeCustomer() {
 
         const selectedDateStr = date.toISOString().split("T")[0];
         const slots = availability.filter(slot => slot.date.startsWith(selectedDateStr));
-
         setAvailableSlots(slots);
+        console.log("[handleDateChange] 📋 Slots disponibles para la fecha:", slots);
     };
 
     return (

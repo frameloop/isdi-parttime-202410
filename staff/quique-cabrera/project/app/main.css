@@ -72,3 +72,14 @@
         animation: flash 0.5s infinite;
     }
 }
+
+/* Por defecto, todos los números del calendario estarán en gris */
+.react-calendar__tile {
+    color: rgb(173, 173, 173) !important;
+}
+
+/* Los días con disponibilidad se verán en negro y negrita */
+.react-calendar__tile.text-black {
+    color: black !important;
+    font-weight: 900 !important;
+}
