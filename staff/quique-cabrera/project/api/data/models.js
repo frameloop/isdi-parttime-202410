@@ -37,8 +37,8 @@ const customerSchema = new Schema({
 
 // 🔹 Esquema de fotógrafo (photographer) con disponibilidad y sesiones
 const photographerSchema = new Schema({
-    user: { type: ObjectId, ref: 'User', required: true }, // 🔥 Asegúrate de que está referenciado correctamente
-    coverage_area: { type: String, required: true },
+    user: { type: ObjectId, ref: 'User', required: true },
+    coverage_area: { type: String, required: true }, // 🔴 REQUERIDO
     sessions: [{ type: ObjectId, ref: 'Session' }]
 });
 

@@ -32,6 +32,8 @@ const startApi = () => {
     });
 
     api.use('/users', usersRouter);
+
+    api.use('/admin', usersRouter);
     api.use('/sessions', sessionsRouter);
     api.use(errorHandler);
 
