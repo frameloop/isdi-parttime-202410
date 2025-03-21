@@ -4,52 +4,71 @@ import bcrypt from 'bcryptjs';
 
 const { DuplicityError, SystemError } = errors;
 
-const registerUser = (name, email, phone, username, password, role, coverage) => {
-    console.log(`[registerUser] Request received with username: ${username}, role: ${role}`);
-
+const registerUser = async (name, email, phone, username, password, role, coverage) => {
     try {
+        console.log('[registerUser] 🚀 Iniciando registro de usuario:', { username, role });
+
         validate.name(name);
         validate.email(email);
         validate.phone(phone);
         validate.username(username);
         validate.password(password);
-        console.log(`[registerUser] All input validations passed for: ${username}`);
+
+        // Validar role
+        if (!['customer', 'photographer', 'administrator'].includes(role)) {
+            throw new SystemError('Rol de usuario no válido');
+        }
+
+        // Validar coverage para fotógrafos
+        if (role === 'photographer' && !coverage) {
+            throw new SystemError('El área de cobertura es requerida para fotógrafos');
+        }
+
+        // Verificar si el usuario ya existe
+        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+        if (existingUser) {
+            console.warn(`[registerUser] ⚠️ Usuario ya existe:`, { email, username });
+            throw new DuplicityError('El usuario ya está registrado');
+        }
+
+        // Crear el usuario
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await new User({
+            name,
+            email,
+            phone,
+            username,
+            password: hashedPassword,
+            role
+        }).save();
+
+        console.log(`[registerUser] ✅ Usuario creado:`, { id: user._id, username, role });
+
+        // Si es fotógrafo, crear el perfil
+        if (role === 'photographer') {
+            console.log(`[registerUser] 📸 Creando perfil de fotógrafo para:`, { id: user._id, username });
+
+            // Verificar si ya existe un perfil de fotógrafo para este usuario
+            const existingPhotographer = await Photographer.findOne({ user: user._id });
+
+            if (!existingPhotographer) {
+                await new Photographer({
+                    user: user._id,
+                    coverage_area: coverage,
+                    sessions: []
+                }).save();
+                console.log(`[registerUser] ✅ Perfil de fotógrafo creado para:`, { id: user._id, username });
+            } else {
+                console.warn(`[registerUser] ⚠️ El perfil de fotógrafo ya existe para:`, { id: user._id, username });
+            }
+        }
+
+        return user;
     } catch (error) {
-        console.error(`[registerUser] Validation error: ${error.message}`);
-        return Promise.reject(new SystemError(error.message));
+        console.error('[registerUser] ❌ Error:', error);
+        if (error instanceof DuplicityError) throw error;
+        throw new SystemError(error.message);
     }
-
-    return bcrypt.hash(password, 10)
-        .then(hash => {
-            console.log(`[registerUser] Password hashed successfully for: ${username}`);
-
-            const user = new User({ name, email, phone, username, password: hash, role });
-            console.log(`[registerUser] Creating new user: ${username}`);
-
-            return user.save();
-        })
-        .then(user => {
-            console.log(`[registerUser] User registered successfully: ${username}`);
-
-            // 🔹 Si el usuario es fotógrafo, creamos su perfil en la colección photographers
-            if (role === 'photographer') {
-                console.log(`[registerUser] Creating photographer profile for: ${username}`);
-
-                const photographer = new Photographer({ user: user._id, coverage_area: coverage });
-                return photographer.save().then(() => user);
-            }
-
-            return user;
-        })
-        .catch(error => {
-            if (error.code === 11000) {
-                console.warn(`[registerUser] Duplicate user found: ${username}`);
-                throw new DuplicityError('User already exists');
-            }
-
-            console.error(`[registerUser] Database error: ${error.message}`);
-            throw new SystemError(error.message);
-        });
 };
 
 export default registerUser;

@@ -7,7 +7,7 @@ import { User, Customer, Photographer, Service, Session, Availability } from './
 const SALT_ROUNDS = 10;
 
 mongoose.connect(process.env.MONGO_URL)
-    .then(() => mongoose.connection.dropDatabase())
+    // .then(() => mongoose.connection.dropDatabase())
     .then(() => {
         console.log('Database cleared, starting population...');
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineLogout } from "react-icons/md";
+import { FaDeleteLeft } from "react-icons/fa6";
 
 function HomeAdmin() {
     const [name, setName] = useState('');
@@ -89,7 +90,8 @@ function HomeAdmin() {
 
     const handleDeletePhotographer = (id) => {
         const token = localStorage.getItem('token');
-        console.log('Eliminando fotógrafo con ID:', id);
+        console.log('Eliminando fotógrafo con ID:', id);  // 🔍 DEBUG
+
         fetch(`${import.meta.env.VITE_API_URL}/admin/photographers/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
@@ -111,7 +113,7 @@ function HomeAdmin() {
             </header>
 
             {/* ✅ CORREGIDO: Formulario envuelve los inputs */}
-            <form className="w-full max-w-lg bg-white p-4 rounded-lg shadow mt-4" onSubmit={handleAddPhotographer}>
+            <form className="w-full max-w-lg bg-[#E1F56E] p-4 rounded-lg" onSubmit={handleAddPhotographer}>
                 <h2 className="text-lg font-bold text-gray-700 text-center">Registrar Fotógrafo</h2>
 
                 <input type="text" placeholder="Nombre" className="w-full p-2 border my-2"
@@ -144,17 +146,16 @@ function HomeAdmin() {
                     onChange={(e) => setNewPhotographer({ ...newPhotographer, coverage_area: e.target.value })}
                 />
 
-                <button type="submit" className="w-full bg-[#B62682] text-white p-2 rounded">
+                <button type="submit" className="w-full bg-[#B62682] text-white p-2 rounded mt-2">
                     Registrar
                 </button>
             </form>
-
-            <section className="w-full max-w-lg bg-white p-4 rounded-lg shadow mt-4">
+            <section className="w-full max-w-lg bg-[#E1F56E] p-4 rounded-lg mt-0">
                 <h2 className="text-lg font-bold text-gray-700 text-center">Fotógrafos Registrados</h2>
                 {photographers.length > 0 ? (
                     <ul>
                         {photographers.map((photographer, index) => (
-                            <li key={photographer._id || index} className="p-2 border-b flex justify-between">
+                            <li key={photographer._id || index} className="p-2 border-b font-bold flex justify-between">
                                 <span>{photographer.user?.name || `Fotógrafo ${index + 1}`}</span>
                                 <button onClick={() => handleDeletePhotographer(photographer._id)} className="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
                             </li>

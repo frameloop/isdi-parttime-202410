@@ -5,7 +5,7 @@ curl -X POST -H 'Content-Type: application/json' -d '{"name":"Open IA","email":"
 
 curl -X POST http://localhost:8080/admin/photographers \
 -H "Content-Type: application/json" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2Q0NzA1NzBjYjk1NTg4MjA4NzZhYTkiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MTk4Nzg0OCwiZXhwIjoxNzQxOTkxNDQ4fQ.5X3rTKnVB0v0Za1P4F7ZzRdVgnhtbkxUc9tGAXHZFO8" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2RiNThiMDIxMTQ1MGE4ZTUxZmQ2YTgiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MjQyODgwOSwiZXhwIjoxNzQyNDMyNDA5fQ.YW9fuKqxvT8vfUHj4pDVwFcs6PvPJz_WSMYk683arNM" \
 -d '{
     "name": "Ned Flanders",
     "username": "flanders",

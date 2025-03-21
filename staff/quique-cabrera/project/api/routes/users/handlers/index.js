@@ -5,6 +5,7 @@ import verifyUserHandler from './verifyUserHandler.js';
 import logoutUserHandler from './logoutUserHandler.js';
 import recoverPasswordHandler from './recoverPasswordHandler.js';
 import { getAllPhotographers } from './getAllPhotographers.js';
+import { deletePhotographer } from './deletePhotographer.js';
 
 export {
     registerUserHandler,
@@ -13,5 +14,6 @@ export {
     verifyUserHandler,
     logoutUserHandler,
     recoverPasswordHandler,
-    getAllPhotographers
+    getAllPhotographers,
+    deletePhotographer
 };
