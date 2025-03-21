@@ -94,7 +94,9 @@ function LoginUser() {
                 }
 
                 localStorage.setItem('token', token);
-                localStorage.setItem('name', payload.name || username);
+                if (!localStorage.getItem('name')) {
+                    localStorage.setItem('name', payload.name || username);
+                }
                 localStorage.setItem('role', userRole);
 
                 if (userRole === 'photographer' && photographerId) {

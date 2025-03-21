@@ -26,7 +26,7 @@ function HomeCustomer() {
             return;
         }
 
-        const processedName = storedName.replace(/\s*\(\d+\)$/, '');
+        const processedName = storedName.split('(')[0].trim();
         setName(processedName);
         console.log("[useEffect inicial] 👤 Nombre procesado:", processedName);
 
@@ -42,7 +42,7 @@ function HomeCustomer() {
             return;
         }
 
-        const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/customer`;
+        const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/my-sessions`;
         console.log("[fetchSessions] 🌐 Realizando petición a:", apiUrl);
 
         fetch(apiUrl, {
