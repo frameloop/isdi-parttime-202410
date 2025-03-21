@@ -123,7 +123,7 @@ function HomeCustomer() {
             )}
 
             {showCalendar && (
-                <section className="w-full max-w-lg bg-white p-4 rounded-lg shadow mt-4">
+                <section className="w-full max-w-lg  bg-[#E1F56E] p-4 rounded-lg mt-2">
                     <h2 className="text-lg font-bold text-gray-700 text-center">Seleccionar Disponibilidad</h2>
                     <Calendar
                         onChange={handleDateChange}
