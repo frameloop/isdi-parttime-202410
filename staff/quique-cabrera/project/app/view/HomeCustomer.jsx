@@ -5,88 +5,52 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 function HomeCustomer() {
-    // Estados para manejar datos del componente
-    const [name, setName] = useState(''); // Nombre del cliente
-    const [sessions, setSessions] = useState([]); // Lista de sesiones programadas
-    const [availability, setAvailability] = useState([]); // Lista de disponibilidad de fotógrafos
-    const [selectedDate, setSelectedDate] = useState(null); // Fecha seleccionada en el calendario
-    const [availableSlots, setAvailableSlots] = useState([]); // Slots disponibles para la fecha seleccionada
-    const [showCalendar, setShowCalendar] = useState(false); // Mostrar u ocultar el calendario
-    const navigate = useNavigate(); // Hook para navegación
+    const [name, setName] = useState('');
+    const [sessions, setSessions] = useState([]);
+    const [availability, setAvailability] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [availableSlots, setAvailableSlots] = useState([]);
+    const [showCalendar, setShowCalendar] = useState(false);
+    const navigate = useNavigate();
 
-    // 📌 Cargar datos iniciales al montar el componente
     useEffect(() => {
-        console.log("[useEffect inicial] 🚀 Iniciando carga de datos del cliente");
-        const storedName = localStorage.getItem('name');
+        const storedName = localStorage.getItem('name')?.split('(')[0].trim();
         const token = localStorage.getItem('token');
+        if (!storedName || !token) return navigate('/login');
 
-        if (!storedName || !token) {
-            console.log("[useEffect inicial] ⚠️ Falta nombre o token, redirigiendo a login");
-            navigate('/login');
-            return;
-        }
-
-        const processedName = storedName.split('(')[0].trim();
-        setName(processedName);
-        console.log("[useEffect inicial] 👤 Nombre procesado:", processedName);
-
+        setName(storedName);
         fetchSessions();
         fetchAvailability();
     }, [navigate]);
 
-    // 📌 Obtener sesiones programadas
     const fetchSessions = () => {
         const token = localStorage.getItem('token');
-        if (!token) {
-            console.log("[fetchSessions] ⚠️ Falta token");
-            return;
-        }
+        if (!token) return;
 
-        const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/my-sessions`;
-        console.log("[fetchSessions] 🌐 Realizando petición a:", apiUrl);
-
-        fetch(apiUrl, {
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/my-sessions`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(res => res.json())
-            .then(data => {
-                console.log("[fetchSessions] 📅 Sesiones obtenidas:", data);
-                setSessions(data);
-            })
-            .catch(error => console.error('[ERROR] ❌ Fetching sessions:', error));
+            .then(setSessions)
+            .catch(console.error);
     };
 
-    // 📌 Obtener disponibilidad de los fotógrafos
     const fetchAvailability = () => {
         const token = localStorage.getItem('token');
-        if (!token) {
-            console.log("[fetchAvailability] ⚠️ Falta token");
-            return;
-        }
+        if (!token) return;
 
-        const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/availability`;
-        console.log("[fetchAvailability] 🌐 Realizando petición a:", apiUrl);
-
-        fetch(apiUrl, {
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/availability`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(res => res.json())
-            .then(data => {
-                console.log("[fetchAvailability] 📅 Disponibilidad obtenida:", data);
-                setAvailability(data);
-            })
-            .catch(error => console.error('[ERROR] ❌ Fetching availability:', error));
+            .then(setAvailability)
+            .catch(console.error);
     };
 
-    // 📌 Manejo de selección de fecha
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        console.log("[handleDateChange] 📅 Fecha seleccionada:", date);
-
         const selectedDateStr = date.toISOString().split("T")[0];
-        const slots = availability.filter(slot => slot.date.startsWith(selectedDateStr));
-        setAvailableSlots(slots);
-        console.log("[handleDateChange] 📋 Slots disponibles para la fecha:", slots);
+        setAvailableSlots(availability.filter(slot => slot.date.startsWith(selectedDateStr)));
     };
 
     return (
@@ -100,7 +64,7 @@ function HomeCustomer() {
 
             <section className="w-full max-w-lg bg-white p-4 rounded-lg shadow mt-4">
                 <h2 className="text-lg font-bold text-gray-700 text-center">Sesiones Programadas</h2>
-                {sessions.length > 0 ? (
+                {sessions.length ? (
                     <ul className="mt-2">
                         {sessions.map((session, index) => (
                             <li key={index} className="p-2 border-b flex justify-between">
@@ -113,50 +77,35 @@ function HomeCustomer() {
                 )}
             </section>
 
-            {!showCalendar && (
-                <button
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
-                    onClick={() => setShowCalendar(true)}
-                >
+            {!showCalendar ? (
+                <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(true)}>
                     Solicitar Sesión
                 </button>
-            )}
-
-            {showCalendar && (
-                <section className="w-full max-w-lg  bg-[#E1F56E] p-4 rounded-lg mt-2">
+            ) : (
+                <section className="w-full max-w-lg bg-[#E1F56E] p-4 rounded-lg mt-2">
                     <h2 className="text-lg font-bold text-gray-700 text-center">Seleccionar Disponibilidad</h2>
                     <Calendar
                         onChange={handleDateChange}
                         value={selectedDate}
-                        tileClassName={({ date, view }) => {
-                            if (view === 'month') {
-                                const dateStr = date.toISOString().split("T")[0];
-                                return availability.some(slot => slot.date.startsWith(dateStr))
-                                    ? 'bg-green-500 text-black font-bold rounded-full'
-                                    : 'text-gray-400';
-                            }
-                        }}
+                        tileClassName={({ date, view }) =>
+                            view === 'month' && availability.some(slot => slot.date.startsWith(date.toISOString().split("T")[0]))
+                                ? 'bg-green-500 text-black font-bold rounded-full'
+                                : 'text-gray-400'
+                        }
                         className="mt-4 border border-gray-300"
                     />
-                    <button
-                        className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg"
-                        onClick={() => setShowCalendar(false)}
-                    >
+                    <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(false)}>
                         Volver
                     </button>
                     {selectedDate && (
                         <div className="mt-4">
                             <h3 className="text-gray-700 font-semibold">Disponibilidad para {selectedDate.toLocaleDateString()}</h3>
-                            {availableSlots.length > 0 ? (
+                            {availableSlots.length ? (
                                 <ul className="mt-2">
                                     {availableSlots.map((slot, index) => (
                                         <li key={index} className="p-2 border-b flex justify-between">
                                             <span>{slot.startTime} - {slot.endTime}</span>
-                                            <button
-                                                className="bg-green-500 text-white px-3 py-1 rounded"
-                                            >
-                                                Reservar
-                                            </button>
+                                            <button className="bg-green-500 text-white px-3 py-1 rounded">Reservar</button>
                                         </li>
                                     ))}
                                 </ul>

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=VT323&display=swap');
-
 @import "tailwindcss";
 
 @theme {
@@ -53,8 +52,6 @@
 }
 
 @layer utilities {
-
-    /* Definimos la animación flash */
     @keyframes flash {
 
         0%,
@@ -67,18 +64,15 @@
         }
     }
 
-    /* Creamos la clase animate-flash */
     .animate-flash {
         animation: flash 0.5s infinite;
     }
 }
 
-/* Por defecto, todos los números del calendario estarán en gris */
 .react-calendar__tile {
     color: rgb(173, 173, 173) !important;
 }
 
-/* Los días con disponibilidad se verán en negro y negrita */
 .react-calendar__tile.text-black {
     color: black !important;
     font-weight: 900 !important;

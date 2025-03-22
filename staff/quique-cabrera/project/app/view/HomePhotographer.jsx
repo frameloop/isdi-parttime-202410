@@ -5,156 +5,69 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 function HomePhotographer() {
-    // Estados para manejar datos del componente
-    const [name, setName] = useState(''); // Nombre del fotógrafo
-    const [availability, setAvailability] = useState([]); // Lista de disponibilidades
-    const [sessions, setSessions] = useState([]); // Lista de sesiones programadas
-    const [selectedDate, setSelectedDate] = useState(null); // Fecha seleccionada en el calendario
-    const [startTime, setStartTime] = useState(''); // Hora de inicio de disponibilidad
-    const [endTime, setEndTime] = useState(''); // Hora de fin de disponibilidad
-    const [showCalendar, setShowCalendar] = useState(false); // Mostrar u ocultar calendario
-    const [photographerId, setPhotographerId] = useState(''); // ID del fotógrafo
-    const [selectedAvailability, setSelectedAvailability] = useState([]); // Disponibilidad del día seleccionado
-    const navigate = useNavigate(); // Hook para navegación
+    const [name, setName] = useState('');
+    const [availability, setAvailability] = useState([]);
+    const [sessions, setSessions] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('');
+    const [showCalendar, setShowCalendar] = useState(false);
+    const [photographerId, setPhotographerId] = useState('');
+    const [selectedAvailability, setSelectedAvailability] = useState([]);
+    const navigate = useNavigate();
 
-    // 📌 Obtener datos del usuario al cargar el componente
     useEffect(() => {
-        console.log("[useEffect inicial] 🚀 Iniciando carga de datos del usuario");
-
-        let storedName = localStorage.getItem('name');
-        let storedPhotographerId = localStorage.getItem('photographerId');
-
-        if (!storedName) {
-            console.log("[useEffect inicial] ⚠️ No hay nombre en localStorage, redirigiendo a login");
-            navigate('/login');
-            return;
-        }
-
-        storedName = storedName.replace(/\s*\(\d+\)$/, '');
-        setName(storedName);
-        console.log("[useEffect inicial] 👤 Nombre procesado:", storedName);
-
+        const storedName = localStorage.getItem('name')?.replace(/\s*\(\d+\)$/, '');
         const token = localStorage.getItem('token');
-        if (!token) {
-            console.log("[useEffect inicial] ⚠️ No hay token, redirigiendo a login");
-            navigate('/login');
-            return;
-        }
+        const storedPhotographerId = localStorage.getItem('photographerId');
 
-        if (!storedPhotographerId) {
-            console.log("[useEffect inicial] ⚠️ No se encontró ID de fotógrafo en localStorage");
-            alert("Error: No se encontró el ID del fotógrafo.");
-            return;
-        }
+        if (!storedName || !token) return navigate('/login');
+        if (!storedPhotographerId) return alert("Error: No se encontró el ID del fotógrafo.");
 
+        setName(storedName);
         setPhotographerId(storedPhotographerId);
-        console.log("[useEffect inicial] 📸 ID del fotógrafo cargado:", storedPhotographerId);
-
         fetchAvailability();
-    }, [navigate]);
+        fetchSessions();
+    }, [navigate, photographerId]);
 
-
-    // 📌 Obtener disponibilidad y sesiones cuando `photographerId` esté disponible
-    useEffect(() => {
-        if (photographerId) {
-            console.log("[useEffect photographerId] 🔄 photographerId disponible:", photographerId);
-            fetchAvailability();
-            fetchSessions();
-        }
-    }, [photographerId]);
-
-    // 📌 Obtener disponibilidad del fotógrafo
     const fetchAvailability = () => {
         const token = localStorage.getItem('token');
-        if (!token || !photographerId) {
-            console.log("[fetchAvailability] ⚠️ Falta token o photographerId");
-            return;
-        }
+        if (!token || !photographerId) return;
 
-        const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/availability/${photographerId}`;
-
-        fetch(apiUrl, {
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/availability/${photographerId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(res => res.json())
-            .then(data => {
-                console.log("[fetchAvailability] 📅 Disponibilidad obtenida:", data);
-                setAvailability(data);
-            })
-            .catch(error => console.error('[ERROR] ❌ Fetching availability:', error));
+            .then(setAvailability)
+            .catch(console.error);
     };
 
-    // 📌 Obtener sesiones programadas
     const fetchSessions = () => {
         const token = localStorage.getItem('token');
-        if (!token || !photographerId) {
-            console.log("[fetchSessions] ⚠️ Falta token o photographerId");
-            return;
-        }
+        if (!token || !photographerId) return;
 
-        const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/photographer/${photographerId}`; // 🔹 Asegurar que la URL es correcta
-
-        fetch(apiUrl, {
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/my-sessions`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error! Status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(data => {
-                console.log("[fetchSessions] 🎥 Sesiones programadas obtenidas:", data);
-                setSessions(data);
-            })
-            .catch(error => {
-                console.error('[ERROR] ❌ Fetching sessions:', error.message);
-            });
+            .then(res => res.ok ? res.json() : Promise.reject(res.status))
+            .then(setSessions)
+            .catch(console.error);
     };
 
-
-    // 📌 Guardar nueva disponibilidad
     const handleSaveAvailability = () => {
-        if (!selectedDate || !startTime || !endTime) {
-            console.log("[handleSaveAvailability] ⚠️ Faltan datos:", { selectedDate, startTime, endTime });
-            alert('Debes seleccionar una fecha y horas antes de guardar.');
-            return;
-        }
-
+        if (!selectedDate || !startTime || !endTime) return alert('Debes seleccionar una fecha y horas.');
         const token = localStorage.getItem('token');
-        if (!token) {
-            console.log("[handleSaveAvailability] ⚠️ Falta el token de autenticación.");
-            return;
-        }
+        if (!token) return;
 
-        // ⚠️ Si no hay photographerId, lo obtenemos de localStorage como fallback
-        let finalPhotographerId = photographerId || localStorage.getItem('photographerId');
-
-        if (!finalPhotographerId) {
-            console.log("[handleSaveAvailability] ❌ No se encontró el ID del fotógrafo.");
-            alert("Error: No se encontró el ID del fotógrafo.");
-            return;
-        }
-
-        const apiUrl = `${import.meta.env.VITE_API_URL}/sessions/availability`;
-        const formattedDate = selectedDate.toISOString().split("T")[0];
-
-        console.log("[handleSaveAvailability] 📤 Enviando datos:", {
-            photographer: finalPhotographerId,
-            date: formattedDate,
-            startTime,
-            endTime
-        });
-
-        fetch(apiUrl, {
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/availability`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
-                photographer: finalPhotographerId,  // 👈 Asegurar que el ID del fotógrafo está presente
-                date: formattedDate,
+                photographer: photographerId,
+                date: selectedDate.toISOString().split("T")[0],
                 startTime,
                 endTime,
                 available: true
@@ -162,47 +75,27 @@ function HomePhotographer() {
         })
             .then(res => res.json())
             .then(response => {
-                if (response.error) {
-                    console.log("[handleSaveAvailability] ❌ Error en respuesta:", response.error);
-                    alert(response.error);
-                } else {
-                    console.log("[handleSaveAvailability] ✅ Disponibilidad guardada:", response);
+                if (response.error) alert(response.error);
+                else {
                     setSelectedDate(null);
                     setStartTime('');
                     setEndTime('');
                     fetchAvailability();
                 }
             })
-            .catch(error => console.error('[ERROR] ❌ Saving availability:', error));
+            .catch(console.error);
     };
 
-
-    // 📌 Manejar selección de fecha en el calendario
     const handleDateChange = (date) => {
         setSelectedDate(date);
         const formattedDate = date.toISOString().split("T")[0];
-        console.log("[handleDateChange] 📅 Fecha seleccionada:", formattedDate);
-
-        // Filtrar disponibilidad para ese día
-        const availabilityForDay = availability.filter(slot => slot.date.startsWith(formattedDate));
-        setSelectedAvailability(availabilityForDay);
-        console.log("[handleDateChange] 📋 Disponibilidad para el día:", availabilityForDay);
+        setSelectedAvailability(availability.filter(slot => slot.date.startsWith(formattedDate)));
     };
 
-    // 📌 Estilos del calendario para resaltar los días con disponibilidad
-    const tileClassName = ({ date, view }) => {
-        if (view === 'month') {
-            const formattedDate = date.toISOString().split("T")[0];
-            const isAvailable = availability.some(slot => slot.date.startsWith(formattedDate));
-
-            if (isAvailable) {
-                return 'text-black font-extrabold'; // 🔹 Días con disponibilidad en negro y negrita
-            } else {
-                return 'text-gray-400'; // 🔹 Todos los demás días en gris
-            }
-        }
-        return null;
-    };
+    const tileClassName = ({ date, view }) =>
+        view === 'month' && availability.some(slot => slot.date.startsWith(date.toISOString().split("T")[0]))
+            ? 'text-black font-extrabold'
+            : 'text-gray-400';
 
     return (
         <div className="w-screen h-screen bg-[#E1F56E] flex flex-col items-center p-4">
@@ -213,17 +106,15 @@ function HomePhotographer() {
                 </button>
             </header>
 
-            {!showCalendar && (
+            {!showCalendar ? (
                 <>
-                    <section className="w-full max-w-lg bg-white p-4 rounded-lg shadow mt-4">
+                    <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
                         <h2 className="text-lg font-bold text-gray-700 text-center">Sesiones Programadas</h2>
-                        {sessions.length > 0 ? (
+                        {sessions.length ? (
                             <ul className="mt-2">
                                 {sessions.map((session, index) => (
                                     <li key={index} className="p-2 border-b flex justify-between">
-                                        <span>
-                                            {new Date(session.date).toLocaleDateString()} - {new Date(session.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </span>
+                                        <span>{new Date(session.date).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -231,18 +122,12 @@ function HomePhotographer() {
                             <p className="text-gray-600 text-center">No tienes sesiones programadas.</p>
                         )}
                     </section>
-
-                    <button
-                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
-                        onClick={() => setShowCalendar(true)}
-                    >
+                    <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(true)}>
                         Definir Disponibilidad
                     </button>
                 </>
-            )}
-
-            {showCalendar && (
-                <section className="w-full max-w-lg bg-white p-4 rounded-lg shadow mt-4">
+            ) : (
+                <section className="w-full max-w-lg bg-[#E1F56E] p-4 rounded-lg mt-0">
                     <h2 className="text-lg font-bold text-gray-700 text-center">Agregar Disponibilidad</h2>
                     <Calendar
                         onChange={handleDateChange}
@@ -254,15 +139,14 @@ function HomePhotographer() {
                         <>
                             <p className="text-gray-700 font-semibold">Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
                             <label className="block text-gray-700">Hora de inicio:</label>
-                            <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="border p-2 w-full" />
+                            <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} className="border p-2 w-full" />
                             <label className="block text-gray-700 mt-2">Hora de fin:</label>
-                            <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="border p-2 w-full" />
-                            <button className="mt- bg-green-500 text-white px-4 py-2 rounded-lg" onClick={handleSaveAvailability}>
+                            <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} className="border p-2 w-full" />
+                            <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg" onClick={handleSaveAvailability}>
                                 Guardar
                             </button>
                         </>
                     )}
-
                     <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(false)}>
                         Volver
                     </button>

@@ -5,11 +5,11 @@ export default async (req, res) => {
         const token = req.headers.authorization?.split(' ')[1];
         console.log(`Token extraído del encabezado: ${token || 'No token found'}`);
 
-        if (!req.userId) {
-            console.warn("Logout requested, but no user ID found.");
-            return res.status(400).json({ error: 'User ID missing in request' });
+        if (!req.user || !req.user._id) {
+            console.warn("Logout requested, but no user found.");
+            return res.status(400).json({ error: 'User not found in request' });
         }
-        console.log(`User ID encontrado en la solicitud: ${req.userId}`);
+        console.log(`User ID encontrado en la solicitud: ${req.user._id}`);
 
         if (!token) {
             console.warn("Logout requested, but no token provided.");
@@ -17,7 +17,7 @@ export default async (req, res) => {
         }
         console.log(`Token válido recibido: ${token}`);
 
-        console.log(`Logout requested for user ID: ${req.userId}`);
+        console.log(`Logout requested for user ID: ${req.user._id}`);
 
         blacklistToken(token);
         console.log(`Token blacklisted: ${token}`);
