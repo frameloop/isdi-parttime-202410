@@ -1,4 +1,3 @@
-// ...importaciones
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineLogout } from "react-icons/md";
@@ -16,6 +15,9 @@ function HomePhotographer() {
     const [showCalendar, setShowCalendar] = useState(false);
     const [photographerId, setPhotographerId] = useState('');
     const [selectedAvailability, setSelectedAvailability] = useState([]);
+    const [blockedTimes, setBlockedTimes] = useState([]);
+    const [showStartTimeDropdown, setShowStartTimeDropdown] = useState(false);
+    const [showEndTimeDropdown, setShowEndTimeDropdown] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,7 +42,10 @@ function HomePhotographer() {
             headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(res => res.json())
-            .then(setAvailability)
+            .then(data => {
+                console.log("📅 Availability fetched:", data);
+                setAvailability(data);
+            })
             .catch(console.error);
     };
 
@@ -52,7 +57,10 @@ function HomePhotographer() {
             headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(res => res.ok ? res.json() : Promise.reject(res.status))
-            .then(setSessions)
+            .then(data => {
+                console.log("📅 Sessions fetched:", data);
+                setSessions(data);
+            })
             .catch(console.error);
     };
 
@@ -122,21 +130,82 @@ function HomePhotographer() {
     const handleDateChange = (date) => {
         setSelectedDate(date);
         const formattedDate = date.toISOString().split("T")[0];
-        setSelectedAvailability(availability.filter(slot => slot.date.startsWith(formattedDate)));
+        setSelectedAvailability(availability.filter(slot => {
+            const slotDate = new Date(slot.date).toISOString().split("T")[0];
+            return slotDate === formattedDate;
+        }));
+
+        const blocked = [];
+
+        // Bloquear horas basadas en sesiones programadas
+        sessions
+            .filter(s => new Date(s.date).toISOString().split("T")[0] === formattedDate)
+            .forEach(session => {
+                const sessionStart = new Date(session.date);
+                const sessionEnd = new Date(sessionStart.getTime() + 60 * 60 * 1000); // asumiendo 1h
+
+                for (
+                    let t = new Date(sessionStart);
+                    t < sessionEnd;
+                    t.setMinutes(t.getMinutes() + 30)
+                ) {
+                    const hours = t.getHours().toString().padStart(2, '0');
+                    const minutes = t.getMinutes().toString().padStart(2, '0');
+                    blocked.push(`${hours}:${minutes}`);
+                }
+            });
+
+        // Bloquear horas basadas en disponibilidades existentes
+        availability
+            .filter(a => {
+                const slotDate = new Date(a.date).toISOString().split("T")[0];
+                return slotDate === formattedDate;
+            })
+            .forEach(slot => {
+                const start = new Date(`2025-01-01T${slot.startTime}:00`);
+                const end = new Date(`2025-01-01T${slot.endTime}:00`);
+
+                for (
+                    let t = new Date(start);
+                    t <= end; // Incluimos la hora final
+                    t.setMinutes(t.getMinutes() + 30)
+                ) {
+                    const hours = t.getHours().toString().padStart(2, '0');
+                    const minutes = t.getMinutes().toString().padStart(2, '0');
+                    if (!blocked.includes(`${hours}:${minutes}`)) {
+                        blocked.push(`${hours}:${minutes}`);
+                    }
+                }
+            });
+
+        console.log(`🛑 Blocked times for ${formattedDate}:`, blocked);
+        setBlockedTimes(blocked);
     };
 
     const tileClassName = ({ date, view }) =>
-        view === 'month' && availability.some(slot => slot.date.startsWith(date.toISOString().split("T")[0]))
+        view === 'month' && availability.some(slot => {
+            const slotDate = new Date(slot.date).toISOString().split("T")[0];
+            return slotDate === date.toISOString().split("T")[0];
+        })
             ? 'text-black font-extrabold'
             : 'text-gray-400';
 
-    // Agrupar disponibilidad por fecha
     const groupedAvailability = availability.reduce((acc, slot) => {
         const date = new Date(slot.date).toLocaleDateString();
         acc[date] = acc[date] || [];
         acc[date].push(slot);
         return acc;
     }, {});
+
+    const generateTimeOptions = () => {
+        const options = [];
+        for (let h = 9; h < 18; h++) {
+            options.push(`${h.toString().padStart(2, '0')}:00`);
+            options.push(`${h.toString().padStart(2, '0')}:30`);
+        }
+        options.push("18:00");
+        return options;
+    };
 
     return (
         <div className="w-screen h-screen bg-[#E1F56E] flex flex-col items-center p-4 overflow-y-auto">
@@ -149,7 +218,6 @@ function HomePhotographer() {
 
             {!showCalendar ? (
                 <>
-                    {/* Sesiones Programadas */}
                     <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
                         <h2 className="text-lg font-bold text-gray-700 text-center">Sesiones Programadas</h2>
                         {sessions.length ? (
@@ -165,7 +233,6 @@ function HomePhotographer() {
                         )}
                     </section>
 
-                    {/* Disponibilidad Actual */}
                     <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
                         <h2 className="text-lg font-bold text-gray-700 text-center">Disponibilidad Actual</h2>
                         {Object.keys(groupedAvailability).length ? (
@@ -208,21 +275,85 @@ function HomePhotographer() {
                     {selectedDate && (
                         <>
                             <p className="text-gray-700 font-semibold mt-2">Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
-                            <label className="block text-gray-700">Hora de inicio:</label>
-                            <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} className="border p-2 w-full" />
+
+                            {/* Dropdown para Hora de Inicio */}
+                            <label className="block text-gray-700 mt-2">Hora de inicio:</label>
+                            <div className="relative">
+                                <button
+                                    className="border p-2 w-full rounded bg-white text-left text-gray-700"
+                                    onClick={() => setShowStartTimeDropdown(!showStartTimeDropdown)}
+                                >
+                                    {startTime || "-- Selecciona hora de inicio --"}
+                                </button>
+                                {showStartTimeDropdown && (
+                                    <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow-lg">
+                                        {generateTimeOptions().map(time => (
+                                            <li
+                                                key={time}
+                                                className={`p-2 cursor-pointer ${blockedTimes.includes(time)
+                                                    ? "text-red-500 opacity-50 cursor-not-allowed"
+                                                    : "text-green-600 hover:bg-gray-100"
+                                                    }`}
+                                                onClick={() => {
+                                                    if (!blockedTimes.includes(time)) {
+                                                        setStartTime(time);
+                                                        setShowStartTimeDropdown(false);
+                                                    }
+                                                }}
+                                            >
+                                                {blockedTimes.includes(time) ? `🟥 ${time} (Ocupado)` : `🟩 ${time}`}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+
+                            {/* Dropdown para Hora de Fin */}
                             <label className="block text-gray-700 mt-2">Hora de fin:</label>
-                            <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} className="border p-2 w-full" />
+                            <div className="relative">
+                                <button
+                                    className="border p-2 w-full rounded bg-white text-left text-gray-700"
+                                    onClick={() => setShowEndTimeDropdown(!showEndTimeDropdown)}
+                                >
+                                    {endTime || "-- Selecciona hora de fin --"}
+                                </button>
+                                {showEndTimeDropdown && (
+                                    <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow-lg">
+                                        {generateTimeOptions().map(time => (
+                                            <li
+                                                key={time}
+                                                className={`p-2 cursor-pointer ${blockedTimes.includes(time)
+                                                    ? "text-red-500 opacity-50 cursor-not-allowed"
+                                                    : "text-green-600 hover:bg-gray-100"
+                                                    }`}
+                                                onClick={() => {
+                                                    if (!blockedTimes.includes(time)) {
+                                                        setEndTime(time);
+                                                        setShowEndTimeDropdown(false);
+                                                    }
+                                                }}
+                                            >
+                                                {blockedTimes.includes(time) ? `🟥 ${time} (Ocupado)` : `🟩 ${time}`}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+
                             <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg" onClick={handleSaveAvailability}>
                                 {editingSlotId ? 'Actualizar' : 'Guardar'}
                             </button>
                         </>
                     )}
+
                     <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => {
                         setShowCalendar(false);
                         setEditingSlotId(null);
                         setStartTime('');
                         setEndTime('');
                         setSelectedDate(null);
+                        setShowStartTimeDropdown(false);
+                        setShowEndTimeDropdown(false);
                     }}>
                         Volver
                     </button>
