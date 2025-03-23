@@ -2,13 +2,13 @@ import express from 'express';
 import {
     createSession,
     getSessions,
-    updateSession,
-    deleteSession,
     getUserSessions,
     getAvailability,
     createAvailability,
     getPhotographerSessions,
-    getAllAvailability
+    getAllAvailability,
+    updateAvailability,
+    deleteAvailability
 } from './handlers/index.js';
 
 import authMiddleware from '../../middlewares/authMiddleware.js';
@@ -26,7 +26,7 @@ router.get('/availability', authMiddleware, getAllAvailability);
 router.post('/availability', authMiddleware, createAvailability);
 router.post('/', createSession);
 
-router.put('/:id', updateSession);
-router.delete('/:id', deleteSession);
+router.put('/availability/:id', authMiddleware, updateAvailability); // 🔧 nueva
+router.delete('/availability/:id', authMiddleware, deleteAvailability); // 🗑️ nueva
 
 export default router;

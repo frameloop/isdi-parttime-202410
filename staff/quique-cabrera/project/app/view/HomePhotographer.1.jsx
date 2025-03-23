@@ -1,4 +1,3 @@
-// ...importaciones
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineLogout } from "react-icons/md";
@@ -12,7 +11,6 @@ function HomePhotographer() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
-    const [editingSlotId, setEditingSlotId] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
     const [photographerId, setPhotographerId] = useState('');
     const [selectedAvailability, setSelectedAvailability] = useState([]);
@@ -61,26 +59,19 @@ function HomePhotographer() {
         const token = localStorage.getItem('token');
         if (!token) return;
 
-        const payload = {
-            photographer: photographerId,
-            date: selectedDate.toISOString().split("T")[0],
-            startTime,
-            endTime,
-            available: true
-        };
-
-        const method = editingSlotId ? 'PUT' : 'POST';
-        const url = editingSlotId
-            ? `${import.meta.env.VITE_API_URL}/sessions/availability/${editingSlotId}`
-            : `${import.meta.env.VITE_API_URL}/sessions/availability`;
-
-        fetch(url, {
-            method,
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/availability`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify({
+                photographer: photographerId,
+                date: selectedDate.toISOString().split("T")[0],
+                startTime,
+                endTime,
+                available: true
+            })
         })
             .then(res => res.json())
             .then(response => {
@@ -89,34 +80,10 @@ function HomePhotographer() {
                     setSelectedDate(null);
                     setStartTime('');
                     setEndTime('');
-                    setEditingSlotId(null);
                     fetchAvailability();
-                    setShowCalendar(false);
                 }
             })
             .catch(console.error);
-    };
-
-    const handleEditSlot = (slot) => {
-        setSelectedDate(new Date(slot.date));
-        setStartTime(slot.startTime);
-        setEndTime(slot.endTime);
-        setEditingSlotId(slot._id);
-        setShowCalendar(true);
-    };
-
-    const handleDeleteSlot = (id) => {
-        const token = localStorage.getItem('token');
-        if (!token) return;
-
-        if (confirm("¿Seguro que quieres eliminar esta disponibilidad?")) {
-            fetch(`${import.meta.env.VITE_API_URL}/sessions/availability/${id}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
-                .then(() => fetchAvailability())
-                .catch(console.error);
-        }
     };
 
     const handleDateChange = (date) => {
@@ -130,16 +97,8 @@ function HomePhotographer() {
             ? 'text-black font-extrabold'
             : 'text-gray-400';
 
-    // Agrupar disponibilidad por fecha
-    const groupedAvailability = availability.reduce((acc, slot) => {
-        const date = new Date(slot.date).toLocaleDateString();
-        acc[date] = acc[date] || [];
-        acc[date].push(slot);
-        return acc;
-    }, {});
-
     return (
-        <div className="w-screen h-screen bg-[#E1F56E] flex flex-col items-center p-4 overflow-y-auto">
+        <div className="w-screen h-screen bg-[#E1F56E] flex flex-col items-center p-4">
             <header className="w-full flex justify-center items-center p-4 bg-black rounded-lg text-white relative">
                 <h1 className="text-xl font-bold">{name}</h1>
                 <button onClick={() => navigate('/login')} className="bg-red-600 px-1 py-1 rounded absolute font-extrabold right-4">
@@ -149,7 +108,6 @@ function HomePhotographer() {
 
             {!showCalendar ? (
                 <>
-                    {/* Sesiones Programadas */}
                     <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
                         <h2 className="text-lg font-bold text-gray-700 text-center">Sesiones Programadas</h2>
                         {sessions.length ? (
@@ -164,41 +122,13 @@ function HomePhotographer() {
                             <p className="text-gray-600 text-center">No tienes sesiones programadas.</p>
                         )}
                     </section>
-
-                    {/* Disponibilidad Actual */}
-                    <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
-                        <h2 className="text-lg font-bold text-gray-700 text-center">Disponibilidad Actual</h2>
-                        {Object.keys(groupedAvailability).length ? (
-                            Object.entries(groupedAvailability).map(([date, slots]) => (
-                                <div key={date} className="mb-4">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-1">{date}</h3>
-                                    <ul>
-                                        {slots.map(slot => (
-                                            <li key={slot._id} className="flex justify-between items-center text-sm border-b py-1">
-                                                <span>{slot.startTime} - {slot.endTime}</span>
-                                                <div className="flex gap-2">
-                                                    <button onClick={() => handleEditSlot(slot)} className="text-blue-500 font-bold">🖊</button>
-                                                    <button onClick={() => handleDeleteSlot(slot._id)} className="text-red-500 font-bold">❌</button>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-600 text-center">No tienes horas disponibles aún.</p>
-                        )}
-                    </section>
-
                     <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(true)}>
                         Definir Disponibilidad
                     </button>
                 </>
             ) : (
                 <section className="w-full max-w-lg bg-[#E1F56E] p-4 rounded-lg mt-0">
-                    <h2 className="text-lg font-bold text-gray-700 text-center">
-                        {editingSlotId ? 'Editar Disponibilidad' : 'Agregar Disponibilidad'}
-                    </h2>
+                    <h2 className="text-lg font-bold text-gray-700 text-center">Agregar Disponibilidad</h2>
                     <Calendar
                         onChange={handleDateChange}
                         value={selectedDate}
@@ -207,23 +137,17 @@ function HomePhotographer() {
                     />
                     {selectedDate && (
                         <>
-                            <p className="text-gray-700 font-semibold mt-2">Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
+                            <p className="text-gray-700 font-semibold">Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
                             <label className="block text-gray-700">Hora de inicio:</label>
                             <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} className="border p-2 w-full" />
                             <label className="block text-gray-700 mt-2">Hora de fin:</label>
                             <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} className="border p-2 w-full" />
                             <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg" onClick={handleSaveAvailability}>
-                                {editingSlotId ? 'Actualizar' : 'Guardar'}
+                                Guardar
                             </button>
                         </>
                     )}
-                    <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => {
-                        setShowCalendar(false);
-                        setEditingSlotId(null);
-                        setStartTime('');
-                        setEndTime('');
-                        setSelectedDate(null);
-                    }}>
+                    <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(false)}>
                         Volver
                     </button>
                 </section>

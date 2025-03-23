@@ -1,71 +1,80 @@
 import mongoose from 'mongoose';
-import { Availability, Photographer } from '../../../data/models.js';
+import { Availability } from '../../../data/models.js';
 
-// 🔹 Obtener disponibilidad de un fotógrafo
 export const getAvailability = async (req, res) => {
     try {
         const { photographerId } = req.params;
-        console.log(`[getAvailability] 📅 Buscando disponibilidad para el fotógrafo ${photographerId}`);
-
         if (!mongoose.Types.ObjectId.isValid(photographerId)) {
             return res.status(400).json({ error: "ID de fotógrafo no válido" });
         }
-
         const availability = await Availability.find({ photographer: photographerId }).sort({ date: 1 });
         res.json(availability);
     } catch (error) {
-        console.error('[getAvailability] ❌ Error:', error);
         res.status(500).json({ error: 'Error fetching availability', details: error.message });
     }
 };
 
-// 🔹 Obtener todas las disponibilidades
 export const getAllAvailability = async (req, res) => {
     try {
         const availability = await Availability.find();
         res.json(availability);
     } catch (error) {
-        console.error('[getAllAvailability] ❌ Error:', error);
         res.status(500).json({ error: 'Error fetching all availability', details: error.message });
     }
 };
 
-// 🔹 Crear disponibilidad con manejo de duplicados
 export const createAvailability = async (req, res) => {
     try {
-        console.log("[createAvailability] 📥 Datos recibidos:", req.body);
-
-        let { photographer, date, startTime, endTime, available } = req.body;
-
-        // Verificar datos requeridos
+        const { photographer, date, startTime, endTime, available } = req.body;
         if (!photographer || !date || !startTime || !endTime || available === undefined) {
-            console.error("[createAvailability] ❌ Faltan datos en la solicitud:", req.body);
             return res.status(400).json({ error: "Faltan datos en la solicitud", data: req.body });
         }
 
-        // Convertir date a tipo Date
-        date = new Date(date);
-        if (isNaN(date.getTime())) {
-            console.error("[createAvailability] ❌ Fecha inválida:", date);
+        const parsedDate = new Date(date);
+        if (isNaN(parsedDate.getTime())) {
             return res.status(400).json({ error: "Fecha inválida" });
         }
 
-        // 🔹 Verificar si ya existe una disponibilidad en el mismo horario
-        const existingAvailability = await Availability.findOne({ photographer, date, startTime, endTime });
+        const existingAvailability = await Availability.findOne({ photographer, date: parsedDate, startTime, endTime });
         if (existingAvailability) {
-            console.error("[createAvailability] 🚫 Ya existe una disponibilidad para este horario");
             return res.status(400).json({ error: "Ya existe una disponibilidad para este horario" });
         }
 
-        // 🔹 Crear la nueva disponibilidad
-        console.log("[createAvailability] 🔨 Creando nueva disponibilidad...");
-        const newAvailability = new Availability({ photographer, date, startTime, endTime, available });
-
+        const newAvailability = new Availability({ photographer, date: parsedDate, startTime, endTime, available });
         await newAvailability.save();
-        console.log("[createAvailability] ✅ Disponibilidad guardada correctamente:", newAvailability);
         res.status(201).json(newAvailability);
     } catch (error) {
-        console.error("[createAvailability] ❌ Error inesperado:", error);
         res.status(500).json({ error: "Error creando disponibilidad", details: error.message });
+    }
+};
+
+// 🔧 Actualizar disponibilidad
+export const updateAvailability = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const update = req.body;
+
+        const updated = await Availability.findByIdAndUpdate(id, update, { new: true });
+        if (!updated) return res.status(404).json({ error: 'NotFound', message: 'No se encontró la disponibilidad' });
+
+        res.json(updated);
+    } catch (error) {
+        console.error('[updateAvailability] ❌ Error:', error);
+        res.status(500).json({ error: 'Error actualizando disponibilidad', details: error.message });
+    }
+};
+
+// 🗑️ Eliminar disponibilidad
+export const deleteAvailability = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deleted = await Availability.findByIdAndDelete(id);
+        if (!deleted) return res.status(404).json({ error: 'NotFound', message: 'No se encontró la disponibilidad' });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('[deleteAvailability] ❌ Error:', error);
+        res.status(500).json({ error: 'Error eliminando disponibilidad', details: error.message });
     }
 };
