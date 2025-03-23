@@ -31,7 +31,6 @@ router.get('/verify', (req, res) => res.json({ message: 'Email verified successf
 router.post('/verify', jsonBodyParser, verifyUserHandler);
 
 console.log("📧 Configurando ruta de recuperación de contraseña...");
-router.post('/recover-password', (req, res) => res.json({ message: 'Password recovery email sent' }));
 router.post('/recover-password', recoverPasswordHandler);
 
 console.log("📸 Configurando rutas de fotógrafos...");

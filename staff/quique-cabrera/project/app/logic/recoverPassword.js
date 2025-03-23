@@ -4,7 +4,7 @@ const { ValidationError } = errors;
 
 const recoverPassword = (username) => {
     validate.username(username);
-    return fetch(`${import.meta.env.VITE_API_URL}/users/recover`, {
+    return fetch(`${import.meta.env.VITE_API_URL}/users/recover-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username })
@@ -16,7 +16,10 @@ const recoverPassword = (username) => {
             const ErrorType = errors[error] || ValidationError;
             throw new ErrorType(message);
         })
-        .catch(err => { throw new Error(err.message || 'An unexpected error occurred'); });
+        .catch(err => {
+            if (err instanceof ValidationError) throw err;
+            throw new Error(err.message || '❌ Error inesperado al enviar el correo');
+        });
 };
 
 export default recoverPassword;

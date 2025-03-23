@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginUser from '../logic/loginUser';
+import recoverPassword from '../logic/recoverPassword';
 import { validate } from 'com';
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
@@ -12,14 +13,16 @@ function LoginUser() {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const [error, setError] = useState(null);
-    const [showPopup, setShowPopup] = useState(false);
+    const [loginError, setLoginError] = useState(null);
+    const [recoverError, setRecoverError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
     const navigate = useNavigate();
 
     const handleContinue = () => {
-        if (!username.trim()) return setError('Please enter a username');
+        if (!username.trim()) return setLoginError('Please enter a username');
         validate.username(username);
 
         fetch(`${API_URL}/users/verify`, {
@@ -34,9 +37,9 @@ function LoginUser() {
                 localStorage.setItem('name', data.name);
                 localStorage.setItem('email', data.email);
                 setStep(2);
-                setError(null);
+                setLoginError(null);
             })
-            .catch(err => setError(err.message));
+            .catch(err => setLoginError(err.message));
     };
 
     const handleLogin = (e) => {
@@ -60,25 +63,24 @@ function LoginUser() {
                                 userRole === 'administrator' ? '/home-admin' : '/home'
                     );
                 })
-                .catch(err => setError(err.message || "Error al iniciar sesión"));
+                .catch(err => setLoginError(err.message || "Error al iniciar sesión"));
         } catch (err) {
-            setError(err.message || "Contraseña inválida");
+            setLoginError(err.message || "Contraseña inválida");
         }
     };
 
     const handleRecoverPassword = () => {
-        if (!username.trim()) return setError("Please enter your username");
-        fetch(`${API_URL}/users/recover-password`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username })
-        })
-            .then(res => res.json())
+        if (!username.trim()) return setRecoverError("Please enter your username");
+
+        recoverPassword(username)
             .then(data => {
-                if (!data.success) throw new Error("Failed to send recovery email");
-                setSuccessMessage("✅ ¡Correo de recuperación enviado!");
+                setRecoverError(null);
+                setSuccessMessage(data.message);
             })
-            .catch(err => setError(err.message))
+            .catch(err => {
+                setSuccessMessage(null);
+                setRecoverError(err.message);
+            })
             .finally(() => setShowPopup(false));
     };
 
@@ -96,11 +98,16 @@ function LoginUser() {
                     <input
                         type="text"
                         value={username}
-                        onChange={e => { setUsername(e.target.value); setError(null); }}
+                        onChange={e => {
+                            setUsername(e.target.value);
+                            setLoginError(null);
+                            setRecoverError(null);
+                            setSuccessMessage(null);
+                        }}
                         placeholder="Introduce el usuario"
                         className="w-64 p-2 border text-base border-gray-400 text-center rounded-md mb-4"
                     />
-                    {error && <p className="bg-[#6E82F5] text-white mb-4 p-2 rounded animate-flash">{error}</p>}
+                    {loginError && <p className="bg-[#6E82F5] text-white mb-4 p-2 rounded animate-flash">{loginError}</p>}
                     <button
                         onClick={handleContinue}
                         className="bg-[#B62682] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-all"
@@ -112,6 +119,7 @@ function LoginUser() {
                 <form onSubmit={handleLogin} className="flex flex-col items-center">
                     <p className="text-black font-semibold">Bienvenid@!</p>
                     <p className="text-black mb-4">{name}</p>
+
                     <label className="text-black font-semibold mb-2">Contraseña</label>
                     <div className="relative w-64 mb-2">
                         <input
@@ -130,34 +138,61 @@ function LoginUser() {
                             {showPassword ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
                         </button>
                     </div>
-                    <a onClick={() => setShowPopup(true)} className="text-blue-600 text-sm mb-2 hover:underline cursor-pointer">
+
+                    <a
+                        onClick={() => {
+                            setShowPopup(true);
+                            setRecoverError(null);
+                            setSuccessMessage(null);
+                            setLoginError(null);
+                        }}
+                        className="text-blue-600 text-sm mb-2 hover:underline cursor-pointer"
+                    >
                         Forgot your password?
                     </a>
-                    {showPopup && (
-                        <div className="fixed inset-0 flex justify-center items-center bg-[#E1F56E] bg-opacity-50">
-                            <div className="bg-white p-6 rounded-xl shadow-lg text-center">
-                                <p className="text-black font-semibold mb-4">¿Te enviamos un correo de recuperación?</p>
-                                <div className="flex justify-around">
-                                    <button onClick={handleRecoverPassword} className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2">
-                                        Sí, por favor!
-                                    </button>
-                                    <button onClick={() => { setShowPopup(false); setError(null); }} className="bg-red-500 text-white px-4 py-2 rounded-lg">
-                                        No, paso!
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {successMessage && <p className="text-black text-center">{successMessage}</p>}
+
+                    {loginError && <p className="bg-[#6E82F5] text-white mb-4 p-2 rounded animate-flash">{loginError}</p>}
+                    {successMessage && <p className="text-green-600 text-center font-semibold">{successMessage}</p>}
+                    {recoverError && <p className="text-red-500 text-center font-semibold">{recoverError}</p>}
+
                     <div className="flex items-center mb-4">
-                        <input type="checkbox" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} className="mr-2" />
+                        <input
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={() => setRememberMe(!rememberMe)}
+                            className="mr-2"
+                        />
                         <label className="text-black text-sm">Remember your details</label>
                     </div>
-                    {error && <p className="bg-[#6E82F5] text-white mb-4 p-2 rounded animate-flash">{error}</p>}
-                    <button type="submit" className="bg-[#B62682] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-all">
+
+                    <button
+                        type="submit"
+                        className="bg-[#B62682] text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-all"
+                    >
                         entrar
                     </button>
                 </form>
+            )}
+
+            {showPopup && (
+                <div className="fixed inset-0 flex justify-center items-center bg-[#E1F56E] bg-opacity-50">
+                    <div className="bg-white p-6 rounded-xl shadow-lg text-center">
+                        <p className="text-black font-semibold mb-4">¿Te enviamos un correo de recuperación?</p>
+                        <div className="flex justify-around">
+                            <button onClick={handleRecoverPassword} className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2">
+                                Sí, por favor!
+                            </button>
+                            <button onClick={() => {
+                                setShowPopup(false);
+                                setRecoverError(null);
+                                setSuccessMessage(null);
+                                setLoginError(null);
+                            }} className="bg-red-500 text-white px-4 py-2 rounded-lg">
+                                No, paso!
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
 
             <footer className="absolute bottom-4 text-black text-sm font-semibold">
