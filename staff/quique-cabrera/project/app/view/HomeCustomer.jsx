@@ -193,6 +193,33 @@ function HomeCustomer() {
             .finally(() => setIsLoading(false));
     };
 
+    const handleCancelSession = (sessionId) => {
+        const token = localStorage.getItem('token');
+        if (!token) return alert("No estás autenticado");
+
+        if (!confirm("¿Estás seguro de que quieres cancelar esta sesión?")) return;
+
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/${sessionId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                if (!res.ok) throw new Error('Error al cancelar la sesión');
+                return res.json();
+            })
+            .then(() => {
+                alert("Sesión cancelada correctamente");
+                fetchSessions(); // refresca lista
+            })
+            .catch(err => {
+                console.error("❌ Error al cancelar sesión:", err);
+                alert("No se pudo cancelar la sesión");
+            });
+    };
+
+
     return (
         <div className="w-screen min-h-screen bg-[#E1F56E] flex flex-col items-center p-4">
             <header className="w-full flex justify-center items-center p-4 bg-black rounded-lg text-white relative">
@@ -207,8 +234,18 @@ function HomeCustomer() {
                 {sessions.length ? (
                     <ul className="mt-2">
                         {sessions.map((session, index) => (
-                            <li key={index} className="p-2 border-b flex justify-between">
-                                <span>{new Date(session.date).toLocaleString()}</span>
+                            <li key={index} className="p-4  rounded mb-2 bg-white">
+                                <p className="font-semibold text-Lm text-gray-800">{new Date(session.date).toLocaleString()}</p>
+                                <p className="text-sm">{`${session.address?.type || ''} ${session.address?.street || ''}, ${session.address?.city || ''}, ${session.address?.postalCode || ''} (${session.address?.province || ''})`}</p>
+                                <p className="text-sm">{session.services?.join(', ')}</p>
+                                <p className="text-sm">{session.photographer?.name || 'Desconocido'} - 📞 {session.photographer?.phone || 'Desconocido'}  </p>
+
+                                <button
+                                    onClick={() => handleCancelSession(session._id)}
+                                    className="mt-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+                                >
+                                    Cancelar sesión
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -363,5 +400,7 @@ function HomeCustomer() {
         </div>
     );
 }
+
+
 
 export default HomeCustomer;

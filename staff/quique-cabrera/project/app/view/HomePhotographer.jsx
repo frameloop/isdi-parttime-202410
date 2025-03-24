@@ -223,8 +223,12 @@ function HomePhotographer() {
                         {sessions.length ? (
                             <ul className="mt-2">
                                 {sessions.map((session, index) => (
-                                    <li key={index} className="p-2 border-b flex justify-between">
-                                        <span>{new Date(session.date).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</span>
+                                    <li key={index} className="p-4  rounded mb-2 bg-white">
+                                        <p className="font-semibold text-Lm text-gray-800">{new Date(session.date).toLocaleString()}</p>
+                                        <p className="text-sm"> {`${session.address?.type || ''} ${session.address?.street || ''}, ${session.address?.city || ''}, ${session.address?.postalCode || ''} (${session.address?.province || ''})`}</p>
+                                        <p className="text-sm">{session.services?.join(', ')}</p>
+                                        <p className="text-sm">{session.user?.name || 'Desconocido'} - 📞 {session.user?.phone || 'Desconocido'}  </p>
+
                                     </li>
                                 ))}
                             </ul>

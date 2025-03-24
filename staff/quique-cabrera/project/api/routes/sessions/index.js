@@ -8,7 +8,8 @@ import {
     getPhotographerSessions,
     getAllAvailability,
     updateAvailability,
-    deleteAvailability
+    deleteAvailability,
+    deleteSession
 } from './handlers/index.js';
 
 import authMiddleware from '../../middlewares/authMiddleware.js';
@@ -25,6 +26,7 @@ router.get('/availability', authMiddleware, getAllAvailability);
 
 router.post('/availability', authMiddleware, createAvailability);
 router.post('/', createSession);
+router.delete('/:sessionId', authMiddleware, deleteSession);
 
 router.put('/availability/:id', authMiddleware, updateAvailability); // 🔧 nueva
 router.delete('/availability/:id', authMiddleware, deleteAvailability); // 🗑️ nueva
