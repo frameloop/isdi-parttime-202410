@@ -11,6 +11,19 @@ function HomeCustomer() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [availableSlots, setAvailableSlots] = useState([]);
     const [showCalendar, setShowCalendar] = useState(false);
+    const [reservingSlot, setReservingSlot] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [formData, setFormData] = useState({
+        addressType: '',
+        street: '',
+        postalCode: '',
+        city: '',
+        province: '',
+        services: [],
+    });
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,11 +63,138 @@ function HomeCustomer() {
     const handleDateChange = (date) => {
         setSelectedDate(date);
         const selectedDateStr = date.toISOString().split("T")[0];
-        setAvailableSlots(availability.filter(slot => slot.date.startsWith(selectedDateStr)));
+        const slots = availability.filter(slot => slot.date.startsWith(selectedDateStr));
+        setAvailableSlots(slots);
+    };
+
+    const handleStartReservation = (slot) => {
+        setReservingSlot(slot);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleServiceChange = (e) => {
+        const { value, checked } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            services: checked
+                ? [...prev.services, value]
+                : prev.services.filter((s) => s !== value)
+        }));
+    };
+
+    const [confirmedSession, setConfirmedSession] = useState(null);
+
+    const handleConfirm = () => {
+        const token = localStorage.getItem('token');
+        const customerId = localStorage.getItem('userId'); // Asegúrate de que esté guardado
+
+        const newErrors = {};
+        if (!formData.addressType) newErrors.addressType = true;
+        if (!formData.street) newErrors.street = true;
+        if (!formData.postalCode) newErrors.postalCode = true;
+        if (!formData.city) newErrors.city = true;
+        if (!formData.province) newErrors.province = true;
+        if (!formData.services.length) newErrors.services = true;
+
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) {
+            alert('Por favor, completa todos los campos obligatorios.');
+            return;
+        }
+
+        if (!token || !customerId) {
+            return alert('Falta autenticación.');
+        }
+
+        const [hour, minute] = reservingSlot.startTime.split(':');
+        const dateWithoutTime = new Date(reservingSlot.date);
+        dateWithoutTime.setHours(parseInt(hour));
+        dateWithoutTime.setMinutes(parseInt(minute));
+        dateWithoutTime.setSeconds(0);
+        dateWithoutTime.setMilliseconds(0);
+        const sessionDateTime = dateWithoutTime;
+        const sessionDateTimeStr = sessionDateTime.toISOString();
+
+
+        console.log('[CONFIRM] Fecha enviada al backend (sin UTC):', sessionDateTimeStr);
+
+        setIsLoading(true);
+
+        // 👇 AÑADIMOS ESTE LOG PARA VER EL BODY
+        console.log('[CONFIRM] Body enviado al backend:', {
+            customerId,
+            photographerId: reservingSlot.photographer._id,
+            date: sessionDateTimeStr,
+            type: 'express',
+            address: {
+                type: formData.addressType,
+                street: formData.street,
+                postalCode: formData.postalCode,
+                city: formData.city,
+                province: formData.province
+            },
+            services: formData.services
+        });
+
+        console.log('[CONFIRM] Photographer del slot:', reservingSlot.photographer);
+        console.log('[CONFIRM] ID del fotógrafo:', reservingSlot.photographer._id);
+
+        fetch(`${import.meta.env.VITE_API_URL}/sessions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                customerId,
+                photographerId: reservingSlot.photographer._id,
+                date: sessionDateTime.toISOString(),
+                type: 'express',
+                address: {
+                    type: formData.addressType,
+                    street: formData.street,
+                    postalCode: formData.postalCode,
+                    city: formData.city,
+                    province: formData.province
+                },
+                services: formData.services
+            })
+        })
+
+            .then(res => {
+                if (!res.ok) throw new Error('Error al crear la sesión');
+                return res.json();
+            })
+            .then((savedSession) => {
+                type: formData.addressType,
+                    setConfirmedSession({
+                        ...savedSession,
+                        photographer: reservingSlot.photographer,
+                        startTime: reservingSlot.startTime,
+                        endTime: reservingSlot.endTime,
+                        address: formData,
+                        services: formData.services
+                    });
+                setReservingSlot(null);
+                fetchSessions();
+                setFormData({ addressType: '', postalCode: '', city: '', province: '', services: [] });
+            })
+
+            .catch(err => {
+                console.error('❌ Error al confirmar la sesión:', err);
+                alert('No se pudo crear la sesión.');
+            })
+            .finally(() => setIsLoading(false));
     };
 
     return (
-        <div className="w-screen h-screen bg-[#E1F56E] flex flex-col items-center p-4">
+        <div className="w-screen min-h-screen bg-[#E1F56E] flex flex-col items-center p-4">
             <header className="w-full flex justify-center items-center p-4 bg-black rounded-lg text-white relative">
                 <h1 className="text-xl font-bold">{name}</h1>
                 <button onClick={() => navigate('/login')} className="bg-red-600 px-1 py-1 rounded absolute font-extrabold right-4">
@@ -97,6 +237,7 @@ function HomeCustomer() {
                     <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(false)}>
                         Volver
                     </button>
+
                     {selectedDate && (
                         <div className="mt-4">
                             <h3 className="text-gray-700 font-semibold">Disponibilidad para {selectedDate.toLocaleDateString()}</h3>
@@ -106,9 +247,9 @@ function HomeCustomer() {
                                         <li key={index} className="p-2 border-b flex flex-col sm:flex-row sm:justify-between gap-2">
                                             <div>
                                                 <p className="font-medium">{slot.startTime} - {slot.endTime} - {slot.photographer?.coverage_area || 'Zona no especificada'}</p>
-                                                <p className="text-sm text-gray-700">FOTÓGRAFO: {slot.photographer?.name || 'Nombre no disponible'}</p>
+                                                <p className="text-sm text-gray-700">📸 {slot.photographer?.name || slot.photographer?.firstName || 'Nombre no disponible'}</p>
                                             </div>
-                                            <button className="bg-green-500 text-white px-3 py-1 rounded self-start sm:self-center">
+                                            <button className="bg-green-500 text-white px-3 py-1 rounded self-start sm:self-center" onClick={() => handleStartReservation(slot)}>
                                                 Reservar
                                             </button>
                                         </li>
@@ -117,8 +258,105 @@ function HomeCustomer() {
                             ) : (
                                 <p className="text-gray-600">No hay disponibilidad para esta fecha.</p>
                             )}
-
                         </div>
+                    )}
+
+                    {reservingSlot && (
+                        <section className="bg-white p-4 mt-4 rounded shadow-md">
+                            <h3 className="text-lg font-bold mb-2">Completa los detalles de la sesión</h3>
+                            <p className="text-sm mb-4">📅 {reservingSlot.date} ⏰ {reservingSlot.startTime} - {reservingSlot.endTime}</p>
+
+                            <select name="addressType" className="w-full border p-2 rounded mb-2" value={formData.addressType} onChange={handleInputChange}>
+                                <option value="">tipo de vía</option>
+                                <option value="Calle">Calle</option>
+                                <option value="Avenida">Avenida</option>
+                                <option value="Plaza">Plaza</option>
+                                <option value="Camino">Camino</option>
+                            </select>
+
+                            <input
+                                name="street"
+                                type="text"
+                                placeholder="nombre de la calle y número"
+                                className={`w-full border p-2 rounded mb-2 ${errors.street ? 'border-red-500' : ''}`}
+                                value={formData.street}
+                                onChange={handleInputChange}
+                            />
+
+                            <input name="postalCode" type="text" placeholder="código postal"
+                                className="w-full border p-2 rounded mb-2" value={formData.postalCode} onChange={handleInputChange} />
+
+                            <input name="city" type="text" placeholder="ciudad"
+                                className="w-full border p-2 rounded mb-2" value={formData.city} onChange={handleInputChange} />
+
+                            <input name="province" type="text" placeholder="provincia"
+                                className="w-full border p-2 rounded mb-4" value={formData.province} onChange={handleInputChange} />
+
+                            <label className="block font-medium mb-1">Servicio</label>
+                            <div className="mb-4">
+                                {["Virtual Tour 3D", "Virtual Tour 360", "Video Express"].map(service => (
+                                    <label key={service} className="block text-sm">
+                                        <input
+                                            type="checkbox"
+                                            value={service}
+                                            checked={formData.services.includes(service)}
+                                            onChange={handleServiceChange}
+                                            className="mr-2"
+                                        />
+                                        {service}
+                                    </label>
+                                ))}
+                            </div>
+
+                            <div className="flex justify-between">
+                                <button className="bg-purple-600 text-white px-4 py-2 rounded" onClick={() => setReservingSlot(null)}>
+                                    atrás
+                                </button>
+                                <button
+                                    className="bg-purple-700 text-white px-4 py-2 rounded"
+                                    onClick={handleConfirm}
+                                >
+                                    confirmar
+                                </button>
+                            </div>
+                        </section>
+                    )}
+
+                    {confirmedSession && (
+                        <section className="bg-white mt-6 p-4 rounded-xl shadow-md border border-green-400 w-full max-w-lg">
+                            <h3 className="text-xl font-bold text-green-700 mb-2">✅ ¡Sesión Confirmada!</h3>
+                            <p className="text-sm text-gray-600 mb-4">Aquí tienes los detalles:</p>
+
+                            <ul className="text-sm text-gray-800 space-y-2">
+                                <li><strong>📅 Fecha:</strong> {new Date(confirmedSession.date).toLocaleDateString()}</li>
+                                <li><strong>⏰ Hora:</strong> {confirmedSession.startTime} - {confirmedSession.endTime}</li>
+                                <li><strong>📸 Fotógrafo:</strong> {confirmedSession.photographer?.name || confirmedSession.photographer?.firstName || 'Nombre no disponible'}</li>
+                                <li><strong>📍 Zona:</strong> {confirmedSession.photographer?.coverage_area || 'No especificada'}</li>
+                                <li>
+                                    <strong>🏠 Dirección:</strong><br />
+                                    {`${confirmedSession.address.addressType || ''} ${confirmedSession.address.street || ''}, ${confirmedSession.address.city}, ${confirmedSession.address.postalCode} (${confirmedSession.address.province})`}
+                                </li>
+                                <li>
+                                    <strong>🎯 Servicios:</strong>
+                                    <ul className="list-disc ml-6">
+                                        {confirmedSession.services.map((s, i) => <li key={i}>{s}</li>)}
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <button
+                                onClick={() => {
+                                    setConfirmedSession(null);
+                                    setShowCalendar(false);
+                                    setSelectedDate(null);
+                                    setAvailableSlots([]);
+                                }}
+                                className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+                            >
+                                Volver a inicio
+                            </button>
+
+                        </section>
                     )}
                 </section>
             )}

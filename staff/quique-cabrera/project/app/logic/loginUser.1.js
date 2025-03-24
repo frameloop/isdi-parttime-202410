@@ -7,10 +7,8 @@ const loginUser = (username, password) => {
         .then(res => res.json())
         .then(data => {
             if (data.token) {
-                const payload = JSON.parse(atob(data.token.split('.')[1]));
-
                 localStorage.setItem("token", data.token);
-                localStorage.setItem("userId", payload.sub); // 👈 Aquí está la clave
+                localStorage.setItem("userId", data.userId); // 👈 AÑADIDO AQUÍ
                 return { token: data.token };
             }
             throw new Error("Password incorrecto");

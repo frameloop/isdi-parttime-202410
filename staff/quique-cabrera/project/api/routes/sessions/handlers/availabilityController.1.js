@@ -35,7 +35,6 @@ export const getAllAvailability = async (req, res) => {
         const transformedAvailability = availability.map(slot => ({
             ...slot.toObject(),
             photographer: {
-                _id: slot.photographer.user._id, // 👈 ESTE es el que el backend espera como photographerId
                 name: slot.photographer.user.name,
                 coverage_area: slot.photographer.coverage_area
             }

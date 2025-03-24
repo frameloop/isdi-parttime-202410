@@ -24,7 +24,15 @@ const sessionSchema = new Schema({
     photographer: { type: ObjectId, ref: 'Photographer', required: true },
     customer: { type: ObjectId, ref: 'Customer', required: true },
     status: { type: String, enum: ['scheduled', 'completed', 'cancelled'], default: 'scheduled' },
-    type: { type: String, required: true }
+    type: { type: String, required: true },
+    address: {
+        type: { type: String },
+        street: String, // 💥 Aquí se guarda la calle
+        postalCode: String,
+        city: String,
+        province: String
+    },
+    services: [String] // Lista de nombres de servicios
 });
 
 // 🔹 Esquema de cliente (customer) con sesiones

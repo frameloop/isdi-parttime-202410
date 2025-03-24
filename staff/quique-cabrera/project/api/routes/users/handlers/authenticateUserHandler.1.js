@@ -40,14 +40,7 @@ export default (req, res, next) => {
                                 { expiresIn: '1h' }
                             );
 
-                            res.json({
-                                token,
-                                name: user.name,
-                                role: user.role,
-                                photographerId: photographer._id.toString(),
-                                userId: user._id.toString() // 💥 esto es lo que faltaba
-                            });
-
+                            res.json({ token, name: user.name, role: user.role, photographerId: photographer._id.toString() });
                         });
                 } else {
                     const token = jwt.sign(
@@ -56,7 +49,7 @@ export default (req, res, next) => {
                         { expiresIn: '1h' }
                     );
 
-                    res.json({ token, name: user.name, role: user.role, userId: user._id.toString() });
+                    res.json({ token, name: user.name, role: user.role });
                 }
             })
             .catch(error => {
