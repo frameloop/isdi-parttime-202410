@@ -1,50 +1,42 @@
-import express from 'express';
+import express from 'express'
 import {
     registerUserHandler,
-    authenticateUserHandler,
-    getUserNameHandler,
+    loginUserHandler, // ✅ nuevo handler
     verifyUserHandler,
     logoutUserHandler,
     recoverPasswordHandler,
     getAllPhotographers,
     deletePhotographer
-} from './handlers/index.js';
+} from './handlers/index.js'
 
-import { Photographer, User } from '../../data/models.js';
-import jsonBodyParser from '../../middlewares/jsonBodyParser.js';
-import authMiddleware from '../../middlewares/authMiddleware.js';
-import logic from '../../logic/index.js';
+import jsonBodyParser from '../../middlewares/jsonBodyParser.js'
+import authMiddleware from '../../middlewares/authMiddleware.js'
 
-const router = express.Router();
+const router = express.Router()
 
-console.log("📝 Configurando rutas de autenticación...");
-router.post('/register', jsonBodyParser, registerUserHandler);
-router.post('/auth', jsonBodyParser, authenticateUserHandler);
+// Registro y login
+router.post('/register', jsonBodyParser, registerUserHandler)
+router.post('/login', jsonBodyParser, loginUserHandler) // ✅ login unificado
 
-console.log("🔒 Configurando rutas protegidas...");
-router.get('/profile', authMiddleware, (req, res) => res.json({ user: req.user }));
-router.post('/logout', authMiddleware, logoutUserHandler);
-router.get('/me', authMiddleware, getUserNameHandler);
+// Info de usuario autenticado
+router.get('/me', authMiddleware, (req, res) => {
+    const { _id, name, email, role } = req.user
+    res.status(200).json({ _id, name, email, role })
+})
+router.get('/profile', authMiddleware, (req, res) => res.json({ user: req.user })) // opcional, puedes fusionarla o eliminarla
 
-console.log("🔍 Configurando ruta de verificación...");
-router.get('/verify', (req, res) => res.json({ message: 'Email verified successfully' }));
-router.post('/verify', jsonBodyParser, verifyUserHandler);
+// Verificación, logout y recuperación
+router.get('/verify', (req, res) => res.json({ message: 'Email verified successfully' }))
+router.post('/verify', jsonBodyParser, verifyUserHandler)
+router.post('/logout', authMiddleware, logoutUserHandler)
+router.post('/recover-password', recoverPasswordHandler)
 
-console.log("📧 Configurando ruta de recuperación de contraseña...");
-router.post('/recover-password', recoverPasswordHandler);
-
-console.log("📸 Configurando rutas de fotógrafos...");
-
-// ✅ **Ruta para obtener todos los fotógrafos**
-router.get('/photographers', getAllPhotographers);
-
-// ✅ **Ruta para registrar fotógrafos**
+// Gestión de fotógrafos
+router.get('/photographers', authMiddleware, getAllPhotographers);
 router.post('/photographers', jsonBodyParser, (req, res, next) => {
-    req.body.role = 'photographer';
-    registerUserHandler(req, res, next);
-});
+    req.body.role = 'photographer'
+    registerUserHandler(req, res, next)
+})
+router.delete('/photographers/:id', authMiddleware, deletePhotographer)
 
-router.delete('/photographers/:id', deletePhotographer);
-
-console.log("✅ Todas las rutas han sido configuradas correctamente.");
-export default router;
+export default router

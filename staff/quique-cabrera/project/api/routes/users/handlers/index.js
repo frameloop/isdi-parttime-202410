@@ -1,19 +1,9 @@
-import registerUserHandler from './registerUserHandler.js';
-import authenticateUserHandler from './authenticateUserHandler.js';
-import getUserNameHandler from './getAuthenticatedUserHandler.js';
-import verifyUserHandler from './verifyUserHandler.js';
-import logoutUserHandler from './logoutUserHandler.js';
-import recoverPasswordHandler from './recoverPasswordHandler.js';
-import { getAllPhotographers } from './getAllPhotographers.js';
-import { deletePhotographer } from './deletePhotographer.js';
+export { default as loginUserHandler } from './loginUserHandler.js'
+export { default as registerUserHandler } from './registerUserHandler.js';
+export { default as authenticateUserHandler } from './authenticateUserHandler.js';
+export { default as verifyUserHandler } from './verifyUserHandler.js';
+export { default as logoutUserHandler } from './logoutUserHandler.js';
+export { default as recoverPasswordHandler } from './recoverPasswordHandler.js';
+export { getAllPhotographers } from './getAllPhotographers.js';
+export { deletePhotographer } from './deletePhotographer.js';
 
-export {
-    registerUserHandler,
-    authenticateUserHandler,
-    getUserNameHandler,
-    verifyUserHandler,
-    logoutUserHandler,
-    recoverPasswordHandler,
-    getAllPhotographers,
-    deletePhotographer
-};

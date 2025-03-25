@@ -1,51 +1,38 @@
-import 'dotenv/config';
-import mongoose from 'mongoose';
-import express from 'express';
-import cors from 'cors';
+import 'dotenv/config'
+import mongoose from 'mongoose'
+import express from 'express'
+import cors from 'cors'
+import { usersRouter, sessionsRouter } from './routes/index.js'
+import errorHandler from './middlewares/errorHandler.js'
 
-import { usersRouter, sessionsRouter } from './routes/index.js';
-import errorHandler from './middlewares/errorHandler.js';
-
-const connectToDb = () => {
-    console.log(`Intentando conectar a la base de datos con URL: ${process.env.MONGO_URL || 'URL no definida'}`);
-    return mongoose.connect(process.env.MONGO_URL)
-        .then(() => {
-            console.log('Base de datos conectada exitosamente');
-            console.log('Estado de la conexión:', mongoose.connection.readyState);
-        })
-        .catch(error => {
-            console.error('Error al conectar a la base de datos:', error);
-            throw error;
-        });
-};
+const connectToDb = () => mongoose.connect(process.env.MONGO_URL)
 
 const startApi = () => {
-    console.log("Iniciando configuración de la API");
-    const api = express();
+    const api = express()
 
-    api.use(cors());
-    api.use(express.json());
+    // Middlewares
+    api.use(cors())
+    api.use(express.json())
 
-    api.get('/', (req, res) => {
-        console.log("Solicitud recibida en la ruta principal '/'");
-        res.send('Hello, APIO!');
-    });
+    // Ruta base
+    api.get('/', (req, res) => res.send('API en funcionamiento 🚀'))
 
-    api.use('/users', usersRouter);
+    // Rutas principales
+    api.use('/users', usersRouter)
+    api.use('/sessions', sessionsRouter)
 
-    api.use('/admin', usersRouter);
-    api.use('/sessions', sessionsRouter);
-    api.use(errorHandler);
+    // Manejo de errores
+    api.use(errorHandler)
 
-    console.log(`Iniciando servidor en el puerto ${process.env.PORT || 'Puerto no definido'}`);
+    // Iniciar servidor
     api.listen(process.env.PORT, () => {
-        console.log(`Servidor iniciado exitosamente en el puerto ${process.env.PORT}`);
-    });
-};
+        console.log(`✅ API corriendo en http://localhost:${process.env.PORT}`)
+    })
+}
 
-console.log("Iniciando secuencia de arranque de la aplicación");
+// Conectar y lanzar
 connectToDb()
     .then(startApi)
     .catch(error => {
-        console.error('Error al iniciar la API:', error);
-    });
+        console.error('❌ Error conectando a la base de datos:', error)
+    })

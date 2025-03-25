@@ -1,20 +1,42 @@
-import { User } from '../../../data/models.js';
-import sendRecoveryEmail from '../../../logic/sendRecoveryEmail.js';
+import { User } from '../../../data/models.js'
+import sendRecoveryEmail from '../../../logic/sendRecoveryEmail.js'
+import crypto from 'crypto'
 
-export default async (req, res) => {
+export default async (req, res, next) => {
     try {
-        const { username } = req.body;
-        console.log(`➡️  Entrando a recoverPasswordHandler con username: ${username}`);
-        if (!username || typeof username !== 'string') {
-            return res.status(400).json({ error: 'Invalid or missing username' });
-        }
-        console.log(`➡️  Entrando a recoverPasswordHandler con username: ${username}`);
-        const user = await User.findOne({ username });
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        const { username } = req.body
 
-        await sendRecoveryEmail(user.email);
-        return res.json({ success: true, message: 'Recovery email sent' });
+        if (!username || typeof username !== 'string') {
+            return res.status(400).json({
+                error: 'InvalidInput',
+                message: 'El nombre de usuario es obligatorio'
+            })
+        }
+
+        const user = await User.findOne({ username })
+
+        if (user) {
+            // Generamos token seguro y fecha de expiración
+            const token = crypto.randomBytes(32).toString('hex')
+            const expires = new Date(Date.now() + 1000 * 60 * 30) // 30 minutos
+
+            user.recoveryToken = token
+            user.recoveryTokenExpires = expires
+            await user.save()
+
+            const recoveryLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`
+
+            await sendRecoveryEmail(user.email, recoveryLink)
+        }
+
+        // Respondemos siempre igual (por seguridad)
+        res.json({
+            success: true,
+            message: 'Si el usuario existe, se ha enviado un email de recuperación'
+        })
+
     } catch (error) {
-        return res.status(500).json({ error: 'Internal server error' });
+        console.error('Error en recoverPasswordHandler:', error)
+        next(error)
     }
-};
+}

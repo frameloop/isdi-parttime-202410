@@ -1,32 +1,22 @@
-import { blacklistToken } from '../../../data/tokenBlackList.js';
+import logoutUser from '../../../logic/logoutUser.js'
 
-export default async (req, res) => {
+export default async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.split(' ')[1];
-        console.log(`Token extraído del encabezado: ${token || 'No token found'}`);
+        const token = req.headers.authorization?.split(' ')[1]
 
-        if (!req.user || !req.user._id) {
-            console.warn("Logout requested, but no user found.");
-            return res.status(400).json({ error: 'User not found in request' });
+        if (!token || !req.userId) {
+            return res.status(400).json({ error: 'Invalid logout request' })
         }
-        console.log(`User ID encontrado en la solicitud: ${req.user._id}`);
 
-        if (!token) {
-            console.warn("Logout requested, but no token provided.");
-            return res.status(400).json({ error: 'Token missing in request' });
-        }
-        console.log(`Token válido recibido: ${token}`);
+        logoutUser(token)
 
-        console.log(`Logout requested for user ID: ${req.user._id}`);
+        res.status(200).json({
+            success: true,
+            message: 'User logged out successfully'
+        })
 
-        blacklistToken(token);
-        console.log(`Token blacklisted: ${token}`);
-
-        console.log("Logout successful.");
-        return res.status(200).json({ success: true, message: 'User logged out successfully' });
     } catch (error) {
-        console.error("Error during logout:", error);
-        console.log(`Detalle del error: ${error.message}`);
-        return res.status(500).json({ error: 'Server error on logout' });
+        console.error('Error en logoutUserHandler:', error)
+        next(error)
     }
-};
+}

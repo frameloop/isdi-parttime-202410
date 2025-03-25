@@ -1,18 +1,28 @@
-import { User } from '../data/models.js';
-import { validate, errors } from 'com';
+import { User } from '../data/models.js'
+import { validate, errors } from 'com'
 
-const { SystemError, NotFoundError } = errors;
+const { SystemError, NotFoundError } = errors
 
-const getUserName = userId => {
-    validate.id(userId, 'userId');
+const getUserName = async (userId) => {
+    try {
+        validate.id(userId, 'userId')
 
-    return User.findById(userId)
-        .catch(error => { throw new SystemError(error.message); })
-        .then(user => {
-            if (!user) throw new NotFoundError('user not found');
+        const user = await User.findById(userId)
 
-            return user.name;
-        });
-};
+        if (!user) {
+            throw new NotFoundError('User not found')
+        }
 
-export default getUserName;
+        return user.name
+
+    } catch (error) {
+        // Solo propagamos errores conocidos, el resto los envolvemos
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+
+        throw new SystemError(error.message)
+    }
+}
+
+export default getUserName

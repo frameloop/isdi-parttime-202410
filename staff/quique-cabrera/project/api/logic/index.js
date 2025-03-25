@@ -1,12 +1,13 @@
-import authenticateUser from './authenticateUser.js';
-import registerUser from './registerUser.js';
-import getUserName from './getUserName.js';
-import verifyUserExists from './verifyUserExists.js';
-import logoutUser from './logoutUser.js';
-import sendEmail from './sendEmail.js';
-import sendRecoveryEmail from './sendRecoveryEmail.js';
-import getCustomerSessions from './getCustomerSessions.js';
-import getPhotographerSessions from './getPhotographerSessions.js';
+import authenticateUser from './authenticateUser.js'
+import registerUser from './registerUser.js'
+import getUserName from './getUserName.js'
+import verifyUserExists from './verifyUserExists.js'
+import logoutUser from './logoutUser.js'
+import sendEmail from './sendEmail.js'
+import sendRecoveryEmail from './sendRecoveryEmail.js'
+import getCustomerSessions from './getCustomerSessions.js'
+import getPhotographerSessions from './getPhotographerSessions.js'
+import * as tokenBlacklist from './tokenBlacklist.js'
 
 const logic = {
     authenticateUser,
@@ -18,6 +19,7 @@ const logic = {
     sendRecoveryEmail,
     getCustomerSessions,
     getPhotographerSessions,
-};
+    ...tokenBlacklist
+}
 
-export default logic;
+export default logic

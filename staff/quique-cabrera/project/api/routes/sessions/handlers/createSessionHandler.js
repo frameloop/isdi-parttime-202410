@@ -1,88 +1,75 @@
-import { Customer, Photographer, Session } from '../../../data/models.js';
-import mongoose from 'mongoose';
+import { Customer, Photographer, Session } from '../../../data/models.js'
+import mongoose from 'mongoose'
 
-export const createSession = (req, res) => {
-    console.log('[createSession] Request received with body:', req.body);
+export const createSession = async (req, res) => {
+    try {
+        const customerUserId = req.user._id // ✅ Corrección aquí
+        const { photographerId, date, type, address, services } = req.body
 
-    const { customerId, photographerId, date, type, address, services } = req.body;
+        // Validación de campos obligatorios
+        if (!photographerId || !date) {
+            return res.status(400).json({ error: 'Faltan campos obligatorios: photographerId o date.' })
+        }
 
-    if (!customerId || !photographerId || !date) {
-        console.error('[createSession] Missing required fields.');
-        return res.status(400).json({ error: 'Missing required fields.' });
-    }
+        const sessionDate = new Date(date)
+        if (isNaN(sessionDate.getTime())) {
+            return res.status(400).json({ error: 'Formato de fecha inválido.' })
+        }
 
-    const sessionDate = new Date(date);
-    if (isNaN(sessionDate.getTime())) {
-        console.error('[createSession] Invalid date format:', date);
-        return res.status(400).json({ error: 'Invalid date format.' });
-    }
+        if (sessionDate.getTime() < Date.now()) {
+            return res.status(400).json({ error: 'La fecha no puede estar en el pasado.' })
+        }
 
-    const now = new Date();
-    if (sessionDate.getTime() < now.getTime()) {
-        console.error('[createSession] The session date cannot be in the past:', sessionDate);
-        return res.status(400).json({ error: 'The session date cannot be in the past.' });
-    }
+        // 🔍 Buscar cliente asociado al usuario autenticado
+        const customer = await Customer.findOne({ user: new mongoose.Types.ObjectId(customerUserId) })
+        if (!customer) {
+            return res.status(404).json({ error: 'Cliente no encontrado.' })
+        }
 
-    console.log('[createSession] Parsed date OK:', sessionDate.toISOString());
+        // 🔍 Buscar fotógrafo por su ID de usuario
+        const photographer = await Photographer.findOne({ user: new mongoose.Types.ObjectId(photographerId) })
+        if (!photographer) {
+            return res.status(404).json({ error: 'Fotógrafo no encontrado.' })
+        }
 
-    Customer.findOne({ user: new mongoose.Types.ObjectId(customerId) })
-        .then(customer => {
-            if (!customer) {
-                console.error(`[createSession] Customer not found: ${customerId}`);
-                return res.status(404).json({ error: 'Customer not found.' });
+        // ⛔ Verificar conflicto de horario exacto (una hora de duración por sesión)
+        const startTime = new Date(sessionDate)
+        const endTime = new Date(startTime.getTime() + 60 * 60 * 1000)
+
+        const conflictingSession = await Session.findOne({
+            photographer: photographer._id,
+            date: {
+                $gte: startTime,
+                $lt: endTime
             }
-
-            return Photographer.findOne({ user: new mongoose.Types.ObjectId(photographerId) })
-                .then(photographer => {
-                    if (!photographer) {
-                        console.error(`[createSession] Photographer not found: ${photographerId}`);
-                        return res.status(404).json({ error: 'Photographer not found.' });
-                    }
-
-                    // 💡 Esta validación era demasiado estricta. Mejor validar dentro del día
-                    const dayStart = new Date(sessionDate);
-                    dayStart.setHours(0, 0, 0, 0);
-
-                    const dayEnd = new Date(sessionDate);
-                    dayEnd.setHours(23, 59, 59, 999);
-
-                    return Session.findOne({
-                        photographer: photographer._id,
-                        date: { $gte: dayStart, $lte: dayEnd }
-                    }).then(existingSession => {
-                        if (existingSession) {
-                            console.error(`[createSession] Photographer already booked: ${sessionDate}`);
-                            return res.status(400).json({ error: 'Photographer is already booked at this time.' });
-                        }
-
-                        const session = new Session({
-                            customer: customer._id,
-                            photographer: photographer._id,
-                            date: sessionDate,
-                            type,
-                            address: address || {},
-                            services: services || []
-                        });
-
-                        return session.save()
-                            .then(savedSession => {
-                                return Promise.all([
-                                    Customer.findByIdAndUpdate(customer._id, {
-                                        $addToSet: { sessions: savedSession._id }
-                                    }),
-                                    Photographer.findByIdAndUpdate(photographer._id, {
-                                        $addToSet: { sessions: savedSession._id }
-                                    })
-                                ]).then(() => {
-                                    console.log('[createSession] ✅ Sesión creada con éxito');
-                                    res.status(201).json(savedSession);
-                                });
-                            });
-                    });
-                });
         })
-        .catch(error => {
-            console.error('[createSession] Error creating session:', error);
-            res.status(500).json({ error: 'Internal server error.' });
-        });
-};
+
+        if (conflictingSession) {
+            return res.status(400).json({ error: 'El fotógrafo ya tiene una sesión en este horario.' })
+        }
+
+        // ✅ Crear nueva sesión
+        const session = new Session({
+            customer: customer._id,
+            photographer: photographer._id,
+            date: sessionDate,
+            type,
+            address: address || {},
+            services: services || []
+        })
+
+        const savedSession = await session.save()
+
+        // 🔗 Vincular sesión con cliente y fotógrafo
+        await Promise.all([
+            Customer.findByIdAndUpdate(customer._id, { $addToSet: { sessions: savedSession._id } }),
+            Photographer.findByIdAndUpdate(photographer._id, { $addToSet: { sessions: savedSession._id } })
+        ])
+
+        res.status(201).json(savedSession)
+
+    } catch (error) {
+        console.error('❌ Error en createSession:', error)
+        res.status(500).json({ error: 'Error interno del servidor.' })
+    }
+}

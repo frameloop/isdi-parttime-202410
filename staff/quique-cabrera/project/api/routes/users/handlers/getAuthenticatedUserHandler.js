@@ -1,9 +1,11 @@
 export default (req, res) => {
+    // Verificamos que el usuario esté autenticado (req.user viene del middleware)
     if (!req.user) {
-        return res.status(401).json({ error: 'Usuario no autenticado' });
+        return res.status(401).json({ error: 'Usuario no autenticado' })
     }
 
-    const { _id, name, email, role } = req.user;
+    const { _id, name, email, role } = req.user
 
-    res.status(200).json({ _id, name, email, role });
-};
+    // Devolvemos la info básica del usuario autenticado
+    res.status(200).json({ _id, name, email, role })
+}

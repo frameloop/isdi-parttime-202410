@@ -7,6 +7,8 @@
     --color-greydark: #323232;
     --color-grey: #f4f2eb;
     --color-black: #000000;
+    --color-lila: #B62682;
+    --color-green: #E1F56E;
 }
 
 @layer base {
@@ -69,11 +71,56 @@
     }
 }
 
-.react-calendar__tile {
-    color: rgb(173, 173, 173) !important;
+/* Fondo completo del calendario */
+.react-calendar {
+    background-color: #ffffff;
+    border: 2px solid rgb(237, 237, 237);
+    border-radius: 8px;
+    padding: 1rem;
 }
 
-.react-calendar__tile.text-black {
-    color: black !important;
-    font-weight: 900 !important;
+/* Día actual (amarillo en tu caso) */
+.react-calendar__tile--now {
+    background: #E1F56E;
+    border-radius: 8px;
+    color: #2f88ff;
+    font-weight: bold;
+    border: 2px solid #f1e157;
+}
+
+/* Día seleccionado (azul en tu imagen) */
+.react-calendar__tile--active {
+    background: #B62682;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Borde o estilo general de cada día */
+.react-calendar__tile {
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+.react-calendar__tile:hover {
+    border: 1px solid #ccc;
+    background: #f0f0f0;
+}
+
+.react-calendar__tile {
+    width: 100%;
+    padding-top: 10%;
+    /* Hace que la altura sea igual al ancho */
+    position: relative;
+}
+
+.react-calendar__tile>* {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

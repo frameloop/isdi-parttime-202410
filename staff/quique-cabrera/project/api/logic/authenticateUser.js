@@ -1,50 +1,51 @@
-import { User } from '../data/models.js';
-import { validate, errors } from 'com';
-import bcrypt from 'bcryptjs';
+import { User } from '../data/models.js'
+import { validate, errors } from 'com'
+import bcrypt from 'bcryptjs'
 
-const { SystemError, CredentialsError } = errors;
+const { SystemError, CredentialsError } = errors
 
-const authenticateUser = (username, password) => {
-    console.log('[authenticateUser] Received:', username, password);
+const authenticateUser = async (username, password) => {
+    try {
+        validate.username(username)
+        validate.password(password)
 
-    validate.username(username);
-    validate.password(password);
+        // Buscamos al usuario e incluimos su password y rol
+        const user = await User.findOne({ username }).select('+password role name email')
 
-    return User.findOne({ username }).select('+password role') // 🔹 Aseguramos que `role` se recupere
-        .then(user => {
-            if (!user) {
-                console.error('[authenticateUser] ❌ User not found:', username);
-                throw new CredentialsError('user: wrong credentials');
-            }
+        if (!user) {
+            throw new CredentialsError('Credenciales incorrectas')
+        }
 
-            console.log('[authenticateUser] ✅ Found user:', user.username);
-            console.log('[authenticateUser] 🔑 Role:', user.role);
-            console.log('[authenticateUser] Stored Hashed Password:', user.password || 'NOT FOUND');
+        if (!user.password) {
+            throw new SystemError('Invalid user data: password is missing')
+        }
 
-            if (!user.password) {
-                console.error('[authenticateUser] ❌ Password is missing from DB');
-                throw new SystemError('Invalid user data: password is missing');
-            }
+        const match = await bcrypt.compare(password, user.password)
 
-            return bcrypt.compare(password, user.password)
-                .then(match => {
-                    console.log('[authenticateUser] 🔍 Password match:', match);
+        if (!match) {
+            throw new CredentialsError('Credenciales incorrectas')
+        }
 
-                    if (!match) {
-                        console.error('[authenticateUser] ❌ Incorrect password');
-                        throw new CredentialsError('wrong credentials');
-                    }
+        // Devolvemos todos los datos necesarios para el token y la respuesta
+        return {
+            _id: user._id,
+            username: user.username,
+            name: user.name,
+            email: user.email,
+            role: user.role
+        }
 
-                    return {
-                        _id: user._id.toString(),
-                        role: user.role // 🔹 Aseguramos que `role` se devuelva
-                    };
-                });
-        })
-        .catch(error => {
-            console.error('[authenticateUser] ❌ Error:', error.message);
-            throw new SystemError(error.message);
-        });
-};
+    } catch (error) {
+        // Solo errores inesperados se transforman en SystemError
+        if (
+            error instanceof CredentialsError ||
+            error instanceof SystemError
+        ) {
+            throw error
+        }
 
-export default authenticateUser;
+        throw new SystemError(error.message)
+    }
+}
+
+export default authenticateUser

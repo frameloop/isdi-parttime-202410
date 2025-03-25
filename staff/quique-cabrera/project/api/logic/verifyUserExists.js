@@ -1,20 +1,34 @@
-import { User } from '../data/models.js';
-import { validate, errors } from 'com';
+import { User } from '../data/models.js'
+import { validate, errors } from 'com'
 
-const { SystemError, CredentialsError } = errors;
+const { SystemError, CredentialsError } = errors
 
-const verifyUserExists = (username) => {
+const verifyUserExists = async (username) => {
     try {
-        validate.username(username);
-        return User.findOne({ username })
-            .then(user => {
-                if (!user) throw new CredentialsError('User not found');
-                return { success: true, name: user.name, email: user.email };
-            })
-            .catch(error => { throw new SystemError(error.message); });
-    } catch (error) {
-        throw new SystemError(error.message);
-    }
-};
+        // Validamos el formato del nombre de usuario
+        validate.username(username)
 
-export default verifyUserExists;
+        const user = await User.findOne({ username })
+
+        if (!user) {
+            throw new CredentialsError('User not found')
+        }
+
+        // Devuelve solo lo necesario
+        return {
+            success: true,
+            name: user.name,
+            email: user.email
+        }
+
+    } catch (error) {
+        // Mantenemos errores esperados, encapsulamos solo lo inesperado
+        if (error instanceof CredentialsError) {
+            throw error
+        }
+
+        throw new SystemError(error.message)
+    }
+}
+
+export default verifyUserExists

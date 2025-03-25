@@ -1,37 +1,33 @@
-import verifyUserExists from '../../../logic/verifyUserExists.js';
+import verifyUserExists from '../../../logic/verifyUserExists.js'
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
     try {
-        console.log("Cuerpo de la solicitud recibido:", req.body);
+        const { username } = req.body
 
-        if (!req.body || typeof req.body !== 'object') {
-            console.warn("Cuerpo de la solicitud inválido o ausente:", req.body);
-            throw new Error('Invalid request body');
+        // Validación de entrada
+        if (!username || typeof username !== 'string') {
+            return res.status(400).json({ error: 'Invalid input', message: 'Username is required' })
         }
-        console.log("Cuerpo de la solicitud válido");
 
-        const { username } = req.body;
-        console.log(`Username extraído: ${username || 'No username provided'}`);
+        const user = await verifyUserExists(username)
 
-        console.log(`Verificando si existe el usuario: ${username}`);
-        verifyUserExists(username)
-            .then(response => {
-                if (!response) {
-                    console.warn(`Usuario no encontrado: ${username}`);
-                    return res.status(404).json({ error: 'User not found' });
-                }
-                console.log(`Usuario encontrado: ${username}`);
-                console.log("Enviando respuesta:", response);
-                res.json(response);
-            })
-            .catch(error => {
-                console.warn(`Error al verificar usuario: ${username}`);
-                console.log(`Detalle del error en promise: ${error.message}`);
-                next(error);
-            });
+        if (!user) {
+            return res.status(404).json({ error: 'UserNotFound', message: 'No se encontró el usuario' })
+        }
+
+        // Puedes devolver solo parte del usuario si es sensible
+        res.status(200).json({
+            success: true,
+            user: {
+                id: user._id,
+                username: user.username,
+                name: user.name,
+                role: user.role
+            }
+        })
+
     } catch (error) {
-        console.error("Error en la verificación de usuario:", error);
-        console.log(`Detalle del error en try-catch: ${error.message}`);
-        next(error);
+        console.error('Error en verifyUserHandler:', error)
+        next(error)
     }
-};
+}

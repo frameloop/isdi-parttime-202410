@@ -1,4 +1,4 @@
-import express from 'express';
+import express from 'express'
 import {
     createSession,
     getSessions,
@@ -10,25 +10,28 @@ import {
     updateAvailability,
     deleteAvailability,
     deleteSession
-} from './handlers/index.js';
+} from './handlers/index.js'
 
-import authMiddleware from '../../middlewares/authMiddleware.js';
+import authMiddleware from '../../middlewares/authMiddleware.js'
 
-const router = express.Router();
+const router = express.Router()
 
-router.get('/', getSessions);
-router.get('/user', authMiddleware, getUserSessions);
-router.get('/availability/:photographerId', authMiddleware, getAvailability);
-router.get('/my-sessions', authMiddleware, getUserSessions);
-router.get('/photographers/sessions', authMiddleware, getPhotographerSessions);
-router.get('/customers/sessions', authMiddleware, getUserSessions);
-router.get('/availability', authMiddleware, getAllAvailability);
+// Sesiones
+router.get('/', getSessions)
+router.post('/', authMiddleware, createSession); // 🔥 ESTA LÍNEA ES CLAVE
+router.delete('/:sessionId', authMiddleware, deleteSession)
 
-router.post('/availability', authMiddleware, createAvailability);
-router.post('/', createSession);
-router.delete('/:sessionId', authMiddleware, deleteSession);
+// Sesiones de usuario autenticado
+router.get('/my-sessions', authMiddleware, getUserSessions)
 
-router.put('/availability/:id', authMiddleware, updateAvailability); // 🔧 nueva
-router.delete('/availability/:id', authMiddleware, deleteAvailability); // 🗑️ nueva
+// Sesiones del fotógrafo autenticado
+router.get('/photographers/sessions', authMiddleware, getPhotographerSessions)
 
-export default router;
+// Disponibilidad
+router.get('/availability', authMiddleware, getAllAvailability)
+router.get('/availability/:photographerId', authMiddleware, getAvailability)
+router.post('/availability', authMiddleware, createAvailability)
+router.put('/availability/:id', authMiddleware, updateAvailability)
+router.delete('/availability/:id', authMiddleware, deleteAvailability)
+
+export default router

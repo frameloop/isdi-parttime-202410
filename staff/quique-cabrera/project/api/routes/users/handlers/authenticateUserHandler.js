@@ -1,76 +1,61 @@
-import logic from '../../../logic/index.js';
-import jwt from 'jsonwebtoken';
-import { User, Photographer } from '../../../data/models.js';
+import logic from '../../../logic/index.js'
+import jwt from 'jsonwebtoken'
+import { Photographer } from '../../../data/models.js'
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
     try {
-        console.log('[authenticateUserHandler] Request received');
-
-        const { username, password } = req.body;
-        console.log('[authenticateUserHandler] Username:', username);
-        console.log('[authenticateUserHandler] Password:', password ? 'Received' : 'Missing');
+        const { username, password } = req.body
 
         if (!username || !password) {
-            console.error('[authenticateUserHandler] Missing username or password');
-            return res.status(400).json({ error: 'BadRequest', message: 'Missing username or password' });
+            return res.status(400).json({ error: 'BadRequest', message: 'Missing username or password' })
         }
 
-        logic.authenticateUser(username, password)
-            .then(user => {
-                if (!user) {
-                    console.error('[authenticateUserHandler] User not found after authentication');
-                    return res.status(404).json({ error: 'UserNotFound', message: 'User not found' });
-                }
+        const user = await logic.authenticateUser(username, password)
 
-                console.log('[authenticateUserHandler] Found user:', user);
+        if (!user) {
+            return res.status(404).json({ error: 'UserNotFound', message: 'User not found' })
+        }
 
-                if (user.role === 'photographer') {
-                    return Photographer.findOne({ user: user._id }).select('_id')
-                        .then(photographer => {
-                            if (!photographer) {
-                                console.error('[authenticateUserHandler] No photographer profile found');
-                                return res.status(404).json({ error: 'NotFound', message: 'Photographer profile not found' });
-                            }
+        // Preparamos los datos base del token
+        const payload = { sub: user._id, role: user.role }
 
-                            console.log('[authenticateUserHandler] Found photographer:', photographer._id);
+        // Si es fotógrafo, añadimos el ID del perfil de fotógrafo
+        if (user.role === 'photographer') {
+            const photographer = await Photographer.findOne({ user: user._id }).select('_id')
 
-                            const token = jwt.sign(
-                                { sub: user._id, role: user.role, photographerId: photographer._id.toString() },
-                                process.env.JWT_SECRET,
-                                { expiresIn: '1h' }
-                            );
+            if (!photographer) {
+                return res.status(404).json({ error: 'NotFound', message: 'Photographer profile not found' })
+            }
 
-                            res.json({
-                                token,
-                                name: user.name,
-                                role: user.role,
-                                photographerId: photographer._id.toString(),
-                                userId: user._id.toString() // 💥 esto es lo que faltaba
-                            });
+            payload.photographerId = photographer._id.toString()
 
-                        });
-                } else {
-                    const token = jwt.sign(
-                        { sub: user._id, role: user.role },
-                        process.env.JWT_SECRET,
-                        { expiresIn: '1h' }
-                    );
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' })
 
-                    res.json({ token, name: user.name, role: user.role, userId: user._id.toString() });
-                }
+            return res.json({
+                token,
+                name: user.name,
+                role: user.role,
+                photographerId: photographer._id.toString(),
+                userId: user._id.toString()
             })
-            .catch(error => {
-                console.error('[authenticateUserHandler] Error during authentication:', error.message);
-                if (error.message.includes('bcrypt: wrong credentials')) {
-                    return res.status(401).json({
-                        error: 'InvalidCredentials',
-                        message: 'Usuario o contraseña incorrectos'
-                    });
-                }
-                next(error);
-            });
+        }
+
+        // Para otros roles
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' })
+
+        res.json({
+            token,
+            name: user.name,
+            role: user.role,
+            userId: user._id.toString()
+        })
+
     } catch (error) {
-        console.error('[authenticateUserHandler] Unexpected error:', error.message);
-        next(error);
+        // Si el error viene por credenciales
+        if (error.message?.includes('wrong credentials')) {
+            return res.status(401).json({ error: 'InvalidCredentials', message: 'Usuario o contraseña incorrectos' })
+        }
+
+        next(error)
     }
-};
+}
