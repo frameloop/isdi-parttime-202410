@@ -1,6 +1,6 @@
 import { User } from '../data/models.js'
-import { validate, errors } from 'com'
 import bcrypt from 'bcryptjs'
+import { validate, errors } from 'com'
 
 const { SystemError, CredentialsError } = errors
 
@@ -10,7 +10,7 @@ const authenticateUser = async (username, password) => {
         validate.password(password)
 
         // Buscamos al usuario e incluimos su password y rol
-        const user = await User.findOne({ username }).select('+password role name email')
+        const user = await User.findOne({ username }).select('+password +role +name +email +username')
 
         if (!user) {
             throw new CredentialsError('Credenciales incorrectas')

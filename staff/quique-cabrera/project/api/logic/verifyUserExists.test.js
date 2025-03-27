@@ -1,21 +1,23 @@
-import 'dotenv/config';
-import mongoose from 'mongoose';
-import verifyUserExists from './verifyUserExists.js';
+import 'dotenv/config'
+import mongoose from 'mongoose'
+import verifyUserExists from './verifyUserExists.js'
 
 mongoose.connect(process.env.TEST_MONGO_URL)
     .then(() => {
-        console.log('✅ MongoDB connection OK');
+        console.log('✅ Conexión a MongoDB establecida')
 
-        const usernameToCheck = 'cristina'; // Puedes cambiarlo por el username que quieras probar
+        const testUsername = 'quique' // ← Cambia este por uno real en tu base de datos
 
-        try {
-            console.log('🔍 Checking if user exists:', usernameToCheck);
+        console.log(`🔍 Verificando existencia del usuario: ${testUsername}`)
 
-            verifyUserExists(usernameToCheck)
-                .then(result => console.log('✅ User exists:', result))
-                .catch(error => console.log('❌ Error in verifyUserExists (internal catch):', error));
-        } catch (error) {
-            console.log('❌ Error in verifyUserExists (try/catch):', error);
-        }
+        verifyUserExists(testUsername)
+            .then(result => {
+                console.log('✅ Usuario verificado correctamente:', result)
+            })
+            .catch(error => {
+                console.error('❌ Error en verifyUserExists:', error)
+            })
     })
-    .catch(error => console.log('❌ Error connecting to MongoDB:', error));
+    .catch(error => {
+        console.error('❌ Error conectando a MongoDB:', error)
+    })

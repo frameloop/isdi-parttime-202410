@@ -179,16 +179,18 @@ function HomeCustomer() {
             ) : (
                 <section className="w-full max-w-sg bg-white p-4 rounded-lg mt-4">
                     <h2 className="text-xl font-bold text-gray-700 text-center">Seleccionar Disponibilidad</h2>
-                    <Calendar
-                        onChange={handleDateChange}
-                        value={selectedDate}
-                        tileClassName={({ date, view }) =>
-                            view === 'month' && availability.some(slot => slot.date.startsWith(date.toISOString().split("T")[0]))
-                                ? 'bg-green-500 text-black font-bold rounded-full'
-                                : 'text-gray-400'
-                        }
-                        className="mt-4 border border-gray-300"
-                    />
+                    <div className="flex justify-center mt-4">
+                        <Calendar
+                            onChange={handleDateChange}
+                            value={selectedDate}
+                            tileClassName={({ date, view }) =>
+                                view === 'month' && availability.some(slot => slot.date.startsWith(date.toISOString().split("T")[0]))
+                                    ? 'bg-green-500 text-black font-bold rounded-full'
+                                    : 'text-gray-400'
+                            }
+                            className="mt-4 border border-gray-300"
+                        />
+                    </div>
                     <button className="mt-2 bg-[#B62682] text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(false)}>
                         Volver
                     </button>

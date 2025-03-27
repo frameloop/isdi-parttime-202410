@@ -1,25 +1,21 @@
-// https://myaccount.google.com/apppasswords
-// https://nodemailer.com/about/
-// https://nodemailer.com/smtp/
-// https://nodemailer.com/examples/
+import 'dotenv/config'
+import sendEmail from './sendEmail.js'
 
-import sendEmail from './sendEmail.js';// O ajusta la ruta si está en otro sitio
-import 'dotenv/config';
+const testEmail = async () => {
+  try {
+    console.log('📨 Probando envío de email...')
 
-const toEmail = 'quique@emestudi.es'; // 👈 Cambia esto por tu email real de prueba
+    const result = await sendEmail({
+      to: 'quique@emestudi.es',
+      subject: '🧪 Test Sesiona Email',
+      text: 'Este es un email de prueba enviado desde el sistema de Sesiona.',
+      html: '<h1>Sesiona</h1><p>Este es un email de <strong>prueba</strong>.</p>'
+    })
 
-sendEmail({
-  to: toEmail,
-  subject: '📧 Test de correo desde Sesiona',
-  text: 'Este es un test directo usando nodemailer. ¡Funciona!'
-})
-  .then(() => {
-    console.log('✅ Email enviado con éxito.');
-    process.exit(0);
-  })
-  .catch(error => {
-    console.error('❌ Error al enviar el email:');
-    console.error(error.message);
-    console.error(error);
-    process.exit(1);
-  });
+    console.log('✅ Resultado:', result)
+  } catch (error) {
+    console.error('❌ Error al enviar email:', error.message)
+  }
+}
+
+testEmail()

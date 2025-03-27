@@ -192,7 +192,9 @@ function HomePhotographer() {
             ) : (
                 <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
                     <h2 className="text-xl font-bold text-gray-700 text-center">{editingSlotId ? 'Editar Disponibilidad' : 'Agregar Disponibilidad'}</h2>
-                    <Calendar onChange={handleDateChange} value={selectedDate} className="mt-4 border border-gray-300" tileClassName={tileClassName} />
+                    <div className="flex justify-center mt-4">
+                        <Calendar onChange={handleDateChange} value={selectedDate} className="mt-4 border border-gray-300" tileClassName={tileClassName} />
+                    </div>
                     {selectedDate && (
                         <>
                             <p className="text-gray-700 font-semibold mt-2">Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
@@ -235,8 +237,9 @@ function HomePhotographer() {
                         Volver
                     </button>
                 </section>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 

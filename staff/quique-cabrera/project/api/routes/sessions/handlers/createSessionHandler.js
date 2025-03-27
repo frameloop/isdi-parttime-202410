@@ -12,6 +12,9 @@ export const createSession = async (req, res) => {
         }
 
         const sessionDate = new Date(date)
+        console.log('[BACK] Fecha recibida en el body:', date)
+        console.log('[BACK] Interpreta como fecha:', sessionDate.toString())
+
         if (isNaN(sessionDate.getTime())) {
             return res.status(400).json({ error: 'Formato de fecha inválido.' })
         }

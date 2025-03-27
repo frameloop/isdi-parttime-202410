@@ -1,49 +1,43 @@
-import 'dotenv/config';
-import mongoose from 'mongoose';
-import registerUser from './registerUser.js';
-import { User } from '../data/models.js'; // 📌 Importamos el modelo para manipular la BD directamente
+import 'dotenv/config'
+import mongoose from 'mongoose'
+import registerUser from './registerUser.js'
 
-// 🔌 Conexión a la base de datos de pruebas
 mongoose.connect(process.env.TEST_MONGO_URL)
-    .then(() => {
-        console.log('✅ MongoDB connection OK'); // 📌 Confirmamos que la conexión se ha establecido correctamente
+    .then(async () => {
+        console.log('✅ Conectado a MongoDB')
 
-        // 🗑️ Eliminamos el usuario si ya existe para evitar errores de duplicidad
-        return User.deleteOne({ username: 'acme' });
-    })
-    .then(result => {
-        if (result.deletedCount > 0) {
-            console.log('🗑️ Deleted existing user "acme" before test'); // 📌 Usuario eliminado correctamente antes de la prueba
-        } else {
-            console.log('ℹ️ No existing user "acme" found, skipping deletion'); // 📌 No se encontró el usuario, no es necesario eliminarlo
+        const baseUser = {
+            name: 'Test User',
+            email: `testuser_${Date.now()}@example.com`,
+            phone: '600123456',
+            username: `testuser_${Date.now()}`,
+            password: 'TestPassword123!',
+            role: 'photographer',
+            coverage: '08001'
         }
 
-        // 🛠️ Datos del usuario a registrar
-        const name = 'Con PinPon';
-        const email = 'pin@pon.es';
-        const phone = '555555555';
-        const username = 'pinpon';
-        const password = 'A3x9zLp8Q1';
-        const role = 'administrator';
+        try {
+            console.log('🔍 Probando registro de usuario fotográfo válido')
+            const user = await registerUser(
+                baseUser.name,
+                baseUser.email,
+                baseUser.phone,
+                baseUser.username,
+                baseUser.password,
+                baseUser.role,
+                baseUser.coverage
+            )
 
-        console.log(`🔍 Trying to register user: ${name}, ${email}, ${phone}, ${username}, ${password}, ${role}`);
+            if (user && user._id) {
+                console.log('✅ Usuario registrado correctamente:', user._id.toString())
+            } else {
+                console.error('❌ Error: usuario no fue retornado correctamente')
+            }
 
-        // 📌 Intentamos registrar al usuario
-        return registerUser(name, email, phone, username, password, role);
-    })
-    .then(result => {
-        console.log('✅ User registered successfully:', result); // 📌 Usuario registrado correctamente
-    })
-    .catch(error => {
-        if (error.name === 'DuplicityError') {
-            console.warn('⚠ User already exists, skipping registration'); // ⚠ Si el usuario ya existía, lo indicamos
-        } else {
-            console.error('❌ Unexpected error in registerUser:', error); // 🚨 Si hay un error inesperado
+        } catch (error) {
+            console.error('❌ Error durante el test:', error.message)
+        } finally {
+            mongoose.disconnect().then(() => console.log('👋 Desconectado de MongoDB'))
         }
     })
-    .finally(() => {
-        console.log('🔌 Closing MongoDB connection...'); // 📌 Indicamos que se está cerrando la conexión
-        mongoose.connection.close()
-            .then(() => console.log('✅ MongoDB connection closed'))
-            .catch(error => console.error('❌ Error closing MongoDB connection:', error));
-    });
+    .catch(error => console.error('❌ Error conectando a MongoDB:', error))
