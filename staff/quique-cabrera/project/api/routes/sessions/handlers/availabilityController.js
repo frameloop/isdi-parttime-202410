@@ -64,19 +64,33 @@ export const updateAvailability = async (req, res) => {
 
 export const createAvailability = async (req, res) => {
     try {
-        const { photographer, date, startTime, endTime, available } = req.body;
-        if (!photographer || !date || !startTime || !endTime || available === undefined) {
-            return res.status(400).json({ error: "Faltan datos en la solicitud", data: req.body });
+        const { photographer, date, startDate, endDate, available } = req.body;
+        if (!photographer || !date || !startDate || !endDate || available === undefined) {
+            return res.status(400).json({ error: 'Faltan campos requeridos' });
         }
+
         const parsedDate = new Date(date);
-        if (isNaN(parsedDate.getTime())) {
-            return res.status(400).json({ error: "Fecha inválida" });
-        }
-        const existingAvailability = await Availability.findOne({ photographer, date: parsedDate, startTime, endTime });
+        const parsedStartDate = new Date(startDate);
+        const parsedEndDate = new Date(endDate);
+
+        const existingAvailability = await Availability.findOne({
+            photographer,
+            date: parsedDate,
+            startDate: parsedStartDate,
+            endDate: parsedEndDate
+        });
+
         if (existingAvailability) {
             return res.status(400).json({ error: "Ya existe una disponibilidad para este horario" });
         }
-        const newAvailability = new Availability({ photographer, date: parsedDate, startTime, endTime, available });
+
+        const newAvailability = new Availability({
+            photographer,
+            date: parsedDate,
+            startDate: parsedStartDate,
+            endDate: parsedEndDate,
+            available
+        });
         await newAvailability.save();
         res.status(201).json(newAvailability);
     } catch (error) {

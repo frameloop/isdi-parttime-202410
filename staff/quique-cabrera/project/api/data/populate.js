@@ -96,15 +96,25 @@ mongoose.connect(process.env.MONGO_URL)
 
                     // 📌 Crear disponibilidad en `Availability`
                     return Promise.all(
-                        photographerData.availability.map(slot =>
-                            new Availability({
+                        photographerData.availability.map(slot => {
+                            const date = new Date(slot.date);
+                            const [startHours, startMinutes] = slot.startTime.split(':');
+                            const [endHours, endMinutes] = slot.endTime.split(':');
+
+                            const startDate = new Date(date);
+                            startDate.setHours(parseInt(startHours), parseInt(startMinutes), 0, 0);
+
+                            const endDate = new Date(date);
+                            endDate.setHours(parseInt(endHours), parseInt(endMinutes), 0, 0);
+
+                            return new Availability({
                                 photographer: photographer._id,
-                                date: new Date(slot.date),
-                                startTime: slot.startTime,
-                                endTime: slot.endTime,
+                                date: date,
+                                startDate: startDate,
+                                endDate: endDate,
                                 available: true
-                            }).save()
-                        )
+                            }).save();
+                        })
                     );
                 })
                 .then(result => {

@@ -54,14 +54,14 @@ const photographerSchema = new Schema({
 const availabilitySchema = new Schema({
     photographer: { type: ObjectId, ref: 'Photographer', required: true },
     date: { type: Date, required: true },
-    startTime: { type: String, required: true }, // 🕒 Guarda la hora en formato "HH:mm"
-    endTime: { type: String, required: true }, // 🕒 Guarda la hora en formato "HH:mm"
+    startDate: { type: Date, required: true }, // Cambiado a Date
+    endDate: { type: Date, required: true },   // Cambiado a Date
     available: { type: Boolean, default: true }
 }, { timestamps: true });
 
 // 🔹 Agregar índice único para evitar duplicados en el mismo horario
 availabilitySchema.index(
-    { photographer: 1, date: 1, startTime: 1, endTime: 1 },
+    { photographer: 1, date: 1, startDate: 1, endDate: 1 },
     { unique: true }
 );
 

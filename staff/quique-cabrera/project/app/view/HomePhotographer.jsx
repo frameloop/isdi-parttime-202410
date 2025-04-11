@@ -9,8 +9,8 @@ function HomePhotographer() {
     const [availability, setAvailability] = useState([]);
     const [sessions, setSessions] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [editingSlotId, setEditingSlotId] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
     const [photographerId, setPhotographerId] = useState('');
@@ -60,32 +60,50 @@ function HomePhotographer() {
     };
 
     const handleSaveAvailability = () => {
-        if (!selectedDate || !startTime || !endTime) return alert('Debes seleccionar una fecha y horas.');
+        if (!selectedDate || !startDate || !endDate) {
+            alert('Por favor, selecciona una fecha y horario');
+            return;
+        }
+
         const token = localStorage.getItem('token');
         if (!token) return;
-        const payload = { photographer: photographerId, date: selectedDate.toISOString().split("T")[0], startTime, endTime, available: true };
-        const method = editingSlotId ? 'PUT' : 'POST';
-        const url = editingSlotId ? `${import.meta.env.VITE_API_URL}/sessions/availability/${editingSlotId}` : `${import.meta.env.VITE_API_URL}/sessions/availability`;
-        fetch(url, { method, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(payload) })
+
+        const startDateTime = new Date(`${selectedDate.toISOString().split('T')[0]}T${startDate}:00`);
+        const endDateTime = new Date(`${selectedDate.toISOString().split('T')[0]}T${endDate}:00`);
+
+        const availabilityData = {
+            photographer: photographerId,
+            date: selectedDate.toISOString(),
+            startDate: startDateTime.toISOString(),
+            endDate: endDateTime.toISOString(),
+            available: true
+        };
+
+        fetch(`${import.meta.env.VITE_API_URL}/sessions/availability`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(availabilityData)
+        })
             .then(res => res.json())
-            .then(response => {
-                if (response.error) alert(response.error);
-                else {
-                    setSelectedDate(null);
-                    setStartTime('');
-                    setEndTime('');
-                    setEditingSlotId(null);
-                    fetchAvailability();
-                    setShowCalendar(false);
-                }
+            .then(() => {
+                fetchAvailability();
+                setStartDate('');
+                setEndDate('');
+                setShowCalendar(false);
+                setSelectedDate(null);
+                setShowStartTimeDropdown(false);
+                setShowEndTimeDropdown(false);
             })
             .catch(console.error);
     };
 
     const handleEditSlot = (slot) => {
         setSelectedDate(new Date(slot.date));
-        setStartTime(slot.startTime);
-        setEndTime(slot.endTime);
+        setStartDate(slot.startDate);
+        setEndDate(slot.endDate);
         setEditingSlotId(slot._id);
         setShowCalendar(true);
     };
@@ -103,6 +121,8 @@ function HomePhotographer() {
         const formattedDate = date.toISOString().split("T")[0];
         setSelectedAvailability(availability.filter(slot => new Date(slot.date).toISOString().split("T")[0] === formattedDate));
         const blocked = [];
+
+        // Bloquear horarios de sesiones existentes
         sessions.filter(s => new Date(s.date).toISOString().split("T")[0] === formattedDate).forEach(session => {
             const sessionStart = new Date(session.date);
             const sessionEnd = new Date(sessionStart.getTime() + 60 * 60 * 1000);
@@ -110,9 +130,11 @@ function HomePhotographer() {
                 blocked.push(`${t.getHours().toString().padStart(2, '0')}:${t.getMinutes().toString().padStart(2, '0')}`);
             }
         });
+
+        // Bloquear horarios de disponibilidades existentes
         availability.filter(a => new Date(a.date).toISOString().split("T")[0] === formattedDate).forEach(slot => {
-            const start = new Date(`2025-01-01T${slot.startTime}:00`);
-            const end = new Date(`2025-01-01T${slot.endTime}:00`);
+            const start = new Date(slot.startDate);
+            const end = new Date(slot.endDate);
             for (let t = new Date(start); t <= end; t.setMinutes(t.getMinutes() + 30)) {
                 const time = `${t.getHours().toString().padStart(2, '0')}:${t.getMinutes().toString().padStart(2, '0')}`;
                 if (!blocked.includes(time)) blocked.push(time);
@@ -123,10 +145,43 @@ function HomePhotographer() {
 
     const tileClassName = ({ date, view }) => view === 'month' && availability.some(slot => new Date(slot.date).toISOString().split("T")[0] === date.toISOString().split("T")[0]) ? 'text-black font-extrabold' : 'text-gray-400';
 
+    const formatTime = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+            .toLowerCase() // Primero convertimos todo a minúsculas
+            .split(' ') // Separamos en palabras
+            .map((word, index) => {
+                // Si es la primera palabra o viene después de un punto, la capitalizamos
+                if (index === 0 || word === 'de') {
+                    return index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+                }
+                return word;
+            })
+            .join(' '); // Volvemos a unir las palabras
+    };
+
     const groupedAvailability = availability.reduce((acc, slot) => {
-        const date = new Date(slot.date).toLocaleDateString();
+        const date = formatDate(slot.date);
         acc[date] = acc[date] || [];
-        acc[date].push(slot);
+        acc[date].push({
+            ...slot,
+            formattedStartTime: formatTime(slot.startDate),
+            formattedEndTime: formatTime(slot.endDate)
+        });
         return acc;
     }, {});
 
@@ -169,11 +224,11 @@ function HomePhotographer() {
                         {Object.keys(groupedAvailability).length ? (
                             Object.entries(groupedAvailability).map(([date, slots]) => (
                                 <div key={date} className="mb-4">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-1">{date}</h3>
+                                    <h3 className="text-md font-semibold text-gray-800 mb-1 capitalize">{date}</h3>
                                     <ul>
                                         {slots.map(slot => (
                                             <li key={slot._id} className="flex justify-between items-center text-sm border-b py-1">
-                                                <span>{slot.startTime} - {slot.endTime}</span>
+                                                <span className="font-medium">{slot.formattedStartTime} - {slot.formattedEndTime}</span>
                                                 <div className="flex gap-2">
                                                     <button onClick={() => handleEditSlot(slot)} className="text-blue-500 font-bold">🖊</button>
                                                     <button onClick={() => handleDeleteSlot(slot._id)} className="text-red-500 font-bold">❌</button>
@@ -184,7 +239,7 @@ function HomePhotographer() {
                                 </div>
                             ))
                         ) : (
-                            <p className="text-gray-600 text-center">No tienes horas disponibles aún.</p>
+                            <p className="text-gray-600 text-center">No hay disponibilidad configurada.</p>
                         )}
                     </section>
                     <button className="mt-4 bg-[#B62682] text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(true)}>Definir Disponibilidad</button>
@@ -198,32 +253,32 @@ function HomePhotographer() {
                     {selectedDate && (
                         <>
                             <p className="text-gray-700 font-semibold mt-2">Fecha seleccionada: {selectedDate.toLocaleDateString()}</p>
-                            <label className="block text-gray-700 mt-2">Hora de inicio:</label>
+                            <label className="block text-gray-700 mt-2">Fecha de inicio:</label>
                             <div className="relative">
                                 <button className="border p-2 w-full rounded bg-white text-left text-gray-700" onClick={() => setShowStartTimeDropdown(!showStartTimeDropdown)}>
-                                    {startTime || "-- Selecciona hora de inicio --"}
+                                    {startDate || "-- Selecciona fecha de inicio --"}
                                 </button>
                                 {showStartTimeDropdown && (
                                     <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow-lg">
                                         {generateTimeOptions().map(time => (
                                             <li key={time} className={`p-2 cursor-pointer ${blockedTimes.includes(time) ? "text-red-500 opacity-50 cursor-not-allowed" : "text-green-600 hover:bg-gray-100"}`}
-                                                onClick={() => { if (!blockedTimes.includes(time)) { setStartTime(time); setShowStartTimeDropdown(false); } }}>
+                                                onClick={() => { if (!blockedTimes.includes(time)) { setStartDate(time); setShowStartTimeDropdown(false); } }}>
                                                 {blockedTimes.includes(time) ? `🟥 ${time} (Ocupado)` : `🟩 ${time}`}
                                             </li>
                                         ))}
                                     </ul>
                                 )}
                             </div>
-                            <label className="block text-gray-700 mt-2">Hora de fin:</label>
+                            <label className="block text-gray-700 mt-2">Fecha de fin:</label>
                             <div className="relative">
                                 <button className="border p-2 w-full rounded bg-white text-left text-gray-700" onClick={() => setShowEndTimeDropdown(!showEndTimeDropdown)}>
-                                    {endTime || "-- Selecciona hora de fin --"}
+                                    {endDate || "-- Selecciona fecha de fin --"}
                                 </button>
                                 {showEndTimeDropdown && (
                                     <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow-lg">
                                         {generateTimeOptions().map(time => (
                                             <li key={time} className={`p-2 cursor-pointer ${blockedTimes.includes(time) ? "text-red-500 opacity-50 cursor-not-allowed" : "text-green-600 hover:bg-gray-100"}`}
-                                                onClick={() => { if (!blockedTimes.includes(time)) { setEndTime(time); setShowEndTimeDropdown(false); } }}>
+                                                onClick={() => { if (!blockedTimes.includes(time)) { setEndDate(time); setShowEndTimeDropdown(false); } }}>
                                                 {blockedTimes.includes(time) ? `🟥 ${time} (Ocupado)` : `🟩 ${time}`}
                                             </li>
                                         ))}
@@ -233,7 +288,7 @@ function HomePhotographer() {
                             <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg" onClick={handleSaveAvailability}>{editingSlotId ? 'Actualizar' : 'Guardar'}</button>
                         </>
                     )}
-                    <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => { setShowCalendar(false); setEditingSlotId(null); setStartTime(''); setEndTime(''); setSelectedDate(null); setShowStartTimeDropdown(false); setShowEndTimeDropdown(false); }}>
+                    <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => { setShowCalendar(false); setEditingSlotId(null); setStartDate(''); setEndDate(''); setSelectedDate(null); setShowStartTimeDropdown(false); setShowEndTimeDropdown(false); }}>
                         Volver
                     </button>
                 </section>

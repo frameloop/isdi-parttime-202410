@@ -64,62 +64,56 @@ function HomeCustomer() {
     };
 
     const handleConfirm = () => {
+        if (!reservingSlot) return;
+
         const token = localStorage.getItem('token');
-        const customerId = localStorage.getItem('userId');
-        const newErrors = {};
-        if (!formData.addressType) newErrors.addressType = true;
-        if (!formData.street) newErrors.street = true;
-        if (!formData.postalCode) newErrors.postalCode = true;
-        if (!formData.city) newErrors.city = true;
-        if (!formData.province) newErrors.province = true;
-        if (!formData.services.length) newErrors.services = true;
+        if (!token) return;
 
-        setErrors(newErrors);
-        if (Object.keys(newErrors).length > 0) return alert('Por favor, completa todos los campos obligatorios.');
-        if (!token || !customerId) return alert('Falta autenticación.');
+        const startDateTime = new Date(reservingSlot.startDate);
 
-        const [hour, minute] = reservingSlot.startTime.split(':');
-        const sessionDateTime = new Date(reservingSlot.date);
-        sessionDateTime.setHours(parseInt(hour), parseInt(minute), 0, 0);
+        const sessionData = {
+            photographerId: reservingSlot.photographer._id,
+            date: startDateTime.toISOString(),
+            type: 'standard',
+            address: {
+                type: formData.addressType,
+                street: formData.street,
+                postalCode: formData.postalCode,
+                city: formData.city,
+                province: formData.province
+            },
+            services: formData.services
+        };
 
-        setIsLoading(true);
+        console.log("Datos de la sesión:", sessionData);
+
         fetch(`${import.meta.env.VITE_API_URL}/sessions`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                customerId,
-                photographerId: reservingSlot.photographer._id,
-                date: sessionDateTime.toISOString(),
-                type: 'express',
-                address: {
-                    type: formData.addressType,
-                    street: formData.street,
-                    postalCode: formData.postalCode,
-                    city: formData.city,
-                    province: formData.province
-                },
-                services: formData.services
-            })
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(sessionData)
         })
             .then(res => {
-                if (!res.ok) throw new Error('Error al crear la sesión');
+                if (!res.ok) {
+                    return res.json().then(data => {
+                        console.error("Error del servidor:", data);
+                        throw new Error(data.error || 'Error desconocido');
+                    });
+                }
                 return res.json();
             })
-            .then(savedSession => {
-                setConfirmedSession({
-                    ...savedSession,
-                    photographer: reservingSlot.photographer,
-                    startTime: reservingSlot.startTime,
-                    endTime: reservingSlot.endTime,
-                    address: formData,
-                    services: formData.services
-                });
-                setReservingSlot(null);
+            .then(data => {
+                setConfirmedSession(data);
                 fetchSessions();
-                setFormData({ addressType: '', postalCode: '', city: '', province: '', services: [] });
+                setFormData({ addressType: '', street: '', postalCode: '', city: '', province: '', services: [] });
+                setReservingSlot(null);
             })
-            .catch(() => alert('No se pudo crear la sesión.'))
-            .finally(() => setIsLoading(false));
+            .catch(error => {
+                console.error("Error al confirmar la sesión:", error);
+                setErrors({ general: error.message });
+            });
     };
 
     const handleCancelSession = (sessionId) => {
@@ -185,8 +179,8 @@ function HomeCustomer() {
                             value={selectedDate}
                             tileClassName={({ date, view }) =>
                                 view === 'month' && availability.some(slot => slot.date.startsWith(date.toISOString().split("T")[0]))
-                                    ? 'bg-green-500 text-black font-bold rounded-full'
-                                    : 'text-gray-400'
+                                    ? 'text-red'
+                                    : 'text-gray-200'
                             }
                             className="mt-4 border border-gray-300"
                         />
