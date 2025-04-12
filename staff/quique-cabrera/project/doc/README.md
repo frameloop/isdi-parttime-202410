@@ -76,7 +76,7 @@ User
 - geo
 
 ### Coverage
-![Code Coverage](https://wac-cdn.atlassian.com/dam/jcr:f29e7890-4a7a-4590-bc8b-c4c775ec301d/CDmicro-600x338-retina2x-A_11-58-7.png?cdnVersion=2486)
+![Code Coverage](./resource/sesiona-test-coverage.png)
 
 ## Tasks
 

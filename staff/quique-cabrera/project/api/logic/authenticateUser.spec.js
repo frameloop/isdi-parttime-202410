@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs'
 import { User } from '../data/models.js'
 
 import { errors } from 'com'
-const { SystemError, CredentialsError } = errors
+const { SystemError } = errors
 
 import authenticateUser from './authenticateUser.js'
 

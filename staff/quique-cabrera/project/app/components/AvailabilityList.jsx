@@ -9,7 +9,7 @@ function AvailabilityList({ groupedAvailability, onEdit, onDelete }) {
         <>
             {Object.entries(groupedAvailability).map(([date, slots]) => (
                 <div key={date} className="mb-4">
-                    <h3 className="text-md font-semibold text-gray-800 mb-1 capitalize">{date}</h3>
+                    <h3 className="text-md font-semibold text-gray-800 mb-1">{date}</h3>
                     <ul>
                         {slots.map(slot => (
                             <li key={slot._id} className="flex justify-between items-center text-sm border-b py-1">
