@@ -7,7 +7,7 @@ import { errors } from 'com'
 
 const { NotFoundError, SystemError } = errors
 
-describe('[[getUserName', () => {
+describe('getUserName', () => {
     let userId
 
     before(() => mongoose.connect(process.env.TEST_MONGO_URL))

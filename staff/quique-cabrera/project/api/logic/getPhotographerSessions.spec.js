@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 import { Session, Photographer, User, Customer } from '../data/models.js'
 import getPhotographerSessions from './getPhotographerSessions.js'
 
-describe('📸 getPhotographerSessions', () => {
+describe('getPhotographerSessions', () => {
     let photographerId
 
     before(() => mongoose.connect(process.env.TEST_MONGO_URL))
