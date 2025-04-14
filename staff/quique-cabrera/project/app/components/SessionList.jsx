@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate, formatDateTime } from '../util/dateFormatters';
+import { formatDateTime } from '../util/dateFormatters';
 function SessionList({ sessions }) {
     if (!sessions.length) {
         return <p className="text-gray-600 text-center">No tienes sesiones programadas.</p>;

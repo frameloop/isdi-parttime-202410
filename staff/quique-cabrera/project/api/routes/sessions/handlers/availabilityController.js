@@ -69,7 +69,7 @@ export const createAvailability = async (req, res) => {
             return res.status(400).json({ error: 'Faltan campos requeridos' });
         }
 
-        const parsedDate = new Date(date);
+        const parsedDate = new Date(date + 'T00:00:00');
         const parsedStartDate = new Date(startDate);
         const parsedEndDate = new Date(endDate);
 

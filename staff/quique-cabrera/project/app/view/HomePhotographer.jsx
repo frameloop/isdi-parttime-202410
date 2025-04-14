@@ -64,15 +64,16 @@ function HomePhotographer() {
             return;
         }
 
-        const dateStr = selectedDate.toISOString().split('T')[0];
-        const startDateTime = new Date(`${dateStr}T${startDate}:00`);
-        const endDateTime = new Date(`${dateStr}T${endDate}:00`);
+        const dateStr = selectedDate.toLocaleDateString('en-CA');
+
+        const startDateTime = new Date(`${dateStr}T${startDate}`);
+        const endDateTime = new Date(`${dateStr}T${endDate}`);
 
         const payload = {
             photographer: photographerId,
-            date: selectedDate.toISOString(),
-            startDate: startDateTime.toISOString(),
-            endDate: endDateTime.toISOString(),
+            date: dateStr,
+            startDate: startDateTime.toLocaleString('sv'),
+            endDate: endDateTime.toLocaleString('sv'),
             available: true
         };
 
