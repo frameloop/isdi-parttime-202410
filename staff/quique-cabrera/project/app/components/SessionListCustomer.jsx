@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate } from '../util/dateFormatters';
+import { formatDateTime } from '../util/dateFormatters';
 
 function SessionListCustomer({ sessions, onCancel }) {
     if (!sessions.length) {
@@ -11,7 +11,7 @@ function SessionListCustomer({ sessions, onCancel }) {
             {sessions.map((session, index) => (
                 <li key={index} className="p-4 rounded mb-2 bg-white">
                     <p className="font-semibold text-gray-800">
-                        {formatDate(session.date)}
+                        {formatDateTime(session.date)}
                     </p>
                     <p className="text-sm">
                         {`${session.address?.type || ''} ${session.address?.street || ''}, ${session.address?.city || ''}, ${session.address?.postalCode || ''} (${session.address?.province || ''})`}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatTime, formatDate } from '../util/dateFormatters';
 
 function ReservationForm({
     slot,
@@ -14,8 +15,8 @@ function ReservationForm({
     return (
         <section className="bg-white p-4 mt-4 rounded shadow-md">
             <h3 className="text-lg font-bold mb-2">Completa los detalles de la sesión</h3>
-            <p className="text-sm mb-4">
-                📅 {slot.date} ⏰ {slot.startTime} - {slot.endTime}
+            <p className="text-xl mb-4">
+                {formatDate(slot.date)}, {formatTime(slot.startDate)} - {formatTime(slot.endDate)}
             </p>
 
             <select

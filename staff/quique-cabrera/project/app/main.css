@@ -97,7 +97,7 @@
 }
 
 /* Borde o estilo general de cada día */
-.react-calendar__tile {
+.react-calendar__month-view__days .react-calendar__tile {
     border: 1px solid transparent;
     transition: 0.2s;
 }

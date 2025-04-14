@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatTime } from '../util/dateFormatters';
 
 function AvailableSlotsList({ slots, onReserve }) {
     if (!slots.length) {
@@ -11,7 +12,7 @@ function AvailableSlotsList({ slots, onReserve }) {
                 <li key={index} className="p-2 border-b flex flex-col sm:flex-row sm:justify-between gap-2">
                     <div>
                         <p className="font-medium">
-                            {slot.startTime} - {slot.endTime} - {slot.photographer?.coverage_area || 'Zona no especificada'}
+                            {formatTime(slot.startDate)} - {formatTime(slot.endDate)} - {slot.photographer?.coverage_area || 'Zona no especificada'}
                         </p>
                         <p className="text-sm text-gray-700">
                             📸 {slot.photographer?.name || slot.photographer?.firstName || 'Nombre no disponible'}
