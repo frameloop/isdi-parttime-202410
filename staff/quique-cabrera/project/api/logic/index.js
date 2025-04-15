@@ -28,6 +28,9 @@ import logoutUserLogic from './logoutUserLogic.js'
 import recoverPasswordLogic from './recoverPasswordLogic.js'
 import registerUserLogic from './registerUserLogic.js'
 import verifyUserLogic from './verifyUserLogic.js'
+import createAuthResponse from './createAuthResponse.js'
+import handleAuthError from './handleAuthError.js'
+
 
 const logic = {
     authenticateUser,
@@ -59,6 +62,8 @@ const logic = {
     recoverPasswordLogic,
     registerUserLogic,
     verifyUserLogic,
+    createAuthResponse,
+    handleAuthError,
     ...tokenBlacklist
 }
 
