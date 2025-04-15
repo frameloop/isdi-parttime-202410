@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import fetchCustomerSessions from '../logic/customerSessions.js';
+import fetchCustomerAvailability from '../logic/customerAvailability.js';
 
 export default function useCustomerData() {
     const [name, setName] = useState('');
@@ -15,30 +17,13 @@ export default function useCustomerData() {
             navigate('/login');
         } else {
             setName(storedName);
-            fetchSessions();
-            fetchAvailability();
+            fetchCustomerSessions(API_URL, token, setSessions);
+            fetchCustomerAvailability(API_URL, token, setAvailability);
         }
     }, [navigate]);
 
-    const fetchSessions = () => {
-        if (!token) return;
-        fetch(`${API_URL}/sessions/my-sessions`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-            .then(res => res.json())
-            .then(setSessions)
-            .catch(console.error);
-    };
-
-    const fetchAvailability = () => {
-        if (!token) return;
-        fetch(`${API_URL}/sessions/availability`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-            .then(res => res.json())
-            .then(setAvailability)
-            .catch(console.error);
-    };
+    const fetchSessions = () => fetchCustomerSessions(API_URL, token, setSessions);
+    const fetchAvailability = () => fetchCustomerAvailability(API_URL, token, setAvailability);
 
     return {
         name,

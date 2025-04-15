@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import fetchPhotographerAvailability from '../logic/photographerAvailability.js';
+import fetchPhotographerSessions from '../logic/photographerSessions.js';
 
 export default function usePhotographerData() {
     const [name, setName] = useState('');
@@ -25,46 +27,17 @@ export default function usePhotographerData() {
 
     useEffect(() => {
         if (photographerId) {
-            fetchAvailability();
-            fetchSessions();
+            fetchPhotographerAvailability(API_URL, photographerId, setAvailability);
+            fetchPhotographerSessions(API_URL, photographerId, setSessions);
         }
     }, [photographerId]);
-
-    const fetchAvailability = async () => {
-        const token = localStorage.getItem('token');
-        if (!token || !photographerId) return;
-        try {
-            const res = await fetch(`${API_URL}/sessions/availability/${photographerId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await res.json();
-            setAvailability(data);
-        } catch (err) {
-            console.error('Error cargando disponibilidad:', err);
-        }
-    };
-
-    const fetchSessions = async () => {
-        const token = localStorage.getItem('token');
-        if (!token || !photographerId) return;
-        try {
-            const res = await fetch(`${API_URL}/sessions/my-sessions`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (!res.ok) throw new Error('Error al cargar sesiones');
-            const data = await res.json();
-            setSessions(data);
-        } catch (err) {
-            console.error('Error cargando sesiones:', err);
-        }
-    };
 
     return {
         name,
         photographerId,
         availability,
         sessions,
-        fetchAvailability,
-        fetchSessions
+        fetchAvailability: () => fetchPhotographerAvailability(API_URL, photographerId, setAvailability),
+        fetchSessions: () => fetchPhotographerSessions(API_URL, photographerId, setSessions)
     };
 }

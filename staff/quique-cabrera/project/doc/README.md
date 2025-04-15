@@ -75,6 +75,14 @@ User
 - role (Photographer, Customer, Admin)
 - geo
 
+Sesions
+- address (string)
+- email (string)
+- phone (string)
+- Photographer
+- Costumer
+
+
 ### Coverage
 ![Code Coverage](./resource/sesiona-test-coverage.png)
 
