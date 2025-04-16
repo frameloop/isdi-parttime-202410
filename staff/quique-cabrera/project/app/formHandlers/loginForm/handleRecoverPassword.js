@@ -1,9 +1,9 @@
-import recoverPassword from '../../logic/recoverPassword.js';
+import { usersApi } from '../../logic';
 
 export default function handleRecoverPassword({ username, setRecoverError, setSuccessMessage, setShowPopup }) {
     if (!username.trim()) return setRecoverError("Introduce tu usuario para recuperar contraseña");
 
-    recoverPassword(username)
+    usersApi.recoverPassword(username)
         .then(data => {
             setRecoverError(null);
             setSuccessMessage(data.message);

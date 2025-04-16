@@ -1,33 +1,52 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import fetchPhotographersFn from '../logic/Photographers.js';
-import addPhotographerFn from '../logic/addPhotographer.js';
-import deletePhotographerFn from '../logic/deletePhotographer.js';
-import logoutAdminUser from '../logic/logoutAdminUser';
+import { photographersApi } from '../logic';
+import useAuth from '../logic/hooks/useAuth';
+import useApiRequest from '../logic/hooks/useApiRequest';
 
 export default function useAdminData() {
-    const [name, setName] = useState('');
     const [photographers, setPhotographers] = useState([]);
-    const navigate = useNavigate();
 
-    const API_URL = import.meta.env.VITE_API_URL;
-    const token = localStorage.getItem('token');
+    // Usar hook compartido de autenticación
+    const { user, isAuthenticated, isAuthorized, logout } = useAuth('administrator');
+    const { executeRequest } = useApiRequest();
 
+    // Cargar datos iniciales cuando el usuario está autenticado
     useEffect(() => {
-        const storedName = localStorage.getItem('name')?.replace(/\s*\(\d+\)$/, '');
-        if (!storedName || !token) return navigate('/login');
+        if (isAuthenticated && isAuthorized) {
+            fetchPhotographers();
+        }
+    }, [isAuthenticated, isAuthorized]);
 
-        setName(storedName);
-        fetchPhotographersFn(API_URL, token, setPhotographers);
-    }, [navigate]);
+    // Función para obtener fotógrafos
+    const fetchPhotographers = () => {
+        executeRequest(
+            (token) => photographersApi.getAll(token),
+            setPhotographers,
+            { errorMessage: 'Error al obtener fotógrafos' }
+        );
+    };
 
-    const fetchPhotographers = () => fetchPhotographersFn(API_URL, token, setPhotographers);
-    const addPhotographer = (data) => addPhotographerFn(API_URL, token, data, setPhotographers);
-    const deletePhotographer = (id) => deletePhotographerFn(API_URL, token, id, setPhotographers);
-    const logout = () => logoutAdminUser(API_URL, token, navigate);
+    // Función para añadir fotógrafo
+    const addPhotographer = async (data) => {
+        await executeRequest(
+            (token) => photographersApi.add(token, data),
+            null,
+            { errorMessage: 'Error al añadir fotógrafo' }
+        );
+        await fetchPhotographers();
+    };
+
+    // Función para eliminar fotógrafo
+    const deletePhotographer = async (id) => {
+        await executeRequest(
+            (token) => photographersApi.delete(token, id),
+            () => setPhotographers(prev => prev.filter(p => p._id !== id)),
+            { errorMessage: 'Error al eliminar fotógrafo' }
+        );
+    };
 
     return {
-        name,
+        name: user?.name || '',
         photographers,
         fetchPhotographers,
         addPhotographer,

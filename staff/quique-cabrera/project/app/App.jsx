@@ -6,19 +6,16 @@ import RecoverPassword from './view/RecoverPassword';
 import HomeCustomer from './view/HomeCustomer';
 import HomePhotographer from './view/HomePhotographer';
 import HomeAdmin from './view/HomeAdmin';
-import getUserSession from './logic/getUserSession';
+import { usersApi } from './logic';
 
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getUserSession()
-            .then(user => {
-                setUser(user);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+        const session = usersApi.getSession();
+        setUser(session);
+        setLoading(false);
     }, []);
 
     if (loading) return <div>Loading...</div>;

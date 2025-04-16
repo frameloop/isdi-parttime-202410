@@ -1,5 +1,4 @@
-import validateUsername from '../../logic/validateUsername.js';
-import verifyUser from '../../logic/verifyUser.js';
+import { validateUsername, usersApi } from '../../logic';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,14 +10,14 @@ export default function handleContinue({ username, setLoginError, setName, setSt
         return setLoginError(err.message);
     }
 
-    verifyUser(username, API_URL)
-        .then(data => {
-            if (!data.success) throw new Error("El usuario no existe");
-            setName(data.name);
-            localStorage.setItem('name', data.name);
-            localStorage.setItem('email', data.email);
+    usersApi.verify(username)
+        .then(response => {
+            if (!response.success) throw new Error("El usuario no existe");
+            setName(response.user.name);
+            localStorage.setItem('name', response.user.name);
+            localStorage.setItem('email', response.user.email);
             setStep(2);
             setLoginError(null);
         })
-        .catch(err => setLoginError(err.message));
+        .catch(err => setLoginError(err.message || "Error al verificar usuario"));
 }

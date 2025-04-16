@@ -1,43 +1,52 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import fetchPhotographerAvailability from '../logic/photographerAvailability.js';
-import fetchPhotographerSessions from '../logic/photographerSessions.js';
+import { photographersApi } from '../logic';
+import useAuth from '../logic/hooks/useAuth';
+import useApiRequest from '../logic/hooks/useApiRequest';
 
 export default function usePhotographerData() {
-    const [name, setName] = useState('');
-    const [photographerId, setPhotographerId] = useState('');
     const [availability, setAvailability] = useState([]);
     const [sessions, setSessions] = useState([]);
 
-    const navigate = useNavigate();
-    const API_URL = import.meta.env.VITE_API_URL;
+    // Usar hook compartido de autenticación
+    const { user, isAuthenticated, isAuthorized } = useAuth('photographer');
+    const { executeRequest } = useApiRequest();
 
+    // Cargar datos iniciales cuando el usuario está autenticado
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const storedName = localStorage.getItem('name');
-        const storedPhotographerId = localStorage.getItem('photographerId');
-
-        if (!token || !storedName || !storedPhotographerId) {
-            navigate('/login');
-        } else {
-            setName(storedName);
-            setPhotographerId(storedPhotographerId);
+        if (isAuthenticated && isAuthorized && user?.photographerId) {
+            fetchAvailability();
+            fetchSessions();
         }
-    }, [navigate]);
+    }, [isAuthenticated, isAuthorized, user]);
 
-    useEffect(() => {
-        if (photographerId) {
-            fetchPhotographerAvailability(API_URL, photographerId, setAvailability);
-            fetchPhotographerSessions(API_URL, photographerId, setSessions);
-        }
-    }, [photographerId]);
+    // Función para obtener disponibilidad
+    const fetchAvailability = () => {
+        if (!user?.photographerId) return;
+
+        executeRequest(
+            (token) => photographersApi.getAvailability(token, user.photographerId),
+            setAvailability,
+            { errorMessage: 'Error al obtener disponibilidad' }
+        );
+    };
+
+    // Función para obtener sesiones
+    const fetchSessions = () => {
+        if (!user?.photographerId) return;
+
+        executeRequest(
+            (token) => photographersApi.getSessions(token),
+            setSessions,
+            { errorMessage: 'Error al obtener sesiones' }
+        );
+    };
 
     return {
-        name,
-        photographerId,
+        name: user?.name || '',
+        photographerId: user?.photographerId || '',
         availability,
         sessions,
-        fetchAvailability: () => fetchPhotographerAvailability(API_URL, photographerId, setAvailability),
-        fetchSessions: () => fetchPhotographerSessions(API_URL, photographerId, setSessions)
+        fetchAvailability,
+        fetchSessions
     };
 }

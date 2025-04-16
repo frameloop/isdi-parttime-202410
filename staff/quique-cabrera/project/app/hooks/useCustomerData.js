@@ -1,32 +1,44 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import fetchCustomerSessions from '../logic/customerSessions.js';
-import fetchCustomerAvailability from '../logic/customerAvailability.js';
+import { sessionsApi } from '../logic';
+import useAuth from '../logic/hooks/useAuth';
+import useApiRequest from '../logic/hooks/useApiRequest';
 
 export default function useCustomerData() {
-    const [name, setName] = useState('');
     const [sessions, setSessions] = useState([]);
     const [availability, setAvailability] = useState([]);
-    const navigate = useNavigate();
-    const API_URL = import.meta.env.VITE_API_URL;
-    const token = localStorage.getItem('token');
 
+    // Usar hook compartido de autenticación
+    const { user, isAuthenticated, isAuthorized } = useAuth('customer');
+    const { executeRequest } = useApiRequest();
+
+    // Cargar datos iniciales cuando el usuario está autenticado
     useEffect(() => {
-        const storedName = localStorage.getItem('name')?.split('(')[0].trim();
-        if (!storedName || !token) {
-            navigate('/login');
-        } else {
-            setName(storedName);
-            fetchCustomerSessions(API_URL, token, setSessions);
-            fetchCustomerAvailability(API_URL, token, setAvailability);
+        if (isAuthenticated && isAuthorized) {
+            fetchSessions();
+            fetchAvailability();
         }
-    }, [navigate]);
+    }, [isAuthenticated, isAuthorized]);
 
-    const fetchSessions = () => fetchCustomerSessions(API_URL, token, setSessions);
-    const fetchAvailability = () => fetchCustomerAvailability(API_URL, token, setAvailability);
+    // Función para obtener sesiones
+    const fetchSessions = () => {
+        executeRequest(
+            (token) => sessionsApi.getCustomerSessions(token),
+            setSessions,
+            { errorMessage: 'Error al obtener sesiones' }
+        );
+    };
+
+    // Función para obtener disponibilidad
+    const fetchAvailability = () => {
+        executeRequest(
+            (token) => sessionsApi.getAvailability(token),
+            setAvailability,
+            { errorMessage: 'Error al obtener disponibilidad' }
+        );
+    };
 
     return {
-        name,
+        name: user?.name || '',
         sessions,
         availability,
         fetchSessions,

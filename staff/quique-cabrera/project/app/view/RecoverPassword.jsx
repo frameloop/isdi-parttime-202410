@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { validate } from 'com';
-import recoverPassword from '../logic/recoverPassword';
+import { validateUsername, usersApi } from '../logic';
 
 function RecoverPassword() {
     const [username, setUsername] = useState('');
@@ -13,9 +12,9 @@ function RecoverPassword() {
             setError(null);
             setSuccessMessage(null);
             if (!username || typeof username !== 'string') throw new Error('Username must be a non-empty string');
-            validate.username(username);
+            validateUsername(username);
             setIsLoading(true);
-            const result = await recoverPassword(username);
+            const result = await usersApi.recoverPassword(username);
             setSuccessMessage(result.message);
         } catch (err) {
             setError(err.message);

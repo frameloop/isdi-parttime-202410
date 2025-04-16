@@ -1,16 +1,13 @@
-import validatePassword from '../../logic/validatePassword.js';
-import loginUser from '../../logic/loginUser.js';
-import storeLoginSession from '../../logic/storeLoginSession.js';
-import redirectByRole from '../../logic/redirectByRole.js';
+import { validatePassword, usersApi, redirectByRole } from '../../logic';
 
 export default function handleLogin({ e, username, password, rememberMe, navigate, setLoginError }) {
     e.preventDefault();
     try {
         validatePassword(password);
-        loginUser(username, password, rememberMe)
+        usersApi.login(username, password)
             .then(({ token }) => {
-                const payload = storeLoginSession(token, username);
-                const route = redirectByRole(payload);
+                const session = usersApi.getSession();
+                const route = redirectByRole(session);
                 navigate(route);
             })
             .catch(err => setLoginError(err.message || "Error al iniciar sesión"));

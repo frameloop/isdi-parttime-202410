@@ -7,6 +7,7 @@ import SessionList from '../components/SessionList';
 import AvailabilityForm from '../components/AvailabilityForm';
 import { formatDate, formatTime } from '../util/dateFormatters';
 import { getBlockedTimesForDate } from '../util/availabilityUtils';
+import { usersApi, photographersApi } from '../logic';
 
 function HomePhotographer() {
     const {
@@ -19,7 +20,6 @@ function HomePhotographer() {
 
     const navigate = useNavigate();
     const API_URL = import.meta.env.VITE_API_URL;
-    const token = localStorage.getItem('token');
 
     const [form, setForm] = useState({
         selectedDate: null,
@@ -65,7 +65,6 @@ function HomePhotographer() {
         }
 
         const dateStr = selectedDate.toLocaleDateString('en-CA');
-
         const startDateTime = new Date(`${dateStr}T${startDate}`);
         const endDateTime = new Date(`${dateStr}T${endDate}`);
 
@@ -78,6 +77,7 @@ function HomePhotographer() {
         };
 
         try {
+            const token = usersApi.getToken();
             await fetch(`${API_URL}/sessions/availability`, {
                 method: 'POST',
                 headers: {
@@ -106,6 +106,7 @@ function HomePhotographer() {
     const handleDeleteSlot = async (id) => {
         if (!confirm('¿Seguro que quieres eliminar esta disponibilidad?')) return;
         try {
+            const token = usersApi.getToken();
             await fetch(`${API_URL}/sessions/availability/${id}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${token}` }
@@ -121,11 +122,16 @@ function HomePhotographer() {
         setUi({ showCalendar: false, showStartDropdown: false, showEndDropdown: false, blockedTimes: [], selectedAvailability: [] });
     };
 
+    const handleLogout = () => {
+        usersApi.logout();
+        navigate('/login');
+    };
+
     return (
         <div className="w-screen h-screen bg-[#E1F56E] flex flex-col items-center p-4 overflow-y-auto">
             <header className="w-full flex justify-center items-center p-4 bg-black rounded-lg text-white relative">
                 <h1 className="text-xl font-bold">{name}</h1>
-                <button onClick={() => navigate('/login')} className="bg-red-600 px-1 py-1 rounded absolute font-extrabold right-4">
+                <button onClick={handleLogout} className="bg-red-600 px-1 py-1 rounded absolute font-extrabold right-4">
                     <MdOutlineLogout />
                 </button>
             </header>
