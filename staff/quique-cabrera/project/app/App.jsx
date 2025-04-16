@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import AppProvider from './context/AppProvider';
 import Landing from './view/Landing';
 import LoginUser from './view/LoginUser';
 import RecoverPassword from './view/RecoverPassword';
@@ -7,29 +8,36 @@ import HomeCustomer from './view/HomeCustomer';
 import HomePhotographer from './view/HomePhotographer';
 import HomeAdmin from './view/HomeAdmin';
 import { usersApi } from './logic';
+import { useAppContext } from './context';
 
-function App() {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+// Componente para manejar la autenticación y redirección
+const AuthWrapper = ({ children }) => {
+    const { user, setUser, setLoading } = useAppContext();
 
-    useEffect(() => {
+    React.useEffect(() => {
         const session = usersApi.getSession();
         setUser(session);
         setLoading(false);
-    }, []);
+    }, [setUser, setLoading]);
 
-    if (loading) return <div>Loading...</div>;
+    return children;
+};
 
+function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Navigate to={user ? "/home-customer" : "/landing"} />} />
-            <Route path="/landing" element={<Landing />} />
-            <Route path="/login" element={<LoginUser />} />
-            <Route path="/recover-password" element={<RecoverPassword />} />
-            <Route path="/home-customer" element={<HomeCustomer />} />
-            <Route path="/home-photographer" element={<HomePhotographer />} />
-            <Route path="/home-admin" element={<HomeAdmin />} />
-        </Routes>
+        <AppProvider>
+            <AuthWrapper>
+                <Routes>
+                    <Route path="/" element={<Navigate to="/landing" />} />
+                    <Route path="/landing" element={<Landing />} />
+                    <Route path="/login" element={<LoginUser />} />
+                    <Route path="/recover-password" element={<RecoverPassword />} />
+                    <Route path="/home-customer" element={<HomeCustomer />} />
+                    <Route path="/home-photographer" element={<HomePhotographer />} />
+                    <Route path="/home-admin" element={<HomeAdmin />} />
+                </Routes>
+            </AuthWrapper>
+        </AppProvider>
     );
 }
 
