@@ -1,7 +1,10 @@
 import logic from '../../../logic/index.js'
 
 export const getSessions = async (req, res) => {
-    const result = await logic.getSessionsLogic();
-    if (result.error) return res.status(result.status).json(result.error);
-    res.json(result.data);
+    try {
+        const result = await logic.getSessionsLogic(req);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 };

@@ -15,7 +15,6 @@ export default function useCustomerData() {
     useEffect(() => {
         if (isAuthenticated && isAuthorized) {
             fetchSessions();
-            fetchAvailability();
         }
     }, [isAuthenticated, isAuthorized]);
 
@@ -29,9 +28,14 @@ export default function useCustomerData() {
     };
 
     // Función para obtener disponibilidad
-    const fetchAvailability = () => {
+    const fetchAvailability = (photographerId) => {
+        if (!photographerId) {
+            console.error('Se requiere photographerId para obtener la disponibilidad');
+            return;
+        }
+
         executeRequest(
-            (token) => sessionsApi.getAvailability(token),
+            (token) => sessionsApi.getAvailability(token, photographerId),
             setAvailability,
             { errorMessage: 'Error al obtener disponibilidad' }
         );
@@ -41,7 +45,7 @@ export default function useCustomerData() {
         name: user?.name || '',
         sessions,
         availability,
-        fetchSessions,
-        fetchAvailability
+        fetchAvailability,
+        fetchSessions
     };
 }

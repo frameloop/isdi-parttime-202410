@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdOutlineLogout } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import useCustomerData from '../hooks/useCustomerData';
@@ -7,22 +7,32 @@ import SessionListCustomer from '../components/SessionListCustomer';
 import AvailableSlotsList from '../components/AvailableSlotsList';
 import ReservationForm from '../components/ReservationForm';
 import ConfirmationBox from '../components/ConfirmationBox';
+import PhotographerSelector from '../components/PhotographerSelector';
+import { usersApi } from '../logic';
+import createPhotographersApi from '../logic/api/photographers';
+import createSessionsApi from '../logic/api/sessions';
 
 function HomeCustomer() {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const photographersApi = createPhotographersApi(API_URL);
+    const sessionsApi = createSessionsApi(API_URL);
+
     const {
         name,
         sessions,
-        availability,
         fetchSessions
     } = useCustomerData();
 
     const navigate = useNavigate();
 
     const [selectedDate, setSelectedDate] = useState(null);
-    const [availableSlots, setAvailableSlots] = useState([]);
+    const [allAvailableSlots, setAllAvailableSlots] = useState([]);
+    const [filteredSlots, setFilteredSlots] = useState([]);
     const [showCalendar, setShowCalendar] = useState(false);
     const [reservingSlot, setReservingSlot] = useState(null);
     const [confirmedSession, setConfirmedSession] = useState(null);
+    const [selectedPhotographer, setSelectedPhotographer] = useState(null);
+    const [photographers, setPhotographers] = useState([]);
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         addressType: '',
@@ -33,10 +43,86 @@ function HomeCustomer() {
         services: []
     });
 
+    useEffect(() => {
+        const loadPhotographers = async () => {
+            try {
+                console.log('Intentando cargar fotógrafos...');
+                const token = usersApi.getToken();
+                if (!token) {
+                    console.error('No se encontró el token de autenticación');
+                    return;
+                }
+
+                const response = await photographersApi.getAll(token);
+                console.log('Respuesta de fotógrafos:', response);
+
+                if (response && Array.isArray(response)) {
+                    setPhotographers(response);
+                    console.log('Fotógrafos cargados:', response);
+                    if (response.length === 0) {
+                        setErrors(prev => ({ ...prev, photographers: 'No hay fotógrafos disponibles' }));
+                    } else {
+                        setErrors(prev => ({ ...prev, photographers: null }));
+                    }
+                } else {
+                    console.error('Formato de respuesta inválido:', response);
+                    setErrors(prev => ({ ...prev, photographers: 'Error en el formato de datos de fotógrafos' }));
+                }
+            } catch (err) {
+                console.error('Error al cargar fotógrafos:', err);
+                setErrors(prev => ({ ...prev, photographers: 'Error al cargar fotógrafos' }));
+            }
+        };
+
+        if (showCalendar) {
+            loadPhotographers();
+        }
+    }, [showCalendar]);
+
+    const handlePhotographerSelect = async (photographerId) => {
+        try {
+            console.log('Seleccionando fotógrafo:', photographerId);
+            setSelectedPhotographer(photographerId);
+            setSelectedDate(null);
+            setFilteredSlots([]);
+
+            const token = usersApi.getToken();
+            if (!token) {
+                console.error('No se encontró el token de autenticación');
+                return;
+            }
+
+            console.log('Obteniendo disponibilidad para fotógrafo:', photographerId);
+            const availabilityData = await sessionsApi.getAvailability(token, photographerId);
+            console.log('Disponibilidad obtenida:', availabilityData);
+
+            if (Array.isArray(availabilityData)) {
+                setAllAvailableSlots(availabilityData.filter(slot => slot.available));
+                setErrors(prev => ({ ...prev, availability: null }));
+            } else {
+                console.error('Formato de disponibilidad inválido:', availabilityData);
+                setErrors(prev => ({ ...prev, availability: 'Error en el formato de datos de disponibilidad' }));
+            }
+        } catch (error) {
+            console.error('Error al obtener disponibilidad:', error);
+            setErrors(prev => ({ ...prev, availability: 'Error al obtener disponibilidad' }));
+        }
+    };
+
     const handleDateChange = (date) => {
+        console.log('Fecha seleccionada:', date);
         setSelectedDate(date);
-        const selectedDateStr = date.toISOString().split("T")[0];
-        setAvailableSlots(availability.filter(slot => slot.date.startsWith(selectedDateStr)));
+
+        const selectedDateStr = date.toISOString().split('T')[0];
+        console.log('Filtrando slots para fecha:', selectedDateStr);
+
+        const filtered = allAvailableSlots.filter(slot => {
+            const slotDate = new Date(slot.date).toISOString().split('T')[0];
+            return slotDate === selectedDateStr;
+        });
+
+        console.log('Slots filtrados:', filtered);
+        setFilteredSlots(filtered);
     };
 
     const handleStartReservation = (slot) => setReservingSlot(slot);
@@ -53,44 +139,44 @@ function HomeCustomer() {
         }));
     };
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (!reservingSlot) return;
-        const token = localStorage.getItem('token');
-        if (!token) return;
 
-        const startDateTime = new Date(reservingSlot.startDate);
+        try {
+            const token = usersApi.getToken();
+            if (!token) {
+                setErrors({ general: 'No estás autenticado' });
+                return;
+            }
 
-        const sessionData = {
-            photographerId: reservingSlot.photographer._id,
-            date: startDateTime.toISOString(),
-            type: 'standard',
-            address: {
-                type: formData.addressType,
-                street: formData.street,
-                postalCode: formData.postalCode,
-                city: formData.city,
-                province: formData.province
-            },
-            services: formData.services
-        };
+            // Validar campos requeridos
+            if (!formData.addressType || !formData.street || !formData.postalCode ||
+                !formData.city || !formData.province || !formData.services.length) {
+                setErrors({ general: 'Por favor, completa todos los campos requeridos' });
+                return;
+            }
 
-        fetch(`${import.meta.env.VITE_API_URL}/sessions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(sessionData)
-        })
-            .then(res => {
-                if (!res.ok) {
-                    return res.json().then(data => {
-                        throw new Error(data.error || 'Error desconocido');
-                    });
-                }
-                return res.json();
-            })
-            .then(data => {
+            const sessionData = {
+                photographerId: reservingSlot.photographer._id,
+                date: reservingSlot.date,
+                type: 'standard',
+                address: {
+                    type: formData.addressType,
+                    street: formData.street,
+                    postalCode: formData.postalCode,
+                    city: formData.city,
+                    province: formData.province
+                },
+                services: formData.services
+            };
+
+            console.log('Slot seleccionado:', reservingSlot);
+            console.log('Enviando datos de sesión:', sessionData);
+
+            try {
+                const data = await sessionsApi.createSession(token, sessionData);
+                console.log('Sesión creada:', data);
+
                 setConfirmedSession(data);
                 fetchSessions();
                 setFormData({
@@ -102,18 +188,23 @@ function HomeCustomer() {
                     services: []
                 });
                 setReservingSlot(null);
-            })
-            .catch(error => {
-                setErrors({ general: error.message });
-            });
+                setErrors({});
+            } catch (error) {
+                console.error('Error en la respuesta del servidor:', error);
+                setErrors({ general: error.message || 'Error al crear la sesión' });
+            }
+        } catch (error) {
+            console.error('Error al crear sesión:', error);
+            setErrors({ general: error.message || 'Error al crear la sesión' });
+        }
     };
 
     const handleCancelSession = (sessionId) => {
-        const token = localStorage.getItem('token');
+        const token = usersApi.getToken();
         if (!token) return alert("No estás autenticado");
         if (!confirm("¿Estás seguro de que quieres cancelar esta sesión?")) return;
 
-        fetch(`${import.meta.env.VITE_API_URL}/sessions/${sessionId}`, {
+        fetch(`${API_URL}/sessions/${sessionId}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         })
@@ -150,22 +241,64 @@ function HomeCustomer() {
                 <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
                     <h2 className="text-xl font-bold text-gray-700 text-center">Seleccionar Disponibilidad</h2>
 
-                    <CalendarSelector
-                        selectedDate={selectedDate}
-                        availability={availability}
-                        onChange={handleDateChange}
-                    />
-
-                    <button className="mt-2 bg-[#B62682] text-white px-4 py-2 rounded-lg" onClick={() => setShowCalendar(false)}>
-                        Volver
-                    </button>
-
-                    {selectedDate && (
+                    {!selectedPhotographer ? (
                         <>
-                            <h3 className="text-gray-700 font-semibold mt-4">
-                                Disponibilidad para {selectedDate.toLocaleDateString()}
-                            </h3>
-                            <AvailableSlotsList slots={availableSlots} onReserve={handleStartReservation} />
+                            {errors.photographers && (
+                                <div className="text-red-500 mb-4">
+                                    {errors.photographers}
+                                </div>
+                            )}
+                            <PhotographerSelector
+                                photographers={photographers}
+                                onSelect={handlePhotographerSelect}
+                            />
+                            <button
+                                className="mt-4 bg-[#B62682] text-white px-4 py-2 rounded-lg w-full"
+                                onClick={() => setShowCalendar(false)}
+                            >
+                                Volver
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            {errors.availability && (
+                                <div className="text-red-500 mb-4">
+                                    {errors.availability}
+                                </div>
+                            )}
+                            <CalendarSelector
+                                selectedDate={selectedDate}
+                                availability={filteredSlots}
+                                onChange={handleDateChange}
+                            />
+
+                            <div className="flex justify-between mt-2">
+                                <button
+                                    className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+                                    onClick={() => {
+                                        setSelectedPhotographer(null);
+                                        setSelectedDate(null);
+                                        setFilteredSlots([]);
+                                    }}
+                                >
+                                    Cambiar Fotógrafo
+                                </button>
+                                <button
+                                    className="bg-[#B62682] text-white px-4 py-2 rounded-lg"
+                                    onClick={() => setShowCalendar(false)}
+                                >
+                                    Volver
+                                </button>
+                            </div>
+
+                            {selectedDate && (
+                                <>
+                                    <h3 className="text-gray-700 font-semibold mt-4">
+                                        Disponibilidad para {selectedDate.toLocaleDateString()}
+                                    </h3>
+                                    <AvailableSlotsList slots={filteredSlots} onReserve={handleStartReservation} />
+                                </>
+                            )}
                         </>
                     )}
 
@@ -188,7 +321,8 @@ function HomeCustomer() {
                                 setConfirmedSession(null);
                                 setShowCalendar(false);
                                 setSelectedDate(null);
-                                setAvailableSlots([]);
+                                setFilteredSlots([]);
+                                setSelectedPhotographer(null);
                             }}
                         />
                     )}

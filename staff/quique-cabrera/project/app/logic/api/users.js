@@ -31,14 +31,16 @@ const createUsersApi = (baseURL) => {
                     role: payload.role
                 };
             } catch (error) {
+                authService.clearSession();
                 return null;
             }
         },
 
         getToken: () => authService.getToken(),
 
-        verify: async (username) => {
-            return client.post('/users/verify', { username });
+        verify: async (identifier) => {
+            const token = authService.getToken();
+            return client.post('/users/verify-username', { username: identifier }, token);
         }
     };
 };

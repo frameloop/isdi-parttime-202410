@@ -9,13 +9,16 @@ function AvailableSlotsList({ slots, onReserve }) {
     return (
         <ul className="mt-2">
             {slots.map((slot, index) => (
-                <li key={index} className="p-2 border-b flex flex-col sm:flex-row sm:justify-between gap-2">
+                <li key={slot.id || index} className="p-2 border-b flex flex-col sm:flex-row sm:justify-between gap-2">
                     <div>
                         <p className="font-medium">
-                            {formatTime(slot.startDate)} - {formatTime(slot.endDate)} - {slot.photographer?.coverage_area || 'Zona no especificada'}
+                            {formatTime(slot.startDate)} - {formatTime(slot.endDate)}
                         </p>
                         <p className="text-sm text-gray-700">
-                            📸 {slot.photographer?.name || slot.photographer?.firstName || 'Nombre no disponible'}
+                            📸 {slot.photographer?.name}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                            📍 {slot.photographer?.coverage_area}
                         </p>
                     </div>
                     <button

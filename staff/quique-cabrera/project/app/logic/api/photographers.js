@@ -20,6 +20,14 @@ const createPhotographersApi = (baseURL) => {
             return client.get(`/sessions/availability/${photographerId}`, token);
         },
 
+        createAvailability: async (token, availabilityData) => {
+            return client.post('/sessions/availability', availabilityData, token);
+        },
+
+        updateAvailability: async (token, availabilityId, updates) => {
+            return client.put(`/sessions/availability/${availabilityId}`, updates, token);
+        },
+
         getSessions: async (token) => {
             return client.get('/sessions/my-sessions', token);
         }

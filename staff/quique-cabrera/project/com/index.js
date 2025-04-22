@@ -1,7 +1,2 @@
-import errors from './errors/index.js'
-import validate from './validate.js'
-
-export {
-    errors,
-    validate
-}
+export * from './errors/index.js'
+export { default as validate } from './validate.js'

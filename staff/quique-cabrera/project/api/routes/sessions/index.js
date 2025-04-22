@@ -13,6 +13,7 @@ import {
 } from './handlers/index.js'
 
 import authMiddleware from '../../middlewares/authMiddleware.js'
+import { authenticateToken } from '../../middlewares/auth.js'
 
 const router = express.Router()
 
@@ -22,7 +23,7 @@ router.post('/', authMiddleware, createSession); // 🔥 ESTA LÍNEA ES CLAVE
 router.delete('/:sessionId', authMiddleware, deleteSession)
 
 // Sesiones de usuario autenticado
-router.get('/my-sessions', authMiddleware, getUserSessions)
+router.get('/my-sessions', authenticateToken, getUserSessions)
 
 // Sesiones del fotógrafo autenticado
 router.get('/photographers/sessions', authMiddleware, getPhotographerSessions)

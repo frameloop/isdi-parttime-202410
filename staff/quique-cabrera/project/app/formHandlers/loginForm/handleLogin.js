@@ -5,7 +5,7 @@ export default function handleLogin({ e, username, password, rememberMe, navigat
     try {
         validatePassword(password);
         usersApi.login(username, password)
-            .then(({ token }) => {
+            .then((loginResponse) => {
                 const session = usersApi.getSession();
                 const route = redirectByRole(session);
                 navigate(route);

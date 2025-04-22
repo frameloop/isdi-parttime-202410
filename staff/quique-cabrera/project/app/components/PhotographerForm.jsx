@@ -5,8 +5,9 @@ function PhotographerForm({ onSubmit }) {
         name: '',
         username: '',
         email: '',
-        phone: '',
         password: '',
+        phone: '',
+        role: 'photographer',
         coverage_area: ''
     });
 
@@ -18,13 +19,23 @@ function PhotographerForm({ onSubmit }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await onSubmit(form);
+            const formData = {
+                name: form.name,
+                username: form.username,
+                email: form.email,
+                password: form.password,
+                phone: form.phone,
+                role: form.role,
+                coverage_area: form.coverage_area
+            };
+            await onSubmit(formData);
             setForm({
                 name: '',
                 username: '',
                 email: '',
-                phone: '',
                 password: '',
+                phone: '',
+                role: 'photographer',
                 coverage_area: ''
             });
         } catch (err) {
@@ -35,23 +46,64 @@ function PhotographerForm({ onSubmit }) {
     return (
         <form className="w-full max-w-lg bg-[#E1F56E] p-4 rounded-lg" onSubmit={handleSubmit}>
             <h2 className="text-lg font-bold text-gray-700 text-center">Registrar Fotógrafo</h2>
-            {['name', 'username', 'email', 'phone', 'password', 'coverage_area'].map(field => (
-                <input
-                    key={field}
-                    name={field}
-                    type={
-                        field === 'email' ? 'email' :
-                            field === 'phone' ? 'tel' :
-                                field === 'password' ? 'password' :
-                                    'text'
-                    }
-                    placeholder={field.charAt(0).toUpperCase() + field.slice(1).replace('_', ' ')}
-                    className="w-full p-2 border my-2"
-                    value={form[field]}
-                    onChange={handleChange}
-                />
-            ))}
-            <button type="submit" className="w-full bg-[#B62682] text-white p-2 rounded mt-2">Registrar</button>
+
+            <input
+                name="name"
+                type="text"
+                placeholder="Nombre completo"
+                className="w-full p-2 border my-2"
+                value={form.name}
+                onChange={handleChange}
+            />
+
+            <input
+                name="username"
+                type="text"
+                placeholder="Nombre de usuario"
+                className="w-full p-2 border my-2"
+                value={form.username}
+                onChange={handleChange}
+            />
+
+            <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                className="w-full p-2 border my-2"
+                value={form.email}
+                onChange={handleChange}
+            />
+
+            <input
+                name="password"
+                type="password"
+                placeholder="Contraseña"
+                className="w-full p-2 border my-2"
+                value={form.password}
+                onChange={handleChange}
+            />
+
+            <input
+                name="phone"
+                type="tel"
+                placeholder="Teléfono"
+                className="w-full p-2 border my-2"
+                value={form.phone}
+                onChange={handleChange}
+            />
+
+            <input
+                name="coverage_area"
+                type="text"
+                placeholder="Área de cobertura"
+                className="w-full p-2 border my-2"
+                value={form.coverage_area}
+                onChange={handleChange}
+            />
+
+            <button type="submit" className="w-full bg-[#B62682] text-white p-2 rounded mt-2">
+                Registrar
+            </button>
         </form>
     );
 }

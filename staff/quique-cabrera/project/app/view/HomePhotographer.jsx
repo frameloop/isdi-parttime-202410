@@ -7,9 +7,13 @@ import SessionList from '../components/SessionList';
 import AvailabilityForm from '../components/AvailabilityForm';
 import { formatDate, formatTime } from '../util/dateFormatters';
 import { getBlockedTimesForDate } from '../util/availabilityUtils';
-import { usersApi, photographersApi } from '../logic';
+import { usersApi } from '../logic';
+import createPhotographersApi from '../logic/api/photographers';
 
 function HomePhotographer() {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const photographersApi = createPhotographersApi(API_URL);
+
     const {
         name,
         photographerId,
@@ -19,7 +23,6 @@ function HomePhotographer() {
     } = usePhotographerData();
 
     const navigate = useNavigate();
-    const API_URL = import.meta.env.VITE_API_URL;
 
     const [form, setForm] = useState({
         selectedDate: null,
@@ -38,9 +41,9 @@ function HomePhotographer() {
 
     const groupedAvailability = useMemo(() => {
         return availability.reduce((acc, slot) => {
-            const date = formatDate(slot.date);
-            acc[date] = acc[date] || [];
-            acc[date].push({
+            const dateKey = slot.date;
+            acc[dateKey] = acc[dateKey] || [];
+            acc[dateKey].push({
                 ...slot,
                 formattedStartTime: formatTime(slot.startDate),
                 formattedEndTime: formatTime(slot.endDate)
@@ -59,8 +62,78 @@ function HomePhotographer() {
 
     const handleSaveAvailability = async () => {
         const { selectedDate, startDate, endDate } = form;
-        if (!selectedDate || !startDate || !endDate) {
-            alert('Selecciona fecha y horario');
+        console.log('Iniciando creación de disponibilidad con:', { selectedDate, startDate, endDate, photographerId });
+
+        // Validación más detallada
+        const missingFields = [];
+        if (!selectedDate) missingFields.push('fecha');
+        if (!startDate) missingFields.push('hora de inicio');
+        if (!endDate) missingFields.push('hora de fin');
+        if (!photographerId) missingFields.push('ID del fotógrafo');
+
+        if (missingFields.length > 0) {
+            console.error('Campos faltantes:', missingFields);
+            alert(`Por favor, completa los siguientes campos: ${missingFields.join(', ')}`);
+            return;
+        }
+
+        const dateStr = selectedDate.toLocaleDateString('en-CA');
+        const startDateTime = new Date(`${dateStr}T${startDate}`);
+        const endDateTime = new Date(`${dateStr}T${endDate}`);
+        console.log('Fechas procesadas:', { dateStr, startDateTime, endDateTime });
+
+        // Validación adicional de fechas
+        if (isNaN(startDateTime.getTime()) || isNaN(endDateTime.getTime())) {
+            console.error('Error en formato de fechas:', { startDateTime, endDateTime });
+            alert('Error en el formato de las fechas');
+            return;
+        }
+
+        if (startDateTime >= endDateTime) {
+            console.error('Error en rango de fechas:', { startDateTime, endDateTime });
+            alert('La hora de inicio debe ser anterior a la hora de fin');
+            return;
+        }
+
+        const payload = {
+            photographerId: photographerId,
+            date: dateStr,
+            startDate: startDateTime.toISOString(),
+            endDate: endDateTime.toISOString(),
+            available: true
+        };
+        console.log('Enviando payload:', payload);
+
+        try {
+            const token = usersApi.getToken();
+            if (!token) {
+                console.error('No se encontró el token');
+                alert('Error de autenticación');
+                return;
+            }
+            console.log('Token obtenido:', token ? 'Presente' : 'Ausente');
+
+            const response = await photographersApi.createAvailability(token, payload);
+            console.log('Respuesta del servidor:', response);
+
+            await fetchAvailability();
+            console.log('Disponibilidad actualizada');
+            resetForm();
+        } catch (err) {
+            console.error("Error detallado al crear disponibilidad:", {
+                message: err.message,
+                stack: err.stack,
+                response: err.response
+            });
+            alert('Error al crear disponibilidad: ' + (err.message || 'Error desconocido'));
+        }
+    };
+
+    const handleUpdateAvailability = async () => {
+        const { selectedDate, startDate, endDate, editingSlotId } = form;
+        if (!selectedDate || !startDate || !endDate || !editingSlotId) {
+            alert('Datos inválidos para actualizar. Falta ID, fecha u horario.');
+            console.error("Invalid data for update:", form);
             return;
         }
 
@@ -68,36 +141,32 @@ function HomePhotographer() {
         const startDateTime = new Date(`${dateStr}T${startDate}`);
         const endDateTime = new Date(`${dateStr}T${endDate}`);
 
-        const payload = {
-            photographer: photographerId,
+        const updates = {
             date: dateStr,
-            startDate: startDateTime.toLocaleString('sv'),
-            endDate: endDateTime.toLocaleString('sv'),
-            available: true
+            startDate: startDateTime.toISOString(),
+            endDate: endDateTime.toISOString()
         };
 
         try {
             const token = usersApi.getToken();
-            await fetch(`${API_URL}/sessions/availability`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+            await photographersApi.updateAvailability(token, editingSlotId, updates);
             fetchAvailability();
             resetForm();
         } catch (err) {
-            console.error(err);
+            console.error(`Error updating availability slot ${editingSlotId}:`, err);
         }
     };
 
     const handleEditSlot = (slot) => {
+        if (!slot || !slot.date || !slot.startDate || !slot.endDate) {
+            console.error("Datos de slot inválidos para editar:", slot);
+            return;
+        }
+
         setForm({
             selectedDate: new Date(slot.date),
-            startDate: slot.startDate,
-            endDate: slot.endDate,
+            startDate: formatTime(slot.startDate),
+            endDate: formatTime(slot.endDate),
             editingSlotId: slot._id
         });
         setUi(prev => ({ ...prev, showCalendar: true }));
@@ -154,7 +223,7 @@ function HomePhotographer() {
                     onDateChange={handleDateChange}
                     onStartTimeSelect={(time) => setForm(prev => ({ ...prev, startDate: time }))}
                     onEndTimeSelect={(time) => setForm(prev => ({ ...prev, endDate: time }))}
-                    onSave={handleSaveAvailability}
+                    onSave={form.editingSlotId ? handleUpdateAvailability : handleSaveAvailability}
                     onCancel={resetForm}
                 />
             ) : (

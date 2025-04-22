@@ -12,10 +12,8 @@ export default function handleContinue({ username, setLoginError, setName, setSt
 
     usersApi.verify(username)
         .then(response => {
-            if (!response.success) throw new Error("El usuario no existe");
-            setName(response.user.name);
-            localStorage.setItem('name', response.user.name);
-            localStorage.setItem('email', response.user.email);
+            setName(response.name);
+            localStorage.setItem('name', response.name);
             setStep(2);
             setLoginError(null);
         })

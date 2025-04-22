@@ -9,7 +9,10 @@ const userSchema = new Schema({
     phone: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false }, // ⛒️ Evita que la contraseña se incluya en las consultas
-    role: { type: String, required: true, enum: ['customer', 'photographer', 'administrator'] }
+    role: { type: String, required: true, enum: ['customer', 'photographer', 'administrator'] },
+    photographerId: { type: ObjectId, ref: 'Photographer', required: false },
+    bio: { type: String, default: '' },
+    portfolio: { type: [String], default: [] }
 });
 
 // 🔹 Esquema de servicio

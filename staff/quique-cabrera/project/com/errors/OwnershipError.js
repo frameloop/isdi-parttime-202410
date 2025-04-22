@@ -1,7 +1,5 @@
-class OwnershipError extends Error {
+export class OwnershipError extends Error {
     constructor(message) {
         super(message)
     }
 }
-
-export default OwnershipError

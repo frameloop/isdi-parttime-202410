@@ -1,7 +1,23 @@
 import logic from '../../../logic/index.js'
 
 export default async (req, res, next) => {
-    const result = await logic.registerUserLogic(req);
-    if (result.error) return res.status(result.status).json(result.error);
-    res.status(201).json(result.data);
-};
+    try {
+        const { name, username, email, password, phone, role, coverage_area, bio, portfolio } = req.body;
+
+        const result = await logic.registerUserLogic(
+            name,
+            username,
+            email,
+            password,
+            phone,
+            role,
+            coverage_area,
+            bio,
+            portfolio
+        );
+
+        res.status(201).json(result);
+    } catch (error) {
+        next(error);
+    }
+}
