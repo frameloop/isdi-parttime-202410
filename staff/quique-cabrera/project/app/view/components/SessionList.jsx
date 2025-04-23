@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDateTime } from '../util/dateFormatters';
+import { formatDateTime } from '../../util/dateFormatters.js';
 
 function SessionList({ sessions }) {
     if (!sessions.length) {

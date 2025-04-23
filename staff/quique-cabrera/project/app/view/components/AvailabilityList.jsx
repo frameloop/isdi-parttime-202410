@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate, formatTime } from '../util/dateFormatters';
+import { formatDate, formatTime } from '../../util/dateFormatters.js';
 
 function AvailabilityList({ groupedAvailability, onEdit, onDelete }) {
     const sortedDates = Object.keys(groupedAvailability).sort((a, b) => new Date(a) - new Date(b));

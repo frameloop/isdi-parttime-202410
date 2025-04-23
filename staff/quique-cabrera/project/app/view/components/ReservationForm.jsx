@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatTime, formatDate } from '../util/dateFormatters';
+import { formatTime, formatDate } from '../../util/dateFormatters.js';
 
 function ReservationForm({
     slot,

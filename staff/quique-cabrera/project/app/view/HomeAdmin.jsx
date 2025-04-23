@@ -3,8 +3,8 @@ import { MdOutlineLogout } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 
 import useAdminData from '../hooks/useAdminData';
-import PhotographerForm from '../components/PhotographerForm';
-import PhotographerList from '../components/PhotographerList';
+import PhotographerForm from './components/PhotographerForm';
+import PhotographerList from './components/PhotographerList';
 
 function HomeAdmin() {
     const {

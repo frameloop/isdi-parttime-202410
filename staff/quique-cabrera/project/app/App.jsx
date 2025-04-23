@@ -9,6 +9,7 @@ import HomePhotographer from './view/HomePhotographer';
 import HomeAdmin from './view/HomeAdmin';
 import { usersApi } from './logic';
 import { useAppContext } from './context';
+import Alert from './view/components/Alert';
 
 // Componente para manejar la autenticación y redirección
 const AuthWrapper = ({ children }) => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import useLoginForm from '../hooks/useLoginForm';
-import LoginStepUsername from '../components/LoginStepUsername';
-import LoginStepPassword from '../components/LoginStepPassword';
-import RecoverPasswordModal from '../components/RecoverPasswordModal';
+import LoginStepUsername from './components/LoginStepUsername';
+import LoginStepPassword from './components/LoginStepPassword';
+import RecoverPasswordModal from './components/RecoverPasswordModal';
 
 function LoginUser() {
     const {

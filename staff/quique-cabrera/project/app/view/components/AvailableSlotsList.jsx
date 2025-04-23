@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatTime } from '../util/dateFormatters';
+import { formatTime } from '../../util/dateFormatters.js';
 
 function AvailableSlotsList({ slots, onReserve }) {
     if (!slots.length) {
