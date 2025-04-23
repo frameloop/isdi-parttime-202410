@@ -66,22 +66,57 @@ Admin (User)
 - ...
 
 ### Data Model
+
 User
-- id (uuid)
-- name (string)
-- email (string)
-- phone (string)
-- address (string)
-- role (Photographer, Customer, Admin)
-- geo
+- id (ObjectId)
+- name (string, required)
+- email (string, required)
+- phone (string, required)
+- username (string, required, unique)
+- password (string, required, select: false)
+- role (string, required, enum: ['customer', 'photographer', 'administrator'])
+- photographerId (ObjectId, ref: 'Photographer', optional)
+- bio (string, default: '')
+- portfolio (array of strings, default: [])
 
-Sesions
-- address (string)
-- email (string)
-- phone (string)
-- Photographer
-- Costumer
+Service
+- name (string, required)
+- quantity (number, required)
 
+Session
+- date (Date, required)
+- startDate (Date, required)
+- endDate (Date, required)
+- photographer (ObjectId, ref: 'Photographer', required)
+- customer (ObjectId, ref: 'User', required)
+- status (string, enum: ['scheduled', 'completed', 'cancelled'], default: 'scheduled')
+- type (string, required)
+- address (object)
+  - type (string)
+  - street (string)
+  - postalCode (string)
+  - city (string)
+  - province (string)
+- services (array of strings)
+
+Customer
+- user (ObjectId, ref: 'User', required)
+- address (string, required, unique)
+- services (array of Service)
+- sessions (array of ObjectId, ref: 'Session')
+
+Photographer
+- user (ObjectId, ref: 'User', required)
+- coverage_area (string, required)
+- sessions (array of ObjectId, ref: 'Session')
+
+Availability
+- photographer (ObjectId, ref: 'Photographer', required)
+- date (Date, required)
+- startDate (Date, required)
+- endDate (Date, required)
+- available (boolean, default: true)
+- timestamps (createdAt, updatedAt)
 
 ### Coverage
 ![Code Coverage](./resource/sesiona-test-coverage.png)
