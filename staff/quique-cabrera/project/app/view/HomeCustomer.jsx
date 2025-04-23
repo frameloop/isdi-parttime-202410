@@ -20,7 +20,8 @@ function HomeCustomer() {
     const {
         name,
         sessions,
-        fetchSessions
+        fetchSessions,
+        id: customerId
     } = useCustomerData();
 
     const navigate = useNavigate();
@@ -113,13 +114,16 @@ function HomeCustomer() {
         console.log('Fecha seleccionada:', date);
         setSelectedDate(date);
 
-        const selectedDateStr = date.toISOString().split('T')[0];
+        // Formatear la fecha seleccionada en el formato YYYY-MM-DD
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const selectedDateStr = `${year}-${month}-${day}`;
+
         console.log('Filtrando slots para fecha:', selectedDateStr);
 
-        const filtered = allAvailableSlots.filter(slot => {
-            const slotDate = new Date(slot.date).toISOString().split('T')[0];
-            return slotDate === selectedDateStr;
-        });
+        // Filtrar slots comparando directamente las fechas en formato string
+        const filtered = allAvailableSlots.filter(slot => slot.date === selectedDateStr);
 
         console.log('Slots filtrados:', filtered);
         setFilteredSlots(filtered);
@@ -157,8 +161,11 @@ function HomeCustomer() {
             }
 
             const sessionData = {
-                photographerId: reservingSlot.photographer._id,
+                customerId,
+                photographerId: reservingSlot.photographer.id,
                 date: reservingSlot.date,
+                startDate: reservingSlot.startDate,
+                endDate: reservingSlot.endDate,
                 type: 'standard',
                 address: {
                     type: formData.addressType,

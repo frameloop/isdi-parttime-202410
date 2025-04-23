@@ -28,3 +28,18 @@ export const updateAvailability = async (req, res, next) => {
         next(error);
     }
 };
+
+export const getPhotographerSessions = async (req, res) => {
+    const result = await logic.getPhotographerSessionsLogic(req);
+    if (result.error) return res.status(result.status).json(result.error);
+    res.json(result.data);
+};
+
+export const createSession = async (req, res, next) => {
+    try {
+        const session = await logic.createSessionLogic(req);
+        res.status(201).json(session);
+    } catch (error) {
+        next(error);
+    }
+};

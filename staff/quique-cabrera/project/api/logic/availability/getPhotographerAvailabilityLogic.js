@@ -33,7 +33,7 @@ const getPhotographerAvailabilityLogic = async (photographerId) => {
             id: slot._id.toString(),
             photographerId: photographerId,
             photographer: {
-                _id: photographerId,
+                id: photographerId,
                 name: photographer.user?.name || 'Nombre no encontrado',
                 coverage_area: photographer.coverage_area || 'Zona no especificada'
             },

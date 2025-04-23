@@ -3,26 +3,26 @@ import { validate, errors } from 'com'
 
 const { SystemError, NotFoundError } = errors
 
-const getPhotographerSessions = async (photographerId) => {
+const getCustomerSessions = async (customerId) => {
     try {
-        validate.id(photographerId)
+        validate.id(customerId)
 
-        const sessions = await Session.find({ photographer: photographerId })
-            .populate('customer', 'name')
+        const sessions = await Session.find({ customer: customerId })
+            .populate('photographer', 'name')
             .sort({ date: -1 })
 
         if (!sessions.length) {
-            throw new NotFoundError('No se encontraron sesiones para este fotógrafo')
+            throw new NotFoundError('No se encontraron sesiones para este cliente')
         }
 
         return sessions.map(session => ({
-            id: session._id,
+            _id: session._id,
             date: session.date,
             duration: session.duration,
             status: session.status,
-            customer: {
-                id: session.customer._id,
-                name: session.customer.name
+            photographer: {
+                _id: session.photographer._id,
+                name: session.photographer.name
             }
         }))
     } catch (error) {
@@ -34,4 +34,4 @@ const getPhotographerSessions = async (photographerId) => {
     }
 }
 
-export default getPhotographerSessions 
+export default getCustomerSessions 

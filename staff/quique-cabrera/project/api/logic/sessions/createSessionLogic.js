@@ -54,7 +54,14 @@ const createSessionLogic = async (req) => {
 
         console.log('Session created successfully:', session);
 
-        return session;
+        return {
+            ...session.toObject(),
+            id: session._id.toString(),
+            photographer: {
+                ...session.photographer.toObject(),
+                id: session.photographer._id.toString()
+            }
+        };
     } catch (error) {
         console.error('Error creating session:', error);
         throw error;

@@ -16,12 +16,12 @@ const getCustomerSessions = async (customerId) => {
         }
 
         return sessions.map(session => ({
-            _id: session._id,
+            id: session._id,
             date: session.date,
             duration: session.duration,
             status: session.status,
             photographer: {
-                _id: session.photographer._id,
+                id: session.photographer._id,
                 name: session.photographer.name
             }
         }))

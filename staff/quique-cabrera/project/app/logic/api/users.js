@@ -25,7 +25,7 @@ const createUsersApi = (baseURL) => {
             try {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 return {
-                    userId: payload.sub,
+                    id: payload.sub,
                     name: localStorage.getItem('name'),
                     photographerId: localStorage.getItem('photographerId'),
                     role: payload.role

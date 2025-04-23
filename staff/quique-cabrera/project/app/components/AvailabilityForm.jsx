@@ -9,6 +9,9 @@ function AvailabilityForm({
     startDate,
     endDate,
     blockedTimes,
+    blockedDates,
+    sessions,
+    availability,
     showStartDropdown,
     showEndDropdown,
     onDateChange,
@@ -27,14 +30,16 @@ function AvailabilityForm({
     };
 
     return (
-        <section className="w-full max-w-lg bg-white p-4 rounded-lg mt-4">
+        <section className="w-full max-w-lg bg-[#E1F56E] p-4 rounded-lg mt-0">
             <h2 className="text-xl font-bold text-gray-700 text-center">
                 {editing ? 'Editar Disponibilidad' : 'Agregar Disponibilidad'}
             </h2>
 
             <CalendarSelector
                 selectedDate={selectedDate}
-                availability={[] /* No es necesario aquí pero si lo haces reutilizable sí */}
+                availability={availability || []}
+                blockedDates={blockedDates || []}
+                sessions={sessions || []}
                 onChange={onDateChange}
             />
 
@@ -56,22 +61,26 @@ function AvailabilityForm({
 
                         {showStartDropdown.value && (
                             <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow-lg">
-                                {generateTimeOptions().map(time => (
-                                    <li
-                                        key={time}
-                                        className={`p-2 cursor-pointer ${blockedTimes.includes(time)
-                                            ? "text-red-500 opacity-50 cursor-not-allowed"
-                                            : "text-green-600 hover:bg-gray-100"
-                                            }`}
-                                        onClick={() => {
-                                            if (!blockedTimes.includes(time)) {
-                                                onStartTimeSelect(time);
-                                            }
-                                        }}
-                                    >
-                                        {blockedTimes.includes(time) ? `🟥 ${time} (Ocupado)` : `🟩 ${time}`}
-                                    </li>
-                                ))}
+                                {generateTimeOptions().map(time => {
+                                    const isBlocked = blockedTimes.includes(time);
+                                    return (
+                                        <li
+                                            key={time}
+                                            className={`p-2 ${isBlocked
+                                                ? "text-red-500 bg-red-50 opacity-70 cursor-not-allowed"
+                                                : "text-green-600 cursor-pointer hover:bg-gray-100"
+                                                }`}
+                                            onClick={() => {
+                                                if (!isBlocked) {
+                                                    onStartTimeSelect(time);
+                                                    showStartDropdown.toggle();
+                                                }
+                                            }}
+                                        >
+                                            {isBlocked ? `⛔ ${time} (Ocupado)` : `🟩 ${time}`}
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         )}
                     </div>
@@ -88,36 +97,42 @@ function AvailabilityForm({
 
                         {showEndDropdown.value && (
                             <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow-lg">
-                                {generateTimeOptions().map(time => (
-                                    <li
-                                        key={time}
-                                        className={`p-2 cursor-pointer ${blockedTimes.includes(time)
-                                            ? "text-red-500 opacity-50 cursor-not-allowed"
-                                            : "text-green-600 hover:bg-gray-100"
-                                            }`}
-                                        onClick={() => {
-                                            if (!blockedTimes.includes(time)) {
-                                                onEndTimeSelect(time);
-                                            }
-                                        }}
-                                    >
-                                        {blockedTimes.includes(time) ? `🟥 ${time} (Ocupado)` : `🟩 ${time}`}
-                                    </li>
-                                ))}
+                                {generateTimeOptions().map(time => {
+                                    const isBlocked = blockedTimes.includes(time);
+                                    return (
+                                        <li
+                                            key={time}
+                                            className={`p-2 ${isBlocked
+                                                ? "text-red-500 bg-red-50 opacity-70 cursor-not-allowed"
+                                                : "text-green-600 cursor-pointer hover:bg-gray-100"
+                                                }`}
+                                            onClick={() => {
+                                                if (!isBlocked) {
+                                                    onEndTimeSelect(time);
+                                                    showEndDropdown.toggle();
+                                                }
+                                            }}
+                                        >
+                                            {isBlocked ? `⛔ ${time} (Ocupado)` : `🟩 ${time}`}
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         )}
                     </div>
 
                     {/* Botones */}
-                    <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg" onClick={onSave}>
-                        {editing ? 'Actualizar' : 'Guardar'}
-                    </button>
+                    <div className="flex justify-between mt-4">
+                        <button className="bg-green-500 text-white px-4 py-2 rounded-lg" onClick={onSave}>
+                            {editing ? 'Actualizar' : 'Guardar'}
+                        </button>
+
+                        <button className="bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={onCancel}>
+                            Volver
+                        </button>
+                    </div>
                 </>
             )}
-
-            <button className="mt-2 bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={onCancel}>
-                Volver
-            </button>
         </section>
     );
 }

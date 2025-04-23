@@ -7,8 +7,8 @@ function PhotographerSelector({ photographers, onSelect }) {
             <div className="grid grid-cols-1 gap-2">
                 {photographers.map(photographer => (
                     <button
-                        key={photographer._id}
-                        onClick={() => onSelect(photographer._id)}
+                        key={photographer.id}
+                        onClick={() => onSelect(photographer.id)}
                         className="bg-white border border-gray-300 rounded-lg p-4 hover:bg-gray-50 transition-colors"
                     >
                         <h4 className="font-medium text-gray-900">{photographer.name}</h4>

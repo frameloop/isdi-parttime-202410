@@ -43,6 +43,7 @@ export default function useCustomerData() {
 
     return {
         name: user?.name || '',
+        id: user?.id || '',
         sessions,
         availability,
         fetchAvailability,

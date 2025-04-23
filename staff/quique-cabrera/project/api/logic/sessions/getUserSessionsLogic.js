@@ -49,20 +49,20 @@ const getUserSessionsLogic = async (userId) => {
         return sessions.map(session => {
             const formattedSession = {
                 ...session,
-                _id: session._id.toString(),
+                id: session._id.toString(),
                 photographer: session.photographer ? {
-                    _id: session.photographer._id.toString(),
+                    id: session.photographer._id.toString(),
                     user: session.photographer.user ? {
-                        _id: session.photographer.user._id.toString(),
+                        id: session.photographer.user._id.toString(),
                         name: session.photographer.user.name,
                         phone: session.photographer.user.phone,
                         email: session.photographer.user.email
                     } : null
                 } : null,
                 customer: session.customer ? {
-                    _id: session.customer._id.toString(),
+                    id: session.customer._id.toString(),
                     user: session.customer.user ? {
-                        _id: session.customer.user._id.toString(),
+                        id: session.customer.user._id.toString(),
                         name: session.customer.user.name,
                         phone: session.customer.user.phone,
                         email: session.customer.user.email

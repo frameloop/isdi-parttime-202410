@@ -40,7 +40,7 @@ export default function useAdminData() {
     const deletePhotographer = async (id) => {
         await executeRequest(
             (token) => photographersApi.delete(token, id),
-            () => setPhotographers(prev => prev.filter(p => p._id !== id)),
+            () => setPhotographers(prev => prev.filter(p => p.id !== id)),
             { errorMessage: 'Error al eliminar fotógrafo' }
         );
     };

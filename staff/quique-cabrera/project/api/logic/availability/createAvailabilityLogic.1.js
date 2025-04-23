@@ -66,7 +66,7 @@ const createAvailabilityLogic = async ({ body, userId }) => {
         });
 
         const result = {
-            id: availability._id.toString(),
+            _id: availability._id.toString(),
             photographer: photographer._id.toString(),
             date: availability.date.toISOString(),
             startDate: availability.startDate.toISOString(),

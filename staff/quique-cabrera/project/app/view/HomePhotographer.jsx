@@ -36,6 +36,7 @@ function HomePhotographer() {
         showStartDropdown: false,
         showEndDropdown: false,
         blockedTimes: [],
+        blockedDates: [],
         selectedAvailability: []
     });
 
@@ -53,12 +54,59 @@ function HomePhotographer() {
     }, [availability]);
 
     const handleDateChange = (date) => {
-        const slots = availability.filter(slot => new Date(slot.date).toISOString().split("T")[0] === date.toISOString().split("T")[0]);
+        // Formatear la fecha de manera consistente
+        const formattedDate = getFormattedDate(date);
+
+        const slots = availability.filter(slot => {
+            const slotDate = new Date(slot.date);
+            return getFormattedDate(slotDate) === formattedDate;
+        });
+
         const blocked = getBlockedTimesForDate(date, sessions, availability);
 
         setForm(prev => ({ ...prev, selectedDate: date }));
         setUi(prev => ({ ...prev, blockedTimes: blocked, selectedAvailability: slots }));
     };
+
+    // Función auxiliar para formatear fechas de manera consistente
+    const getFormattedDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const getBlockedDates = () => {
+        const allDates = new Set();
+        const blockedDates = [];
+
+        const today = new Date();
+        const endOfNextMonth = new Date(today.getFullYear(), today.getMonth() + 2, 0);
+
+        for (let d = new Date(today); d <= endOfNextMonth; d.setDate(d.getDate() + 1)) {
+            // Usar formato consistente para las fechas
+            allDates.add(getFormattedDate(d));
+        }
+
+        allDates.forEach(dateStr => {
+            // Crear la fecha a partir del string formateado
+            const [year, month, day] = dateStr.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+
+            const blockedTimes = getBlockedTimesForDate(date, sessions, availability);
+
+            if (blockedTimes.length >= 18) {
+                blockedDates.push(dateStr);
+            }
+        });
+
+        return blockedDates;
+    };
+
+    React.useEffect(() => {
+        const blockedDates = getBlockedDates();
+        setUi(prev => ({ ...prev, blockedDates }));
+    }, [availability, sessions]);
 
     const handleSaveAvailability = async () => {
         const { selectedDate, startDate, endDate } = form;
@@ -77,7 +125,12 @@ function HomePhotographer() {
             return;
         }
 
-        const dateStr = selectedDate.toLocaleDateString('en-CA');
+        // Corregir formato de fecha para evitar desfase por zona horaria
+        const year = selectedDate.getFullYear();
+        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const day = String(selectedDate.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
+
         const startDateTime = new Date(`${dateStr}T${startDate}`);
         const endDateTime = new Date(`${dateStr}T${endDate}`);
         console.log('Fechas procesadas:', { dateStr, startDateTime, endDateTime });
@@ -137,7 +190,12 @@ function HomePhotographer() {
             return;
         }
 
-        const dateStr = selectedDate.toLocaleDateString('en-CA');
+        // Corregir formato de fecha para evitar desfase por zona horaria
+        const year = selectedDate.getFullYear();
+        const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+        const day = String(selectedDate.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
+
         const startDateTime = new Date(`${dateStr}T${startDate}`);
         const endDateTime = new Date(`${dateStr}T${endDate}`);
 
@@ -167,7 +225,7 @@ function HomePhotographer() {
             selectedDate: new Date(slot.date),
             startDate: formatTime(slot.startDate),
             endDate: formatTime(slot.endDate),
-            editingSlotId: slot._id
+            editingSlotId: slot.id
         });
         setUi(prev => ({ ...prev, showCalendar: true }));
     };
@@ -188,7 +246,14 @@ function HomePhotographer() {
 
     const resetForm = () => {
         setForm({ selectedDate: null, startDate: '', endDate: '', editingSlotId: null });
-        setUi({ showCalendar: false, showStartDropdown: false, showEndDropdown: false, blockedTimes: [], selectedAvailability: [] });
+        setUi({
+            showCalendar: false,
+            showStartDropdown: false,
+            showEndDropdown: false,
+            blockedTimes: [],
+            blockedDates: [],
+            selectedAvailability: []
+        });
     };
 
     const handleLogout = () => {
@@ -212,6 +277,9 @@ function HomePhotographer() {
                     startDate={form.startDate}
                     endDate={form.endDate}
                     blockedTimes={ui.blockedTimes}
+                    blockedDates={ui.blockedDates}
+                    sessions={sessions}
+                    availability={availability}
                     showStartDropdown={{
                         value: ui.showStartDropdown,
                         toggle: () => setUi(prev => ({ ...prev, showStartDropdown: !prev.showStartDropdown }))

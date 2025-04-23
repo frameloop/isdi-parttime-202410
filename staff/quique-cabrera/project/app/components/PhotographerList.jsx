@@ -8,10 +8,10 @@ function PhotographerList({ photographers, onDelete }) {
             {photographers.length ? (
                 <ul>
                     {photographers.map((photographer, index) => (
-                        <li key={photographer._id || index} className="p-2 border-b font-bold flex justify-between">
+                        <li key={photographer.id || index} className="p-2 border-b font-bold flex justify-between">
                             <span>{photographer.user?.name || photographer.name || `Fotógrafo ${index + 1}`}</span>
                             <button
-                                onClick={() => onDelete(photographer._id)}
+                                onClick={() => onDelete(photographer.id)}
                                 className="bg-red-500 text-white px-2 py-1 rounded"
                             >
                                 Eliminar

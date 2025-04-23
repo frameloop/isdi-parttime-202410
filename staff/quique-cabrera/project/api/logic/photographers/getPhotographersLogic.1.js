@@ -9,7 +9,7 @@ const getPhotographersLogic = async () => {
                 .lean()
 
             return photographers.map(photographer => ({
-                id: photographer._id,
+                _id: photographer._id,
                 name: photographer.user?.name || 'Nombre no encontrado',
                 username: photographer.user?.username,
                 email: photographer.user?.email,
