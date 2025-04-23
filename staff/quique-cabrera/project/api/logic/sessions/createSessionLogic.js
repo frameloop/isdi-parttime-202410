@@ -10,11 +10,13 @@ import { extractUserId } from '../../helpers/extractUserId.js';
  */
 const createSessionLogic = async (req) => {
     console.log('Creating session with data:', req.body);
-    const { photographerId, date, type, address, services } = req.body;
+    const { photographerId, date, startDate, endDate, type, address, services } = req.body;
 
     // Validar campos requeridos
     if (!photographerId) throw new SystemError('El ID del fotógrafo es requerido');
     if (!date) throw new SystemError('La fecha es requerida');
+    if (!startDate) throw new SystemError('La hora de inicio es requerida');
+    if (!endDate) throw new SystemError('La hora de fin es requerida');
     if (!type) throw new SystemError('El tipo de sesión es requerido');
     if (!address) throw new SystemError('La dirección es requerida');
     if (!services || !Array.isArray(services) || services.length === 0)
@@ -43,11 +45,13 @@ const createSessionLogic = async (req) => {
         if (!customer)
             throw new SystemError('El cliente no existe');
 
-        // Crear la sesión
+        // Crear la sesión con los campos de tiempo correctos
         const session = await Session.create({
             photographer: photographerId,
             customer: customerId,
             date: new Date(date),
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
             type,
             address,
             services,

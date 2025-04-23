@@ -3,13 +3,12 @@ import React from 'react';
 function ConfirmationBox({ session, onClose }) {
     if (!session) return null;
 
-    // Extraer la hora de la fecha de la sesión
-    const sessionTime = new Date(session.date);
-    const startTime = sessionTime.toLocaleTimeString('es-ES', {
+    // Extraer la hora de las fechas de inicio y fin
+    const startTime = new Date(session.startDate).toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit'
     });
-    const endTime = new Date(sessionTime.getTime() + 60 * 60 * 1000).toLocaleTimeString('es-ES', {
+    const endTime = new Date(session.endDate).toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit'
     });
@@ -21,10 +20,10 @@ function ConfirmationBox({ session, onClose }) {
             <ul className="text-sm text-gray-800 space-y-2">
                 <li>
                     <strong>Fecha:</strong>{" "}
-                    {new Date(new Date(session.date).setDate(new Date(session.date).getDate())).toLocaleDateString()}
+                    {new Date(session.startDate).toLocaleDateString()}
                 </li>
                 <li><strong>Hora:</strong> {startTime} - {endTime}</li>
-                <li><strong>Dirección:</strong><br />{`${session.address?.addressType || ''} ${session.address?.street || ''}, ${session.address?.city}, ${session.address?.postalCode} (${session.address?.province})`}</li>
+                <li><strong>Dirección:</strong><br />{`${session.address?.type || ''} ${session.address?.street || ''}, ${session.address?.city}, ${session.address?.postalCode} (${session.address?.province})`}</li>
                 <li><strong>Servicios:</strong>
                     <ul className="list-disc ml-6">
                         {session.services.map((s, i) => <li key={i}>{s}</li>)}

@@ -24,6 +24,8 @@ const serviceSchema = new Schema({
 // 🔹 Esquema de sesión (fotógrafo + cliente)
 const sessionSchema = new Schema({
     date: { type: Date, required: true },
+    startDate: { type: Date, required: true },  // Cambiado de startTime a startDate
+    endDate: { type: Date, required: true },    // Cambiado de endTime a endDate
     photographer: { type: ObjectId, ref: 'Photographer', required: true },
     customer: { type: ObjectId, ref: 'User', required: true },
     status: { type: String, enum: ['scheduled', 'completed', 'cancelled'], default: 'scheduled' },

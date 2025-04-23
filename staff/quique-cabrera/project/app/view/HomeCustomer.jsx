@@ -161,7 +161,6 @@ function HomeCustomer() {
             }
 
             const sessionData = {
-                customerId,
                 photographerId: reservingSlot.photographer.id,
                 date: reservingSlot.date,
                 startDate: reservingSlot.startDate,
@@ -177,7 +176,6 @@ function HomeCustomer() {
                 services: formData.services
             };
 
-            console.log('Slot seleccionado:', reservingSlot);
             console.log('Enviando datos de sesión:', sessionData);
 
             try {
