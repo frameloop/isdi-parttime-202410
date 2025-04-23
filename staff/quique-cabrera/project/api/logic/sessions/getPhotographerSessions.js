@@ -8,7 +8,7 @@ const getPhotographerSessions = async (photographerId) => {
         validate.id(photographerId)
 
         const sessions = await Session.find({ photographer: photographerId })
-            .populate('customer', 'name')
+            .populate('customer', 'name phone')
             .sort({ date: -1 })
 
         if (!sessions.length) {
@@ -22,7 +22,8 @@ const getPhotographerSessions = async (photographerId) => {
             status: session.status,
             customer: {
                 id: session.customer._id,
-                name: session.customer.name
+                name: session.customer.name,
+                phone: session.customer.phone
             }
         }))
     } catch (error) {

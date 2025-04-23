@@ -28,14 +28,9 @@ const getUserSessionsLogic = async (userId) => {
                 throw new NotFoundError('Photographer profile not found');
             }
 
+            // Para obtener los datos de los clientes directamente, ya que son usuarios
             sessionsQuery = Session.find({ photographer: photographer._id })
-                .populate({
-                    path: 'customer',
-                    populate: {
-                        path: 'user',
-                        select: 'name phone email'
-                    }
-                });
+                .populate('customer', 'name phone email');
         } else {
             // Comentado temporalmente hasta que se decida qué hacer con UnauthorizedError
             // throw new UnauthorizedError('User role cannot view sessions')
@@ -46,6 +41,22 @@ const getUserSessionsLogic = async (userId) => {
 
         console.log('Sessions retrieved:', sessions);
 
+        // Para fotógrafos, simplificar los datos de cliente para facilitar acceso
+        if (user.role === 'photographer') {
+            return sessions.map(session => ({
+                ...session,
+                id: session._id.toString(),
+                customer: session.customer
+                    ? {
+                        id: session.customer._id.toString(),
+                        name: session.customer.name,
+                        phone: session.customer.phone
+                    }
+                    : null
+            }));
+        }
+
+        // Para clientes, mantener la estructura completa
         return sessions.map(session => {
             const formattedSession = {
                 ...session,
@@ -58,19 +69,9 @@ const getUserSessionsLogic = async (userId) => {
                         phone: session.photographer.user.phone,
                         email: session.photographer.user.email
                     } : null
-                } : null,
-                customer: session.customer ? {
-                    id: session.customer._id.toString(),
-                    user: session.customer.user ? {
-                        id: session.customer.user._id.toString(),
-                        name: session.customer.user.name,
-                        phone: session.customer.user.phone,
-                        email: session.customer.user.email
-                    } : null
                 } : null
             };
 
-            console.log('Formatted session:', formattedSession);
             return formattedSession;
         });
 

@@ -25,7 +25,7 @@ const serviceSchema = new Schema({
 const sessionSchema = new Schema({
     date: { type: Date, required: true },
     photographer: { type: ObjectId, ref: 'Photographer', required: true },
-    customer: { type: ObjectId, ref: 'Customer', required: true },
+    customer: { type: ObjectId, ref: 'User', required: true },
     status: { type: String, enum: ['scheduled', 'completed', 'cancelled'], default: 'scheduled' },
     type: { type: String, required: true },
     address: {

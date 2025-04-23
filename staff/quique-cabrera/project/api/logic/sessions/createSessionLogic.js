@@ -38,6 +38,11 @@ const createSessionLogic = async (req) => {
         if (!photographer)
             throw new SystemError('El fotógrafo no existe');
 
+        // Verificar que el cliente existe y obtener sus datos
+        const customer = await User.findById(customerId);
+        if (!customer)
+            throw new SystemError('El cliente no existe');
+
         // Crear la sesión
         const session = await Session.create({
             photographer: photographerId,
@@ -49,8 +54,20 @@ const createSessionLogic = async (req) => {
             status: 'scheduled'
         });
 
-        // Poblar los datos del fotógrafo para la respuesta
-        await session.populate('photographer');
+        // Poblar los datos del fotógrafo y cliente para la respuesta
+        await session.populate([
+            {
+                path: 'photographer',
+                populate: {
+                    path: 'user',
+                    select: 'name phone'
+                }
+            },
+            {
+                path: 'customer',
+                select: 'name phone'
+            }
+        ]);
 
         console.log('Session created successfully:', session);
 

@@ -71,8 +71,30 @@ export default function usePhotographerData() {
 
             console.log('Obteniendo sesiones');
             const data = await photographersApi.getSessions(token);
-            console.log('Sesiones obtenidas:', data);
-            setSessions(data);
+            console.log('Sesiones obtenidas (original):', data);
+
+            // Formatear las sesiones para garantizar una estructura consistente
+            const formattedSessions = data.map(session => {
+                // Asegurarnos de que customer sea un objeto con las propiedades necesarias
+                let customer = { name: 'Desconocido', phone: 'Desconocido' };
+
+                if (session.customer) {
+                    if (typeof session.customer === 'object') {
+                        customer = {
+                            ...customer,
+                            ...session.customer
+                        };
+                    }
+                }
+
+                return {
+                    ...session,
+                    customer
+                };
+            });
+
+            console.log('Sesiones formateadas:', formattedSessions);
+            setSessions(formattedSessions);
         } catch (error) {
             console.error('Error al obtener sesiones:', error);
         }
