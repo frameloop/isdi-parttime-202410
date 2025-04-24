@@ -13,7 +13,7 @@ import Alert from './view/components/Alert';
 
 // Componente para manejar la autenticación y redirección
 const AuthWrapper = ({ children }) => {
-    const { user, setUser, setLoading } = useAppContext();
+    const { setUser, setLoading } = useAppContext();
 
     React.useEffect(() => {
         const session = usersApi.getSession();
@@ -27,6 +27,20 @@ const AuthWrapper = ({ children }) => {
 function App() {
     return (
         <AppProvider>
+            <AppContent />
+        </AppProvider>
+    );
+}
+
+// Componente separado para acceder al contexto después de que AppProvider esté montado
+function AppContent() {
+    const { alert, hideAlert, handleConfirm, handleCancel } = useAppContext();
+
+    // Agregar un log para depuración
+    console.log('Estado de la alerta:', alert);
+
+    return (
+        <>
             <AuthWrapper>
                 <Routes>
                     <Route path="/" element={<Navigate to="/landing" />} />
@@ -38,7 +52,15 @@ function App() {
                     <Route path="/home-admin" element={<HomeAdmin />} />
                 </Routes>
             </AuthWrapper>
-        </AppProvider>
+            {alert.isVisible && (
+                <Alert
+                    message={alert.message}
+                    isConfirmation={alert.isConfirmation}
+                    onAccept={alert.isConfirmation ? handleConfirm : hideAlert}
+                    onCancel={handleCancel}
+                />
+            )}
+        </>
     );
 }
 

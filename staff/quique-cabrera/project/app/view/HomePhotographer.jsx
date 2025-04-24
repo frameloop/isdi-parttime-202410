@@ -9,6 +9,7 @@ import { formatDate, formatTime } from '../util/dateFormatters';
 import { getBlockedTimesForDate } from '../util/availabilityUtils';
 import { usersApi } from '../logic';
 import createPhotographersApi from '../logic/api/photographers';
+import { useAppContext } from '../context';
 
 function HomePhotographer() {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -23,6 +24,7 @@ function HomePhotographer() {
     } = usePhotographerData();
 
     const navigate = useNavigate();
+    const { showConfirmation } = useAppContext();
 
     const [form, setForm] = useState({
         selectedDate: null,
@@ -231,17 +233,22 @@ function HomePhotographer() {
     };
 
     const handleDeleteSlot = async (id) => {
-        if (!confirm('¿Seguro que quieres eliminar esta disponibilidad?')) return;
-        try {
-            const token = usersApi.getToken();
-            await fetch(`${API_URL}/sessions/availability/${id}`, {
-                method: 'DELETE',
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            fetchAvailability();
-        } catch (err) {
-            console.error(err);
-        }
+        console.log('Iniciando confirmación para eliminar:', id);
+        showConfirmation('¿Seguro que quieres eliminar esta disponibilidad?', async (confirmed) => {
+            console.log('Respuesta de confirmación:', confirmed);
+            if (confirmed) {
+                try {
+                    const token = usersApi.getToken();
+                    await fetch(`${API_URL}/sessions/availability/${id}`, {
+                        method: 'DELETE',
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    fetchAvailability();
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        });
     };
 
     const resetForm = () => {

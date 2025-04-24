@@ -9,6 +9,7 @@ import ReservationForm from './components/ReservationForm';
 import ConfirmationBox from './components/ConfirmationBox';
 import PhotographerSelector from './components/PhotographerSelector';
 import { usersApi } from '../logic';
+import { useAppContext } from '../context';
 import createPhotographersApi from '../logic/api/photographers';
 import createSessionsApi from '../logic/api/sessions';
 
@@ -16,6 +17,7 @@ function HomeCustomer() {
     const API_URL = import.meta.env.VITE_API_URL;
     const photographersApi = createPhotographersApi(API_URL);
     const sessionsApi = createSessionsApi(API_URL);
+    const { showConfirmation, showAlert } = useAppContext();
 
     const {
         name,
@@ -206,22 +208,26 @@ function HomeCustomer() {
 
     const handleCancelSession = (sessionId) => {
         const token = usersApi.getToken();
-        if (!token) return alert("No estás autenticado");
-        if (!confirm("¿Estás seguro de que quieres cancelar esta sesión?")) return;
+        if (!token) return showAlert("No estás autenticado");
 
-        fetch(`${API_URL}/sessions/${sessionId}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-            .then(res => {
-                if (!res.ok) throw new Error('Error al cancelar la sesión');
-                return res.json();
-            })
-            .then(() => {
-                alert("Sesión cancelada correctamente");
-                fetchSessions();
-            })
-            .catch(() => alert("No se pudo cancelar la sesión"));
+        showConfirmation("¿Estás seguro de que quieres cancelar esta sesión?", async (confirmed) => {
+            if (confirmed) {
+                try {
+                    const response = await fetch(`${API_URL}/sessions/${sessionId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+
+                    if (!response.ok) throw new Error('Error al cancelar la sesión');
+
+                    await fetchSessions();
+                    showAlert("Sesión cancelada correctamente");
+                } catch (error) {
+                    console.error('Error al cancelar la sesión:', error);
+                    showAlert("No se pudo cancelar la sesión");
+                }
+            }
+        });
     };
 
     return (
