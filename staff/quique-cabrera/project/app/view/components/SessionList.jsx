@@ -25,7 +25,7 @@ function SessionList({ sessions }) {
                 return (
                     <li key={index} className="p-4 rounded mb-2 bg-white">
                         <p className="font-semibold text-gray-800">
-                            {formatDateTime(session.date)}
+                            {formatDateTime(session.startDate)}
                         </p>
                         <p className="text-sm text-gray-700">
                             {`${session.address?.type || ''} ${session.address?.street || ''}, ${session.address?.city || ''}, ${session.address?.postalCode || ''} (${session.address?.province || ''})`}
