@@ -4,12 +4,13 @@ import { validate, errors } from 'com'
 
 const { SystemError, DuplicityError } = errors
 
-const registerUser = async (username, password, name, email) => {
+const registerUser = async (username, password, name, email, phone) => {
     try {
         validate.username(username)
         validate.password(password)
-        validate.name(name)
+        validate.text(name, 'name')
         validate.email(email)
+        validate.phone(phone)
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -18,6 +19,7 @@ const registerUser = async (username, password, name, email) => {
             password: hashedPassword,
             name,
             email,
+            phone, // 👈 Añadimos phone correctamente
             role: 'customer'
         })
 
@@ -26,6 +28,7 @@ const registerUser = async (username, password, name, email) => {
             username: user.username,
             name: user.name,
             email: user.email,
+            phone: user.phone,
             role: user.role
         }
     } catch (error) {
@@ -37,4 +40,4 @@ const registerUser = async (username, password, name, email) => {
     }
 }
 
-export default registerUser 
+export default registerUser

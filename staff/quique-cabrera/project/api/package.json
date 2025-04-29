@@ -8,8 +8,9 @@
     "start": "node index.js",
     "watch": "node --watch index.js",
     "inspect": "node --inspect-brk index.js",
-    "test": "mocha logic/*.spec.js",
-    "test-coverage": "c8 --experimental-monocart --reporter=html --reporter=text mocha logic/*.spec.js --timeout 2000"
+    "test": "mocha 'logic/**/*.spec.js'",
+    "test-coverage": "rm -rf coverage && c8 --experimental-monocart --reporter=html --reporter=text mocha 'logic/**/*.spec.js' --timeout 2000 && open coverage/index.html",
+    "check-specs": "find logic -name '*.js' ! -name '*.spec.js' | while read file; do spec_file=\"${file%.js}.spec.js\"; if [ ! -f \"$spec_file\" ]; then echo \"❌ Falta test para: $file\"; fi; done"
   },
   "keywords": [],
   "author": "QuiQue",

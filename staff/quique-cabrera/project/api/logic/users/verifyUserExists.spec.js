@@ -1,42 +1,53 @@
+import 'dotenv/config'
+import mongoose from 'mongoose'
 import { expect } from 'chai'
 import verifyUserExists from './verifyUserExists.js'
 import { User } from '../../data/models.js'
 import { NotFoundError } from 'com'
 
 describe('verifyUserExists', () => {
-    let user
+    before(async () => {
+        await mongoose.connect(process.env.TEST_MONGO_URL)
+    })
 
     beforeEach(async () => {
-        user = await User.create({
-            username: 'testuser',
-            password: 'password123',
-            name: 'Test User',
-            email: 'test@example.com',
-            role: 'customer'
-        })
+        await User.deleteMany({})
     })
 
     afterEach(async () => {
         await User.deleteMany({})
     })
 
-    it('should verify existing user', async () => {
-        const result = await verifyUserExists('testuser')
+    after(async () => {
+        await mongoose.connection.close()
+    })
+
+    it('should return user data if user exists', async () => {
+        const createdUser = await User.create({
+            username: 'existinguser',
+            password: 'password123',
+            name: 'Existing User',
+            email: 'existing@example.com',
+            role: 'customer',
+            phone: '123456789'
+        })
+
+        const result = await verifyUserExists('existinguser')
 
         expect(result).to.exist
-        expect(result._id).to.equal(user._id.toString())
-        expect(result.username).to.equal('testuser')
-        expect(result.name).to.equal('Test User')
+        expect(result._id.toString()).to.equal(createdUser._id.toString())
+        expect(result.username).to.equal('existinguser')
+        expect(result.name).to.equal('Existing User')
         expect(result.role).to.equal('customer')
     })
 
-    it('should throw error when user not found', async () => {
+    it('should throw NotFoundError if user does not exist', async () => {
         try {
-            await verifyUserExists('nonexistent')
+            await verifyUserExists('nonexistentuser')
             throw new Error('should not reach this point')
         } catch (error) {
             expect(error).to.be.instanceOf(NotFoundError)
             expect(error.message).to.equal('Usuario no encontrado')
         }
     })
-}) 
+})
