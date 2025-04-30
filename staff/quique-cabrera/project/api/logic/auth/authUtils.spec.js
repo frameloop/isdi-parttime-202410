@@ -13,6 +13,16 @@ import {
 } from 'com'
 
 describe('authUtils', () => {
+    let originalConsoleError;
+
+    before(() => {
+        originalConsoleError = console.error;
+        console.error = () => { }; // Silencia los errores
+    });
+
+    after(() => {
+        console.error = originalConsoleError; // Restaura el comportamiento original
+    });
 
     describe('handleAuthError', () => {
         it('should handle NotFoundError with status 404', () => {

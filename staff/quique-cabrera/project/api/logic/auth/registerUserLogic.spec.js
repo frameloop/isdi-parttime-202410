@@ -5,6 +5,17 @@ import registerUserLogic from './registerUserLogic.js'
 import { User, Photographer } from '../../data/models.js'
 
 describe('registerUserLogic', () => {
+    let originalConsoleError;
+
+    before(() => {
+        originalConsoleError = console.error;
+        console.error = () => { }; // Silencia los errores
+    });
+
+    after(() => {
+        console.error = originalConsoleError; // Restaura el comportamiento original
+    });
+
     before(async () => {
         await mongoose.connect(process.env.TEST_MONGO_URL)
     })

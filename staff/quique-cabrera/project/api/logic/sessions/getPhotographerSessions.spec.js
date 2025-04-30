@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import { expect } from 'chai'
 import getPhotographerSessions from './getPhotographerSessions.js'
 import { Session, User, Photographer } from '../../data/models.js'
-import { NotFoundError } from 'com'
+import { NotFoundError, SystemError } from 'com'
 
 describe('getPhotographerSessions', () => {
     let customer, photographerUser, photographer, session
@@ -92,6 +92,16 @@ describe('getPhotographerSessions', () => {
         } catch (error) {
             expect(error).to.be.instanceOf(NotFoundError)
             expect(error.message).to.equal('No se encontraron sesiones para este fotógrafo')
+        }
+    })
+
+    it('should throw SystemError if an unexpected error occurs', async () => {
+        // Forzamos un error inesperado pasando un tipo inválido (por ejemplo, un objeto en vez de string)
+        try {
+            await getPhotographerSessions({}) // Esto debería provocar un error de validación
+            throw new Error('should not reach this point')
+        } catch (error) {
+            expect(error).to.be.instanceOf(SystemError)
         }
     })
 })
