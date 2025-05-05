@@ -5,7 +5,6 @@ export const getUserSessions = async (req, res, next) => {
         const userId = req.userId;
 
         if (!userId) {
-            console.error("[Handler Error - getUserSessions] User ID not found in request.");
             return res.status(401).json({ error: 'Unauthorized', message: 'User ID not available from token' });
         }
 
@@ -14,7 +13,6 @@ export const getUserSessions = async (req, res, next) => {
         res.json(sessions);
 
     } catch (error) {
-        console.error("[Handler Error - getUserSessions]:", error);
         next(error);
     }
 };
@@ -24,7 +22,6 @@ export const updateAvailability = async (req, res, next) => {
         const result = await logic.updateAvailabilityLogic(req);
         res.json(result);
     } catch (error) {
-        console.error("[Controller Error - updateAvailability]:", error);
         next(error);
     }
 };

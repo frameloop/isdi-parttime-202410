@@ -12,8 +12,6 @@ export const deletePhotographer = async (req, res, next) => {
             return res.status(400).json({ error: 'BadRequest', message: 'Photographer ID is required in the URL path' });
         }
 
-        console.log(`[DeletePhotographerHandler] Attempting to delete photographer with ID: ${photographerId}`);
-
         // Llamar a la lógica con el ID correcto
         const result = await logic.deletePhotographerLogic(photographerId);
 
@@ -21,19 +19,15 @@ export const deletePhotographer = async (req, res, next) => {
         // La lógica actual lanza errores, así que irán al catch.
         // Este 'if' es por si la lógica devolviera { error, status } en el futuro.
         if (result && result.error) {
-            console.error(`[DeletePhotographerHandler] Failed to delete ${photographerId}:`, result.error);
             return res.status(result.status || 400).json(result.error);
         }
 
         // Si la lógica fue exitosa, devolver el mensaje de éxito
         // La lógica devuelve { message: '...' } que asignamos a 'result'
-        console.log(`[DeletePhotographerHandler] Successfully deleted photographer with ID: ${photographerId}`);
         res.status(200).json(result); // Enviar el objeto { message: '...' } devuelto por la lógica
 
     } catch (error) {
         // Capturar errores lanzados por la lógica (NotFound, SystemError) u otros inesperados
-        console.error(`[DeletePhotographerHandler] Error deleting photographer ${req.params.id || 'N/A'}:`, error);
-
         // Usar handleAuthError si es apropiado, o pasar al manejador global
         // const handledError = handleAuthError(error); 
         // res.status(handledError.status).json(handledError.error);

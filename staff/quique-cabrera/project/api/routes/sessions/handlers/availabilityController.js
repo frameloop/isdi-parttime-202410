@@ -19,7 +19,6 @@ export const getAvailability = async (req, res, next) => {
         res.json(availability);
 
     } catch (error) {
-        console.error("[Controller Error - getAvailability]:", error);
         // Pasar el error al manejador global
         next(error);
     }
@@ -31,7 +30,6 @@ export const getAllAvailability = async (req, res, next) => {
         // Asumiendo que getAllAvailabilityLogic ahora lanza errores
         res.json(result);
     } catch (error) {
-        console.error("[Controller Error - getAllAvailability]:", error);
         next(error);
     }
 };
@@ -67,25 +65,19 @@ export const updateAvailability = async (req, res, next) => {
         res.json(updatedAvailability);
 
     } catch (error) {
-        console.error("[Controller Error - updateAvailability]:", error);
         next(error);
     }
 };
 
 export const createAvailability = async (req, res, next) => {
     try {
-        console.log('[Controller - createAvailability] Request body:', req.body);
-        console.log('[Controller - createAvailability] User ID:', req.userId);
-
         const result = await logic.createAvailabilityLogic({
             body: req.body,
             userId: req.userId
         });
 
-        console.log('[Controller - createAvailability] Success:', result);
         res.status(201).json(result);
     } catch (error) {
-        console.error('[Controller - createAvailability] Error:', error);
         next(error);
     }
 };
@@ -107,7 +99,6 @@ export const deleteAvailability = async (req, res, next) => {
         res.status(204).send();
 
     } catch (error) {
-        console.error("[Controller Error - deleteAvailability]:", error);
         // Pasar el error al manejador global
         next(error);
     }
