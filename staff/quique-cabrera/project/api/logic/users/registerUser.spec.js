@@ -28,7 +28,7 @@ describe('registerUser', () => {
             '+34666000123'
         )
 
-        expect(result).to.have.property('_id')
+        expect(result).to.have.property('id')
         expect(result.username).to.equal('newuser')
         expect(result.name).to.equal('Nuevo Usuario')
         expect(result.email).to.equal('nuevo@correo.com')

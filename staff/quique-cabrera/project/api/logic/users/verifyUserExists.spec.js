@@ -35,7 +35,7 @@ describe('verifyUserExists', () => {
         const result = await verifyUserExists('existinguser')
 
         expect(result).to.exist
-        expect(result._id.toString()).to.equal(createdUser._id.toString())
+        expect(result.id.toString()).to.equal(createdUser._id.toString())
         expect(result.username).to.equal('existinguser')
         expect(result.name).to.equal('Existing User')
         expect(result.role).to.equal('customer')

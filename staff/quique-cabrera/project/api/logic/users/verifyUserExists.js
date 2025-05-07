@@ -14,7 +14,7 @@ const verifyUserExists = async (username) => {
         }
 
         return {
-            _id: user._id,
+            id: user._id, //CUATE!
             username: user.username,
             name: user.name,
             role: user.role

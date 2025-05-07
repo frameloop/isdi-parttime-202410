@@ -87,8 +87,8 @@ mongoose.connect(process.env.MONGO_URL)
                     // Si es un fotógrafo, AÑADIR el photographerId actualizando el documento
                     if (user.role === 'photographer') {
                         try {
-                            await User.updateOne({ _id: user._id }, { $set: { photographerId: user._id } });
-                            // Opcional: console.log(`PhotographerId set for ${user.name}`);
+                            await User.updateOne({ id: user._id }, { $set: { photographerId: user._id } });
+                            // Opcional: console.log(`PhotographerId set for ${user.name}`); CUATE!
                         } catch (updateError) {
                             console.error(`Failed to set photographerId for ${user.name}:`, updateError);
                             // Podríamos querer manejar este error de forma más robusta

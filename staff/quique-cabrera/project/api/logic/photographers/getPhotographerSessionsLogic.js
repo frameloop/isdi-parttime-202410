@@ -7,7 +7,7 @@ const getPhotographerSessionsLogic = async (photographerUserId) => {
     try {
         // Encontrar el perfil de fotógrafo asociado al ID de usuario
         // Asumiendo que hay una referencia 'user' en el modelo Photographer
-        const photographer = await User.findOne({ _id: photographerUserId, role: 'photographer' }).lean() // Simplificado
+        const photographer = await User.findOne({ id: photographerUserId, role: 'photographer' }).lean() // CUATE!
 
         if (!photographer) {
             throw new NotFoundError('Photographer not found or user is not a photographer')

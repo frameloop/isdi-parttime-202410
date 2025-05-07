@@ -24,7 +24,7 @@ const registerUser = async (username, password, name, email, phone) => {
         })
 
         return {
-            _id: user._id,
+            id: user._id, //CUATE!
             username: user.username,
             name: user.name,
             email: user.email,

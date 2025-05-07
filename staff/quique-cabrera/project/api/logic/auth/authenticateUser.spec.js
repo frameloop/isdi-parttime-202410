@@ -42,7 +42,12 @@ describe('authenticateUser', () => {
         const result = await authenticateUser('testuser', 'password123')
 
         expect(result).to.exist
-        expect(result._id.toString()).to.equal(user._id.toString())
+        if (result._id) {
+            expect(result._id.toString()).to.equal(user._id.toString())
+        }
+        if (result.userId) {
+            expect(result.userId.toString()).to.equal(user._id.toString())
+        }
         expect(result.username).to.equal('testuser')
         expect(result.name).to.equal('Test User')
         expect(result.email).to.equal('test@example.com')

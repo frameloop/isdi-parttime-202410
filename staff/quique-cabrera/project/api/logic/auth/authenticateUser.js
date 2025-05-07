@@ -37,7 +37,7 @@ const authenticateUser = async (username, password) => {
 
         // Devolvemos todos los datos necesarios para el token y la respuesta
         return {
-            _id: user._id,
+            id: user._id, //CUATE
             username: user.username,
             name: user.name,
             email: user.email,

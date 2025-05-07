@@ -12,7 +12,7 @@ export const getPhotographer = async (req, res, next) => {
         }
 
         res.json({
-            _id: photographer._id.toString(),
+            id: photographer._id.toString(), //CUATE!
             user: photographer.user.toString(),
             coverage_area: photographer.coverage_area
         });

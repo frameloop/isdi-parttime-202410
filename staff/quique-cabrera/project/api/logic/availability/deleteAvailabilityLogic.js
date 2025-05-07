@@ -11,7 +11,8 @@ const deleteAvailabilityLogic = async (availabilityId) => {
             throw new NotFoundError('Disponibilidad no encontrada')
         }
 
-        await Availability.deleteOne({ _id: availabilityId })
+        await Availability.deleteOne({ id: availabilityId })
+        // CUATE!
 
         return { message: 'Disponibilidad eliminada correctamente' }
     } catch (error) {

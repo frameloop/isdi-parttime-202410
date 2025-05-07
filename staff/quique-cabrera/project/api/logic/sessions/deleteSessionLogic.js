@@ -3,7 +3,7 @@ import { validate, SystemError, NotFoundError } from 'com'
 import executeLogic from '../../helpers/executeLogic.js'
 
 const deleteSessionLogic = async (req) => {
-    const { sessionId } = req.params
+    const { sessionId } = req.params //<<<<-----------
 
     // Validaciones iniciales
     if (!sessionId) {
