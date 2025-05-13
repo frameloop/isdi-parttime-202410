@@ -112,7 +112,7 @@ function HomePhotographer() {
 
     const handleSaveAvailability = async () => {
         const { selectedDate, startDate, endDate } = form;
-        console.log('Iniciando creación de disponibilidad con:', { selectedDate, startDate, endDate, photographerId });
+        // console.log('Iniciando creación de disponibilidad con:', { selectedDate, startDate, endDate, photographerId });
 
         // Validación más detallada
         const missingFields = [];
@@ -135,7 +135,7 @@ function HomePhotographer() {
 
         const startDateTime = new Date(`${dateStr}T${startDate}`);
         const endDateTime = new Date(`${dateStr}T${endDate}`);
-        console.log('Fechas procesadas:', { dateStr, startDateTime, endDateTime });
+        // console.log('Fechas procesadas:', { dateStr, startDateTime, endDateTime });
 
         // Validación adicional de fechas
         if (isNaN(startDateTime.getTime()) || isNaN(endDateTime.getTime())) {
@@ -157,7 +157,7 @@ function HomePhotographer() {
             endDate: endDateTime.toISOString(),
             available: true
         };
-        console.log('Enviando payload:', payload);
+        // console.log('Enviando payload:', payload);
 
         try {
             const token = usersApi.getToken();
@@ -166,13 +166,13 @@ function HomePhotographer() {
                 alert('Error de autenticación');
                 return;
             }
-            console.log('Token obtenido:', token ? 'Presente' : 'Ausente');
+            // console.log('Token obtenido:', token ? 'Presente' : 'Ausente');
 
             const response = await photographersApi.createAvailability(token, payload);
-            console.log('Respuesta del servidor:', response);
+            // console.log('Respuesta del servidor:', response);
 
             await fetchAvailability();
-            console.log('Disponibilidad actualizada');
+            // console.log('Disponibilidad actualizada');
             resetForm();
         } catch (err) {
             console.error("Error detallado al crear disponibilidad:", {
@@ -233,9 +233,9 @@ function HomePhotographer() {
     };
 
     const handleDeleteSlot = async (id) => {
-        console.log('Iniciando confirmación para eliminar:', id);
+        // console.log('Iniciando confirmación para eliminar:', id);
         showConfirmation('¿Seguro que quieres eliminar esta disponibilidad?', async (confirmed) => {
-            console.log('Respuesta de confirmación:', confirmed);
+            // console.log('Respuesta de confirmación:', confirmed);
             if (confirmed) {
                 try {
                     const token = usersApi.getToken();

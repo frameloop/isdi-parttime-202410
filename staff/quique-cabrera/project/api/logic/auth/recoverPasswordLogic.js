@@ -13,7 +13,7 @@ const recoverPasswordLogic = async (email) => {
         if (!user) {
             // No lanzar error si no se encuentra, simplemente no hacer nada
             // throw new NotFoundError('User not found')
-            console.log(`[RecoverPassword] User not found for email: ${email}, proceeding silently.`)
+            // console.log(`[RecoverPassword] User not found for email: ${email}, proceeding silently.`)
             return // Terminar silenciosamente
         }
 

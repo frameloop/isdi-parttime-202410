@@ -20,22 +20,22 @@ export default function usePhotographerData() {
     // Cargar datos iniciales cuando tenemos el ID del fotógrafo
     useEffect(() => {
         if (photographerId && isAuthenticated && isAuthorized) {
-            console.log('Cargando datos iniciales para fotógrafo:', photographerId);
+            // console.log('Cargando datos iniciales para fotógrafo:', photographerId);
             fetchAvailability();
             fetchSessions();
         } else {
-            console.log('No se pueden cargar datos:', {
-                photographerId,
-                isAuthenticated,
-                isAuthorized
-            });
+            // console.log('datos de photographerId:', {
+            //     photographerId,
+            //     isAuthenticated,
+            //     isAuthorized
+            // });
         }
     }, [photographerId, isAuthenticated, isAuthorized]);
 
     // Función para obtener disponibilidad
     const fetchAvailability = async () => {
         if (!photographerId) {
-            console.log('No hay photographerId para obtener disponibilidad');
+            // console.log('No hay photographerId para obtener disponibilidad');
             return;
         }
 
@@ -46,19 +46,19 @@ export default function usePhotographerData() {
                 return;
             }
 
-            console.log('Obteniendo disponibilidad para:', photographerId);
+            // console.log('Obteniendo disponibilidad para:', photographerId);
             const data = await photographersApi.getAvailability(token, photographerId);
-            console.log('Disponibilidad obtenida:', data);
+            // console.log('Disponibilidad obtenida:', data);
             setAvailability(data);
         } catch (error) {
-            console.error('Error al obtener disponibilidad:', error);
+            // console.error('Error al obtener disponibilidad:', error);
         }
     };
 
     // Función para obtener sesiones
     const fetchSessions = async () => {
         if (!photographerId) {
-            console.log('No hay photographerId para obtener sesiones');
+            // console.log('No hay photographerId para obtener sesiones');
             return;
         }
 
@@ -69,9 +69,9 @@ export default function usePhotographerData() {
                 return;
             }
 
-            console.log('Obteniendo sesiones');
+            // console.log('Obteniendo sesiones');
             const data = await photographersApi.getSessions(token);
-            console.log('Sesiones obtenidas (original):', data);
+            // console.log('Sesiones obtenidas (original):', data);
 
             // Formatear las sesiones para garantizar una estructura consistente
             const formattedSessions = data.map(session => {
@@ -93,7 +93,7 @@ export default function usePhotographerData() {
                 };
             });
 
-            console.log('Sesiones formateadas:', formattedSessions);
+            // console.log('Sesiones formateadas:', formattedSessions);
             setSessions(formattedSessions);
         } catch (error) {
             console.error('Error al obtener sesiones:', error);

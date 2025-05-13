@@ -12,7 +12,7 @@ export const blacklistToken = (token) => {
     }
 
     blacklist.add(token)
-    console.log(`[TokenBlacklist] Token invalidado. Total en blacklist: ${blacklist.size}`)
+    // console.log(`[TokenBlacklist] Token invalidado. Total en blacklist: ${blacklist.size}`)
 }
 
 /**
@@ -29,7 +29,7 @@ export const isTokenBlacklisted = (token) => {
     const isBlacklisted = blacklist.has(token)
 
     if (isBlacklisted) {
-        console.log('[TokenBlacklist] Token invalidado encontrado')
+        // console.log('[TokenBlacklist] Token invalidado encontrado')
     }
 
     return isBlacklisted
@@ -57,6 +57,6 @@ export const cleanBlacklist = (maxAge = 3600000) => { // 1 hora por defecto
     })
 
     if (cleaned > 0) {
-        console.log(`[TokenBlacklist] ${cleaned} tokens expirados eliminados. Quedan: ${blacklist.size}`)
+        // console.log(`[TokenBlacklist] ${cleaned} tokens expirados eliminados. Quedan: ${blacklist.size}`)
     }
 } 

@@ -3,8 +3,8 @@ import { validate, SystemError, NotFoundError, DuplicityError } from 'com'
 import executeLogic from '../../helpers/executeLogic.js'
 
 const createAvailabilityLogic = async ({ body, userId }) => {
-    console.log('[Logic - createAvailability] Starting with body:', body);
-    console.log('[Logic - createAvailability] User ID:', userId);
+    // console.log('[Logic - createAvailability] Starting with body:', body);
+    // console.log('[Logic - createAvailability] User ID:', userId);
 
     const { photographerId, date, startDate, endDate } = body
 
@@ -36,7 +36,7 @@ const createAvailabilityLogic = async ({ body, userId }) => {
             throw new SystemError('Start date must be before end date.');
         }
 
-        console.log('[Logic - createAvailability] Searching for photographer with userId:', userId);
+        // console.log('[Logic - createAvailability] Searching for photographer with userId:', userId);
         // Primero, encontrar el documento Photographer asociado al usuario actual
         const photographer = await Photographer.findOne({ user: userId });
 
@@ -46,7 +46,7 @@ const createAvailabilityLogic = async ({ body, userId }) => {
             throw error;
         }
 
-        console.log('[Logic - createAvailability] Found photographer:', photographer._id.toString());
+        // console.log('[Logic - createAvailability] Found photographer:', photographer._id.toString());
 
         // Verificar que el photographerId proporcionado coincide con el del usuario actual
         if (photographer._id.toString() !== photographerId) {
@@ -55,7 +55,7 @@ const createAvailabilityLogic = async ({ body, userId }) => {
             throw error;
         }
 
-        console.log('[Logic - createAvailability] Creating availability entry...');
+        // console.log('[Logic - createAvailability] Creating availability entry...');
         // Crear la disponibilidad usando el ID del documento Photographer
         const availability = await Availability.create({
             photographer: photographer._id,
@@ -74,7 +74,7 @@ const createAvailabilityLogic = async ({ body, userId }) => {
             available: availability.available
         };
 
-        console.log('[Logic - createAvailability] Success:', result);
+        // console.log('[Logic - createAvailability] Success:', result);
         return result;
 
     } catch (error) {

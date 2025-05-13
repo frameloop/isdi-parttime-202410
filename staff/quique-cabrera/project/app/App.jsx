@@ -37,7 +37,7 @@ function AppContent() {
     const { alert, hideAlert, handleConfirm, handleCancel } = useAppContext();
 
     // Agregar un log para depuración
-    console.log('Estado de la alerta:', alert);
+    // console.log('Estado de la alerta:', alert);
 
     return (
         <>

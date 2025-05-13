@@ -7,13 +7,13 @@ fetch('http://localhost:8080/users/auth', {
 })
 
     .then(res => {
-        console.log('HTTP Status:', res.status);
-        console.log('Headers:', [...res.headers]);
+        // console.log('HTTP Status:', res.status);
+        // console.log('Headers:', [...res.headers]);
 
         const { status } = res
 
         if (status === 201) {
-            console.log('OK', status)
+            // console.log('OK', status)
 
             return
         }

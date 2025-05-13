@@ -6,7 +6,7 @@ function SessionList({ sessions }) {
         return <p className="text-gray-600 text-center">No tienes sesiones programadas.</p>;
     }
 
-    console.log("Sessions in component:", sessions);
+    // console.log("Sessions in component:", sessions);
 
     return (
         <ul className="mt-2">

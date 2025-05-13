@@ -33,13 +33,13 @@ const loginUserLogic = async (username, password) => {
         // Log generated token details
         try {
             const decoded = jwt.decode(token);
-            console.log('[LoginLogic] Generated Token:', token);
-            console.log('[LoginLogic] Generated Payload Exp (UTC Timestamp):', decoded?.exp);
+            // console.log('[LoginLogic] Generated Token:', token);
+            // console.log('[LoginLogic] Generated Payload Exp (UTC Timestamp):', decoded?.exp);
             if (decoded?.exp) {
-                console.log('[LoginLogic] Generated Expiry Date:', new Date(decoded.exp * 1000).toISOString());
+                // console.log('[LoginLogic] Generated Expiry Date:', new Date(decoded.exp * 1000).toISOString());
             }
         } catch (decodeError) {
-            console.error('[LoginLogic] Error decoding generated token:', decodeError);
+            // console.error('[LoginLogic] Error decoding generated token:', decodeError);
         }
 
         // Si el usuario es fotógrafo, buscar su documento Photographer

@@ -39,7 +39,7 @@ const getUserSessionsLogic = async (userId) => {
 
         const sessions = await sessionsQuery.sort({ date: 1 }).lean()
 
-        console.log('Sessions retrieved:', sessions);
+        // console.log('Sessions retrieved:', sessions);
 
         // Para fotógrafos, simplificar los datos de cliente para facilitar acceso
         if (user.role === 'photographer') {

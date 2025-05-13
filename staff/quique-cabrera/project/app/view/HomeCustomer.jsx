@@ -49,7 +49,7 @@ function HomeCustomer() {
     useEffect(() => {
         const loadPhotographers = async () => {
             try {
-                console.log('Intentando cargar fotógrafos...');
+                // console.log('Intentando cargar fotógrafos...');
                 const token = usersApi.getToken();
                 if (!token) {
                     console.error('No se encontró el token de autenticación');
@@ -57,11 +57,11 @@ function HomeCustomer() {
                 }
 
                 const response = await photographersApi.getAll(token);
-                console.log('Respuesta de fotógrafos:', response);
+                // console.log('Respuesta de fotógrafos:', response);
 
                 if (response && Array.isArray(response)) {
                     setPhotographers(response);
-                    console.log('Fotógrafos cargados:', response);
+                    // console.log('Fotógrafos cargados:', response);
                     if (response.length === 0) {
                         setErrors(prev => ({ ...prev, photographers: 'No hay fotógrafos disponibles' }));
                     } else {
@@ -84,7 +84,7 @@ function HomeCustomer() {
 
     const handlePhotographerSelect = async (photographerId) => {
         try {
-            console.log('Seleccionando fotógrafo:', photographerId);
+            // console.log('Seleccionando fotógrafo:', photographerId);
             setSelectedPhotographer(photographerId);
             setSelectedDate(null);
             setFilteredSlots([]);
@@ -95,9 +95,9 @@ function HomeCustomer() {
                 return;
             }
 
-            console.log('Obteniendo disponibilidad para fotógrafo:', photographerId);
+            // console.log('Obteniendo disponibilidad para fotógrafo:', photographerId);
             const availabilityData = await sessionsApi.getAvailability(token, photographerId);
-            console.log('Disponibilidad obtenida:', availabilityData);
+            // console.log('Disponibilidad obtenida:', availabilityData);
 
             if (Array.isArray(availabilityData)) {
                 setAllAvailableSlots(availabilityData.filter(slot => slot.available));
@@ -113,7 +113,7 @@ function HomeCustomer() {
     };
 
     const handleDateChange = (date) => {
-        console.log('Fecha seleccionada:', date);
+        // console.log('Fecha seleccionada:', date);
         setSelectedDate(date);
 
         // Formatear la fecha seleccionada en el formato YYYY-MM-DD
@@ -122,12 +122,12 @@ function HomeCustomer() {
         const day = String(date.getDate()).padStart(2, '0');
         const selectedDateStr = `${year}-${month}-${day}`;
 
-        console.log('Filtrando slots para fecha:', selectedDateStr);
+        // console.log('Filtrando slots para fecha:', selectedDateStr);
 
         // Filtrar slots comparando directamente las fechas en formato string
         const filtered = allAvailableSlots.filter(slot => slot.date === selectedDateStr);
 
-        console.log('Slots filtrados:', filtered);
+        // console.log('Slots filtrados:', filtered);
         setFilteredSlots(filtered);
     };
 
@@ -178,11 +178,11 @@ function HomeCustomer() {
                 services: formData.services
             };
 
-            console.log('Enviando datos de sesión:', sessionData);
+            // console.log('Enviando datos de sesión:', sessionData);
 
             try {
                 const data = await sessionsApi.createSession(token, sessionData);
-                console.log('Sesión creada:', data);
+                // console.log('Sesión creada:', data);
 
                 setConfirmedSession(data);
                 fetchSessions();

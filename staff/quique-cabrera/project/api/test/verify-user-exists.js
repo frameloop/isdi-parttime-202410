@@ -6,8 +6,8 @@ fetch('http://localhost:8080/users/verify', {
     body: JSON.stringify({ username: 'emestudi' }) // Cambia 'acme' por el username que quieras probar
 })
     .then(res => {
-        console.log('HTTP Status:', res.status);
-        console.log('Headers:', [...res.headers]);
+        // console.log('HTTP Status:', res.status);
+        // console.log('Headers:', [...res.headers]);
 
         const { status } = res;
 

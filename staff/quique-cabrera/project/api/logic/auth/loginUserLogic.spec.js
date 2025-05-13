@@ -8,11 +8,11 @@ import jwt from 'jsonwebtoken'
 
 before(() => {
     // Guardar los originales
-    console._log = console.log;
+    // console._log = console.log;
     console._warn = console.warn;
     console._error = console.error;
     // Silenciar todos
-    console.log = () => { };
+    // console.log = () => { };
     console.warn = () => { };
     console.error = () => { };
 });

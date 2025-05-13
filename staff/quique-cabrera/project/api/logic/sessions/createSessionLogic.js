@@ -9,7 +9,7 @@ import { extractUserId } from '../../helpers/extractUserId.js';
  * @returns {Promise} - Promesa que resuelve con la sesión creada
  */
 const createSessionLogic = async (req) => {
-    console.log('Creating session with data:', req.body);
+    // console.log('Creating session with data:', req.body);
     const { photographerId, date, startDate, endDate, type, address, services } = req.body;
 
     // Validar campos requeridos
@@ -73,7 +73,7 @@ const createSessionLogic = async (req) => {
             }
         ]);
 
-        console.log('Session created successfully:', session);
+        // console.log('Session created successfully:', session);
 
         return {
             ...session.toObject(),

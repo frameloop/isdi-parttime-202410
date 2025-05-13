@@ -9,7 +9,7 @@ const SALT_ROUNDS = 10;
 mongoose.connect(process.env.MONGO_URL)
     // .then(() => mongoose.connection.dropDatabase())
     .then(() => {
-        console.log('Database cleared, starting population...');
+        // console.log('Database cleared, starting population...');
 
         const customers = JSON.parse(fs.readFileSync('./data/customers.json', 'utf8'));
         const photographers = JSON.parse(fs.readFileSync('./data/photographers.json', 'utf8'));
@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
                     return User.findOne({ email: customer.email })
                         .then(existingUser => {
                             if (existingUser) {
-                                console.log(`Customer ${customer.name} already exists, skipping...`);
+                                // console.log(`Customer ${customer.name} already exists, skipping...`);
                                 return null;
                             }
 
@@ -62,7 +62,7 @@ mongoose.connect(process.env.MONGO_URL)
                     return User.findOne({ email: photographerData.email })
                         .then(existingUser => {
                             if (existingUser) {
-                                console.log(`Photographer ${photographerData.name} already exists, skipping...`);
+                                // console.log(`Photographer ${photographerData.name} already exists, skipping...`);
                                 return null;
                             }
 
@@ -164,7 +164,7 @@ mongoose.connect(process.env.MONGO_URL)
                     return User.findOne({ email: administrator.email })
                         .then(existingUser => {
                             if (existingUser) {
-                                console.log(`Administrator ${administrator.name} already exists, skipping...`);
+                                // console.log(`Administrator ${administrator.name} already exists, skipping...`);
                                 return null;
                             }
 
@@ -190,5 +190,5 @@ mongoose.connect(process.env.MONGO_URL)
     .catch(error => console.error('Error inserting data:', error))
     .finally(() => {
         mongoose.disconnect();
-        console.log('Disconnected from database.');
+        // console.log('Disconnected from database.');
     });

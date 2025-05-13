@@ -26,7 +26,7 @@ const startApi = () => {
 
     // Iniciar servidor
     api.listen(process.env.PORT, () => {
-        console.log(`✅ API corriendo en http://localhost:${process.env.PORT}`)
+        // console.log(`✅ API corriendo en http://localhost:${process.env.PORT}`)
     })
 }
 
